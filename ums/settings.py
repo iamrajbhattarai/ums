@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'rest_framework',
-    #'leaflet',
+    'leaflet',
     # local apps
     'utilities',
 ]
