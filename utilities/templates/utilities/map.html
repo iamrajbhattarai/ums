@@ -12,9 +12,316 @@
     </li>
 {% endblock %} 
 {% block content %}
-    <p>This is the place where the map will be.</p>
-{% endblock %}
+    <div id="map" style="width: 100%;height:100%"></div>
+    <div id="zoom" class="zoom"></div>
+    <div id="scale-line" class="scale-line"></div>
+    <div id="overviewmap" class="overviewmap"></div>
+    <div id="display-coordinate" class="display-coordinate"></div>
+    <div>
 
+    </div>
+    <a href="javascript:void(0);" class="icon" onclick="showSideBar()">
+        <i class="fa fa-bars"></i>
+    </a>
+    <div id="printForm" class="sidebar-config-wrap" role="form">
+        <h4 style="color:#FFF">Web-based Utility Management System</h4>
+        <br>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <button class="btn btn-primary" id="close" style="margin-left:94%; margin-top: -4%; margin-bottom: 2%;"
+                onclick="hideSideBar()"><i class="fa fa-close"></i></button>
+            <div class="panel panel-primary toolBar" id="toolBar">
+                <div class='panel-body content'>
+                    <button type="button" class="btn btn-default" id="measureDistance" data-toggle="tooltip"
+                        data-placement="top" title="Measure Distance" onclick="measureDistance()">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" id="measureArea" data-toggle="tooltip"
+                        data-placement="top" title="Measure Area" onclick="measureArea()">
+                        <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" id="clearDraw" data-toggle="tooltip"
+                        data-placement="top" title="Reset" onclick="clearDraw()">
+                        <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" id="defaultExtent" data-toggle="tooltip"
+                        data-placement="top" title="Default Extent" onclick="defaultExtent()">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" id="search" data-toggle="tooltip" data-placement="top"
+                        title="Search Complaints" onclick="showInput()">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" id="help" data-toggle="tooltip" data-placement="top"
+                        title="User Role" onclick="showUser()">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" id="help" data-toggle="modal" data-target="#helpmodal"
+                        data-placement="top" title="Help">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </button>
+
+                </div>
+            </div>
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="layers">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            <span>Layers</span>
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <fieldset id="layer0">
+                            <label class="checkbox" for="visible0">
+                                <input id="visible0" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Bing
+                                Satellite
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer1">
+                            <label class="checkbox" for="visible1">
+                                <input id="visible1" class="visible" type="checkbox" checked />&nbsp&nbsp <img
+                                    src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/blackhousingboundarymap/layers/HousingBoundary@contestdatasource@@blackhousingboundarymap/legend"
+                                    alt="">
+                                &nbsp Black Background
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer2">
+                            <label class="checkbox" for="visible2">
+                                <input id="visible2" class="visible" type="checkbox" unchecked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/HousingBoundary@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Gray Background
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer3">
+                            <label class="checkbox" for="visible3">
+                                <input id="visible3" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Buildings@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Buidings
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer4">
+                            <label class="checkbox" for="visible4">
+                                <input id="visible4" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/SepticWaterTank@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Septic Water Tank
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer5">
+                            <label class="checkbox" for="visible5">
+                                <input id="visible5" class="visible" type="checkbox" checked />&nbsp&nbsp <img
+                                    src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/OpenSpace@contestdatasource@@allmap/legend"
+                                    alt="">
+                                &nbsp Open Space
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer6">
+                            <label class="checkbox" for="visible6">
+                                <input id="visible6" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Road@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Road
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer7">
+                            <label class="checkbox" for="visible7">
+                                <input id="visible7" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/TransmissionLine@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Transmission Line
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer8">
+                            <label class="checkbox" for="visible8">
+                                <input id="visible8" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Pipeline@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Water Pipeline
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer9">
+                            <label class="checkbox" for="visible9">
+                                <input id="visible9" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/DrainageLine@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Drainage Line
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer10">
+                            <label class="checkbox" for="visible10">
+                                <input id="visible10" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/WaterPoints@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Water Point
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer11">
+                            <label class="checkbox" for="visible11">
+                                <input id="visible11" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/ElectricPole@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Electric Pole
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer12">
+                            <label class="checkbox" for="visible12">
+                                <input id="visible12" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/DrainagePoints@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Draingae Point
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer13">
+                            <label class="checkbox" for="visible13">
+                                <input id="visible13" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Temple@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Temple
+                            </label>
+                        </fieldset>
+                        <fieldset id="layer14">
+                            <label class="checkbox" for="visible14">
+                                <input id="visible14" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Complaints@contestdatasource@@allmap/legend"
+                                    alt=""> &nbsp Complaints
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                            href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <span>Query Feature</span>
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="title">Feature Of</label>
+                            <select class="form-control" id="featureOf" style="width: 150px;">
+                                <option>Complaints</option>
+                                <option>Buildings</option>
+                                <option>Septic Water Tank</option>
+                                <option>Open Space</option>
+                                <option>Road</option>
+                                <option>Transmission Line</option>
+                                <option>Water Pipeline</option>
+                                <option>Drainage Line</option>
+                                <option>Water Point</option>
+                                <option>Electric Pole</option>
+                                <option>Drainage Point</option>
+                                <option>Temple</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="width:45%" id="query" onclick="clickQuery()">Query</button>
+                </div>
+
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="exportOptions">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                            href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            <span>Complaints</span>
+                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exportOptions">
+
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="title">Problem:</label>
+                            <input type="text" class="form-control" id="problem" />
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Description:</label>
+                            <input type="text" class="form-control" id="description"
+                                placeholder="Detailed Information" />
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Service:</label>
+                            <input type="text" class="form-control" id="servicetype" placeholder="Emergency/Normal" />
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Email:</label>
+                            <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
+                        </div>
+                        <button class="btn btn-primary " style="width:45%" onclick="drawComplaints()">Add</button>
+                        <button class="btn btn-primary d-none" style="width:45%"
+                            onclick="deleteBuilding()">Delete</button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <div id="popup" class="ol-popup">
+        <div id="popup-content"></div>
+    </div>
+
+    <div class="form-group" id="inputPannel" style="position: absolute; top: 80px; right: 100px; display: none;">
+        <input type="keyWords" class="form-control" id="keyWordsInput" placeholder="Input Service Type">
+    </div>
+    <div id="keyWordsOptions" class="keyWordsOptions">
+        <select multiple class="form-control" id="keyWordsTable"></select>
+    </div>
+
+    <!-- Modal for user help-->
+    <div class="modal fade" id="helpmodal" tabindex="-1" role="dialog" aria-labelledby="helpmodalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpmodalLabel">
+                        <h4>Web-based Utility Management System: A Case Study of
+                            Grande Villa Housing, Kathmandu</h4>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    1. <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    Measure distance by drawing line.<br>2. <span class="glyphicon glyphicon-unchecked"
+                        aria-hidden="true"></span> Measure Area by drawing polygon.<br>3. <span
+                        class="glyphicon glyphicon-erase" aria-hidden="true"></span> Reset Everything to defaults.<br>4.
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Default Extent of the map. <br>5.
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Query Complaints by passing
+                    Service Type Parameters.<br>6. Under
+                    Layers, select one or
+                    more layers to turn on/off visibility.<br>7. Under Query Feature, select a layer and select query
+                    to query the layer's features. You can edit the attribute and geometry of the features as well
+                    by clicking edit and submit buttons.<br>9. Under complaints, you can add or delete complaints
+                    regarding utilities on the housing area.<br>10. Admin can edit the attribute Charge of Complaints
+                    feature and send email
+                    based on that to the clients as a serive bill.<br><br> <b>-Developed by Raj Bhattarai</b>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script>
+    <script type="text/javascript" src="{% static 'utilities/js/mainmap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'utilities/js/toolbar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'utilities/js/edit.js' %}"></script>
+
+{% endblock %}
 {% block links %}
-    <a href="{% url 'homepage' %}">Home</a>
 {% endblock %}

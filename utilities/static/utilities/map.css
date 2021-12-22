@@ -1,0 +1,199 @@
+.body {
+    margin: 0;
+    overflow: hidden;
+    background: #fff;
+    width: 100%;
+    height:100%;
+    position: absolute;
+    top: 50px;
+}
+.ol-zoom {
+    left: unset;
+    right: 8px;
+}
+
+.scale-line {
+    position: absolute;
+    left: 87%;
+    top: 100%;
+    z-index: 1;
+}
+
+.overviewmap {
+    position: absolute;
+    left: 88%;
+    top: 96%;
+    z-index: 1;
+}
+
+.zoom {
+    position: absolute;
+    left: 88%;
+    top: 3%;
+    z-index: 1;
+}
+
+.display-coordinate {
+    position: absolute;
+    left: 72%;
+    top: 96%;
+    color: rgb(253, 253, 253);
+    background-color: rgb(37, 37, 37);
+    z-index: 1;
+    width: 120px;
+}
+
+.toolBar {
+    position: absolute;
+    left: 5px;
+    top: 50px;
+    /* text-align: center; */
+    background: #FFF;
+    z-index: 1000;
+    border-radius: 4px;
+}
+
+a.icon {
+    display: block;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
+
+a.icon i {
+    font-size: 4rem;
+}
+
+.sidebar-config-wrap {
+    position: absolute;
+    top: 0;
+    left: -370px;
+    height: 100vh;
+    width: 370px;
+    padding: 20px;
+    background: linear-gradient(to bottom, #050505 0%, #505050 100%);
+    transition-duration: 0.5s;
+}
+
+.sidebar-config-wrap .panel-group .panel {
+    border-color: transparent;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.sidebar-config-wrap .panel .panel-heading {
+    background: #383838;
+    color: rgba(255, 255, 255, 0.85);
+    border-color: #383838;
+    position: relative;
+}
+
+.sidebar-config-wrap .panel .panel-heading::before {
+    content: "";
+    height: 50%;
+    width: 2px;
+    background: #3394dc;
+    position: absolute;
+    top: 25%;
+    left: 0;
+    display: block;
+}
+
+.form-group {
+    overflow: hidden;
+}
+
+.sidebar-config-wrap .form-control,
+.sidebar-config-wrap .btn-group {
+    width: 70%;
+    float: right;
+}
+
+.sidebar-config-wrap .form-group label {
+    margin-bottom: 0;
+    line-height: 34px;
+}
+
+.sidebar-config-wrap .btn-group {
+    display: block;
+    margin-bottom: 10px;
+
+}
+
+.sidebar-config-wrap .btn-group button {
+    width: 50%;
+    outline: none;
+}
+
+.sidebar-config-wrap .btn-group button:focus {
+    outline: none;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.sidebar-config-wrap .panel-title a {
+    width: 100%;
+    display: block;
+    text-decoration: none !important;
+    overflow: hidden;
+}
+
+.sidebar-config-wrap .panel-title a span.glyphicon {
+    float: right;
+}
+
+.sidebar-config-wrap .panel-title a[aria-expanded="true"] .glyphicon-chevron-down {
+    display: none;
+}
+
+.sidebar-config-wrap .panel-title a[aria-expanded="false"] .glyphicon-chevron-up {
+    display: none;
+}
+
+.sidebar-config-wrap .submit-btn-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    border-top: 2px solid #323232;
+    text-align: center;
+}
+
+.sidebar-config-wrap #printBtn,
+.sidebar-config-wrap .progress {
+    width: 80%;
+}
+
+.sidebar-config-wrap .progress {
+    margin: 30px auto 0;
+}
+
+
+.ol-popup {
+    position: absolute;
+    background-color: white;
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #cccccc;
+    bottom: 12px;
+    left: -150px;
+    width: 300px;
+}
+
+.keyWordsOptions {
+    position: absolute;
+    top: 120px;
+    right: 100px;
+    background-color: white;
+    display: none;
+}
+
+.left-0 {
+    left: 0 !important;
+}
