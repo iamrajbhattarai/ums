@@ -1,6 +1,6 @@
 from pathlib import Path
 from django.contrib.gis.utils import LayerMapping
-from .models import Building
+from .models import Buildings
 
 
 # Auto-generated `LayerMapping` dictionary for Buildings model

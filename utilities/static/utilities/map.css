@@ -7,6 +7,11 @@
     position: absolute;
     top: 50px;
 }
+#map {
+    height: 100vh;
+    width: 100%;
+    top: 25px;
+}
 .ol-zoom {
     left: unset;
     right: 8px;

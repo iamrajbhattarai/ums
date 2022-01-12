@@ -183,22 +183,19 @@ var layerGroup = new ol.layer.Group({
 });
 
 //lets create a map object and assign all the layers from the layerGroup
-var map,
-  url =
-    "http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap";
-map = new ol.Map({
-  target: "map",
-  layers: [layerGroup],
-  controls: ol.control
-    .defaults({ attributionOptions: { collapsed: true } })
-    .extend([new ol.supermap.control.Logo()]),
-  view: new ol.View({
-    center: [85.3222, 27.753014],
-    zoom: 19,
-    projection: "EPSG:4326",
-    multiWorld: true,
-  }),
-});
+var map = new ol.Map({
+    target: "map",
+    layers: [layerGroup],
+    controls: ol.control
+      .defaults({ attributionOptions: { collapsed: true } })
+      .extend([new ol.supermap.control.Logo()]),
+    view: new ol.View({
+      center: [85.3222, 27.753014],
+      zoom: 19,
+      projection: "EPSG:4326",
+      multiWorld: true,
+    }),
+  });
 
 //lets add basic web map components
 
