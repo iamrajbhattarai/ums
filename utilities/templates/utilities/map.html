@@ -11,10 +11,9 @@
         <a class="nav-link active" aria-current="page" href="{% url 'webmap' %}">Map</a>
     </li>
 {% endblock %} 
-{% block content %}
-    
+{% block content %}    
     <div id="map"></div>
-    {% comment %} <div id="zoom" class="zoom"></div>
+    {% comment %} <div id="zoom" class="zoom"></div> {% endcomment %}
     <div id="scale-line" class="scale-line"></div>
     <div id="overviewmap" class="overviewmap"></div>
     <div id="display-coordinate" class="display-coordinate"></div>
@@ -22,40 +21,40 @@
         <i class="fa fa-bars"></i>
     </a>
     <div id="printForm" class="sidebar-config-wrap" role="form">
-        <h7 style="color:#FFF">Web-based Utility Management System</h7>
-        <br>
+        {% comment %} <h7 style="color:#FFF">Web-based Utility Management System</h7> <br>{% endcomment %}
+        
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <button class="btn btn-primary" id="close" style="margin-left:94%; margin-top: -4%; margin-bottom: 2%;"
-                onclick="hideSideBar()"><i class="fa fa-close"></i></button>
+            <button class="btn btn-primary" id="close" style="margin-left:93%; margin-top: -10px;"
+                onclick="hideSideBar()"><i class="fas fa-times"></i></button>
             <div class="panel panel-primary toolBar" id="toolBar">
                 <div class='panel-body content'>
-                    <button type="button" class="btn btn-default" id="measureDistance" data-toggle="tooltip"
+                    <button type="button" class="btn btn-secondary" id="measureDistance" data-toggle="tooltip"
                         data-placement="top" title="Measure Distance" onclick="measureDistance()">
-                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        <i class="fas fa-pen"></i>
                     </button>
-                    <button type="button" class="btn btn-default" id="measureArea" data-toggle="tooltip"
+                    <button type="button" class="btn btn-secondary" id="measureArea" data-toggle="tooltip"
                         data-placement="top" title="Measure Area" onclick="measureArea()">
-                        <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+                        <i class="far fa-clone"></i>
                     </button>
-                    <button type="button" class="btn btn-default" id="clearDraw" data-toggle="tooltip"
+                    <button type="button" class="btn btn-secondary" id="clearDraw" data-toggle="tooltip"
                         data-placement="top" title="Reset" onclick="clearDraw()">
-                        <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+                        <i class="fas fa-eraser"></i>
                     </button>
-                    <button type="button" class="btn btn-default" id="defaultExtent" data-toggle="tooltip"
+                    <button type="button" class="btn btn-secondary" id="defaultExtent" data-toggle="tooltip"
                         data-placement="top" title="Default Extent" onclick="defaultExtent()">
-                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        <i class="fas fa-home"></i>
                     </button>
-                    <button type="button" class="btn btn-default" id="search" data-toggle="tooltip" data-placement="top"
+                    <button type="button" class="btn btn-secondary" id="search" data-toggle="tooltip" data-placement="top"
                         title="Search Complaints" onclick="showInput()">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        <i class="fas fa-search"></i>
                     </button>
-                    <button type="button" class="btn btn-default" id="help" data-toggle="tooltip" data-placement="top"
+                    <button type="button" class="btn btn-secondary" id="help" data-toggle="tooltip" data-placement="top"
                         title="User Role" onclick="showUser()">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        <i class="fas fa-user"></i>
                     </button>
-                    <button type="button" class="btn btn-default" id="help" data-toggle="modal" data-target="#helpmodal"
+                    <button type="button" class="btn btn-secondary" id="help" data-toggle="modal" data-target="#helpmodal"
                         data-placement="top" title="Help">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        <i class="fas fa-info-circle"></i>
                     </button>
 
                 </div>
@@ -64,12 +63,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="layers">
                     <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                            aria-expanded="true" aria-controls="collapseOne">
+                        <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false" aria-controls="collapseOne">
                             <span>Layers</span>
-                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-                        </a>
+                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            <i class="fas fa-chevron-up" aria-hidden="true"></i> 
+                        </a>                       
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
@@ -188,12 +186,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingTwo">
                     <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                            href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
                             <span>Query Feature</span>
-                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-                        </a>
+                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            <i class="fas fa-chevron-up" aria-hidden="true"></i> 
+                        </a>  
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
@@ -224,15 +221,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="exportOptions">
                     <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                            href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
                             <span>Complaints</span>
-                            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-                        </a>
+                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            <i class="fas fa-chevron-up" aria-hidden="true"></i> 
+                        </a>  
                     </h4>
                 </div>
-                <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exportOptions">
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exportOptions">
 
                     <div class="panel-body">
                         <div class="form-group">
@@ -276,10 +272,10 @@
     </div>
     <div id="keyWordsOptions" class="keyWordsOptions">
         <select multiple class="form-control" id="keyWordsTable"></select>
-    </div> {% endcomment %}
+    </div>
 
     <!-- Modal for user help-->
-    {% comment %} <div class="modal fade" id="helpmodal" tabindex="-1" role="dialog" aria-labelledby="helpmodalLabel"
+    <div class="modal fade" id="helpmodal" tabindex="-1" role="dialog" aria-labelledby="helpmodalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -313,10 +309,10 @@
                 </div>
             </div>
         </div>
-    </div> {% endcomment %}
-    {% comment %} <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script> {% endcomment %}
+    </div>
+    <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script>
     <script type="text/javascript" src="{% static 'utilities/js/map.js' %}"></script>
-    {% comment %} <script type="text/javascript" src="{% static 'utilities/js/toolbar.js' %}"></script> {% endcomment %}
+    <script type="text/javascript" src="{% static 'utilities/js/toolbar.js' %}"></script>
     {% comment %} <script type="text/javascript" src="{% static 'utilities/js/edit.js' %}"></script> {% endcomment %}
 
 {% endblock %}
