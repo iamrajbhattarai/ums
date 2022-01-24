@@ -33,7 +33,7 @@ Use these commands respectively.
     # python manage.py migrate		# Database migrate
     # python manage.py createsuperuser	# Creating a superuser for login.
 
-Now you should be able to access your django server on http://localhost:8000.
+Now you should be able to access your django server on http://localhost:8000 and pgadmin on http://localhost:5051/
 
  ## Status and Logs
  For viewing status of your docker container.
