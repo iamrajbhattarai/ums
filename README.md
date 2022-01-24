@@ -39,11 +39,13 @@ Now you should be able to access your django server on http://localhost:8000 and
  For viewing status of your docker container.
 
     $docker-compose ps
-    Name               Command               State               Ports             
-    --------------------------------------------------------------------------------
-    db       docker-entrypoint.sh postgres    Up      5432/tcp                      
-    django   bash -c  python manage.py  ...   Up      0.0.0.0:8000->8000/tcp,:::8000
-                                                      ->8000/tcp  
+    
+     Name                Command               State                       Ports                    
+    ------------------------------------------------------------------------------------------------
+    db        docker-entrypoint.sh postgres    Up      5432/tcp                                     
+    django    bash -c  python manage.py  ...   Up      0.0.0.0:8000->8000/tcp,:::8000->8000/tcp     
+    pgadmin   /entrypoint.sh                   Up      443/tcp, 0.0.0.0:5051->80/tcp,:::5051->80/tcp
+
 
 For viewing logs of your docker services.
 
