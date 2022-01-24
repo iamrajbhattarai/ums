@@ -8,7 +8,7 @@
     top: 50px;
 }
 #map {
-    height: 100vh;
+    height: 93vh;
     width: 100%;
     top: 25px;
 }
@@ -79,7 +79,9 @@ a.icon i {
     background: linear-gradient(to bottom, #343A40 0%, #505050 100%);
     transition-duration: 0.5s;
 }
-
+.sidebar-config-wrap .panel-group .panel-default {
+    margin-bottom: 1vh;
+}
 .sidebar-config-wrap .panel-group .panel {
     border-color: transparent;
     background: transparent;
@@ -106,6 +108,7 @@ a.icon i {
 
 .form-group {
     overflow: hidden;
+    margin-bottom: 1vh;
 }
 
 .sidebar-config-wrap .form-control,

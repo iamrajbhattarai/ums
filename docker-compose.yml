@@ -8,6 +8,17 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
 
+  pgadmin:
+    image: dpage/pgadmin4
+    env_file: pg_env.txt
+    ports:
+      - "5051:80"
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - ./pgadmin-data:/pgadmin4/data
+      
   web:
     build: .
     container_name: django
@@ -27,13 +38,3 @@ services:
     depends_on:
       - db
 
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pgadmin
-  #   command: chmod 777 ./pgadmin4/config_distro.py
-  #   env_file: pg_env.txt
-  #   ports:
-  #     - "5051:80"
-  #   restart: always
-  #   depends_on:
-  #     - db

@@ -1,6 +1,5 @@
 #Change me to pg_env.txt ; This will create db & postgres role accordingly.
 #You can change pgadmin email and password accordingly.
 
-
 PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
 PGADMIN_DEFAULT_PASSWORD=root
