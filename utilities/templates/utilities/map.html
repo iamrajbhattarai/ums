@@ -74,26 +74,22 @@
                         <fieldset id="layer0">
                             <label class="checkbox" for="visible0">
                                 <input id="visible0" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Bing
-                                Satellite
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Open Street Map
                             </label>
                         </fieldset>
                         <fieldset id="layer1">
                             <label class="checkbox" for="visible1">
-                                <input id="visible1" class="visible" type="checkbox" checked />&nbsp&nbsp <img
-                                    src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/blackhousingboundarymap/layers/HousingBoundary@contestdatasource@@blackhousingboundarymap/legend"
-                                    alt="">
-                                &nbsp Black Background
+                                <input id="visible1" class="visible" type="checkbox" unchecked />&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Bing Satellite
                             </label>
                         </fieldset>
                         <fieldset id="layer2">
                             <label class="checkbox" for="visible2">
-                                <input id="visible2" class="visible" type="checkbox" unchecked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/HousingBoundary@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Gray Background
+                                <input id="visible2" class="visible" type="checkbox" checked />&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Buildings
                             </label>
                         </fieldset>
-                        <fieldset id="layer3">
+                        <!-- <fieldset id="layer3">s
                             <label class="checkbox" for="visible3">
                                 <input id="visible3" class="visible" type="checkbox" checked />&nbsp&nbsp
                                 <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Buildings@contestdatasource@@allmap/legend"
@@ -177,7 +173,7 @@
                                 <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Complaints@contestdatasource@@allmap/legend"
                                     alt=""> &nbsp Complaints
                             </label>
-                        </fieldset>
+                        </fieldset> -->
                     </div>
                 </div>
             </div>
@@ -298,16 +294,13 @@
                 feature and send email
                 based on that to the clients as a serive bill.<br><br> <b>-Developed by Raj Bhattarai</b>
             </div>
-            <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div> -->
           </div>
         </div>
       </div>
     <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script>
     <script type="text/javascript" src="{% static 'utilities/js/map.js' %}"></script>
     <script type="text/javascript" src="{% static 'utilities/js/toolbar.js' %}"></script>
-    {% comment %} <script type="text/javascript" src="{% static 'utilities/js/edit.js' %}"></script> {% endcomment %}
+    <!-- <script type="text/javascript" src="{% static 'utilities/js/edit.js' %}"></script> -->
 
 {% endblock %}
 {% block links %}
