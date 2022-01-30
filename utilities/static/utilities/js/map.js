@@ -63,7 +63,7 @@ var map = new ol.Map({
 //logic for functioning of layer selector
 
 function bindInputs(layerid, layer) {
-  const visibilityInput = $(layerid + " input.visible");
+  const visibilityInput = $(layerid + " input.form-check-input");
   visibilityInput.on("change", function () {
     layer.setVisible(this.checked);
   });

@@ -17,7 +17,8 @@ def home(request):
 def webmap(request):
     return render(request, 'utilities/map.html', {})
 
+
 class BuildingsViewSet(viewsets.ModelViewSet):
     queryset = Buildings.objects.all()
     serializer_class = BuildingsSerializer
-    http_method_names = ['get']
+    http_method_names = ['get', 'post']

@@ -71,23 +71,27 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="panel-body">
+                        <hr>
+                        <h6 class="layer-title">Base Layers</h6>
                         <fieldset id="layer0">
-                            <label class="checkbox" for="visible0">
-                                <input id="visible0" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Open Street Map
-                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="visible0" checked>
+                                <label class="form-check-label" for="visible0">OpenStreetMap</label>
+                            </div>
                         </fieldset>
                         <fieldset id="layer1">
-                            <label class="checkbox" for="visible1">
-                                <input id="visible1" class="visible" type="checkbox" unchecked />&nbsp&nbsp
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Bing Satellite
-                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="visible1" unchecked>
+                                <label class="form-check-label" for="visible1">Bing Satellite</label>
+                            </div>
                         </fieldset>
+                        <hr>
+                        <h6 class="layer-title">Utility Layers</h6>
                         <fieldset id="layer2">
-                            <label class="checkbox" for="visible2">
-                                <input id="visible2" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Buildings
-                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="visible2" checked>
+                                <label class="form-check-label" for="visible2">Buildings</label>
+                            </div>
                         </fieldset>
                         <!-- <fieldset id="layer3">s
                             <label class="checkbox" for="visible3">
@@ -174,6 +178,7 @@
                                     alt=""> &nbsp Complaints
                             </label>
                         </fieldset> -->
+                        <hr>
                     </div>
                 </div>
             </div>
@@ -181,7 +186,7 @@
                 <div class="panel-heading" role="tab" id="headingTwo">
                     <h4 class="panel-title">
                         <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
-                            <span>Query Feature</span>
+                            <span class="button-title">Query Feature</span>
                             <i class="fas fa-chevron-down" aria-hidden="true"></i>
                             <i class="fas fa-chevron-up" aria-hidden="true"></i>
                         </a>
@@ -216,7 +221,7 @@
                 <div class="panel-heading" role="tab" id="exportOptions">
                     <h4 class="panel-title">
                         <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
-                            <span>Complaints</span>
+                            <span class="button-title">Complaints</span>
                             <i class="fas fa-chevron-down" aria-hidden="true"></i>
                             <i class="fas fa-chevron-up" aria-hidden="true"></i>
                         </a>
