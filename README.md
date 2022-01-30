@@ -1,6 +1,4 @@
-# ums
-# Django Template in Docker
-
+# Utility Mangement System
 
 ## Git
 
