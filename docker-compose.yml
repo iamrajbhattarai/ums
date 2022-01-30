@@ -5,11 +5,13 @@ services:
   db:
     image: mdillon/postgis:11-alpine
     container_name: db
+    env_file: pg_env.txt
     volumes:
       - ./data/db:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
+    container_name: pgadmin
     env_file: pg_env.txt
     ports:
       - "5051:80"
@@ -20,7 +22,10 @@ services:
       - ./pgadmin-data:/pgadmin4/data
       
   web:
-    build: .
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: django
     restart: always
     command: bash -c "
@@ -31,10 +36,6 @@ services:
       - .:/code
     ports:
       - "8000:8000"
-    # environment:
-    #   - POSTGRES_NAME=postgres
-    #   - POSTGRES_USER=postgres
-    #   - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
 
