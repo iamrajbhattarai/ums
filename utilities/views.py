@@ -17,12 +17,7 @@ def home(request):
 def webmap(request):
     return render(request, 'utilities/map.html', {})
 
-
-def buildings(request):
-    buildingsData = serialize(
-        'geojson', Buildings.objects.all(), geometry_field='geom')
-    return HttpResponse(buildingsData, content_type='geojson')
-
-# class BuildingsViewSet(viewsets.ModelViewSet):
-#     queryset = Buildings.objects.all()
-#     serializer_class = BuildingsSerializerss
+class BuildingsViewSet(viewsets.ModelViewSet):
+    queryset = Buildings.objects.all()
+    serializer_class = BuildingsSerializer
+    http_method_names = ['get']
