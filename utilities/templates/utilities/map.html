@@ -4,14 +4,14 @@
 {% block title %} Web Map {% endblock %}
 
 {% block currentpage %}
-    <li class="nav-item">                        
+    <li class="nav-item">
         <a class="nav-link" href="{% url 'homepage' %}">Home</a>
     </li>
     <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="{% url 'webmap' %}">Map</a>
     </li>
-{% endblock %} 
-{% block content %}    
+{% endblock %}
+{% block content %}
     <div id="map"></div>
     {% comment %} <div id="zoom" class="zoom"></div> {% endcomment %}
     <div id="scale-line" class="scale-line"></div>
@@ -22,7 +22,7 @@
     </a>
     <div id="printForm" class="sidebar-config-wrap" role="form">
         {% comment %} <h7 style="color:#FFF">Web-based Utility Management System</h7> <br>{% endcomment %}
-        
+
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <button class="btn btn-primary" id="close" style="margin-left:93%; margin-top: -10px;"
                 onclick="hideSideBar()"><i class="fas fa-times"></i></button>
@@ -66,8 +66,8 @@
                         <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false" aria-controls="collapseOne">
                             <span>Layers</span>
                             <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                            <i class="fas fa-chevron-up" aria-hidden="true"></i> 
-                        </a>                       
+                            <i class="fas fa-chevron-up" aria-hidden="true"></i>
+                        </a>
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
@@ -188,8 +188,8 @@
                         <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
                             <span>Query Feature</span>
                             <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                            <i class="fas fa-chevron-up" aria-hidden="true"></i> 
-                        </a>  
+                            <i class="fas fa-chevron-up" aria-hidden="true"></i>
+                        </a>
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
@@ -223,8 +223,8 @@
                         <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
                             <span>Complaints</span>
                             <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                            <i class="fas fa-chevron-up" aria-hidden="true"></i> 
-                        </a>  
+                            <i class="fas fa-chevron-up" aria-hidden="true"></i>
+                        </a>
                     </h4>
                 </div>
                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exportOptions">

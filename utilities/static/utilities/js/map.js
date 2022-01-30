@@ -26,10 +26,10 @@ var buildingsLayer = new ol.layer.Vector({
   style: styles['buildings'],
 });
 
-//creating a map element 
+//creating a map element
 var map = new ol.Map({
     target: 'map',
-    layers: [      
+    layers: [
       osmLayer,
       buildingsLayer,
     ],

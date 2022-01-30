@@ -1,5 +1,5 @@
 version: "3"
-   
+
 services:
 
   db:
@@ -20,7 +20,7 @@ services:
       - db
     volumes:
       - ./pgadmin-data:/pgadmin4/data
-      
+
   web:
     env_file: .env
     build:
@@ -38,4 +38,3 @@ services:
       - "8000:8000"
     depends_on:
       - db
-

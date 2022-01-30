@@ -183,7 +183,7 @@ function clickQuery() {
         msgDic["service"] = properties.ServiceTyp;
         msgDic["email"] = properties.Email;
         msgDic["charge"] = properties.Charges;
-        
+
         var contentHTML = '<table class="table table-bordered">';
 
         $.each(properties, function (idx, obj) {
@@ -211,7 +211,7 @@ function clickQuery() {
         contentHTML +=
           '<button class="btn btn-primary d-none" style="width:50%" id="submit" onclick="editTable()">Submit</button>';
         if (($("#featureOf").val()) == "Complaints") {
-          contentHTML += 
+          contentHTML +=
           '<br><br><button class="btn btn-primary d-none" style="width:50%" id="edit" onclick="sendEmail()">Send Email</button>';
         }
         content.innerHTML = contentHTML;
@@ -302,11 +302,11 @@ $("#keyWordsTable").change(function () {
     contentHTML +=
       '<button class="btn btn-primary d-none" style="width:50%" id="edit" onclick="editGeometry()">Edit</button>';
     contentHTML +=
-      '<button class="btn btn-primary d-none" style="width:50%" id="submit" onclick="editTable()">Submit</button>';    
-      contentHTML += 
+      '<button class="btn btn-primary d-none" style="width:50%" id="submit" onclick="editTable()">Submit</button>';
+      contentHTML +=
       '<br><br><button class="btn btn-primary d-none" style="width:50%" id="email" onclick="sendEmail()">Send Email</button>';
     content.innerHTML = contentHTML;
-    
+
     // if(localStorage.getItem('userrole') == 'admin')  {
     //   document.querySelector('#edit').classList.remove('d-none');
     //   document.querySelector('#edit').classList.remove('d-none');
@@ -335,7 +335,7 @@ function showUser() {
     var user = localStorage.getItem("userrole");
     if (user == "admin") {
       alert("Current User: Admin");
-    } 
+    }
     else {
       alert("Current User: Client");
     }
