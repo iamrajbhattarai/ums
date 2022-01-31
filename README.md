@@ -53,4 +53,3 @@ For viewing logs of your docker services.
       Applying contenttypes.0001_initial... OK
       Applying contenttypes.0002_remove_content_type_name... OK
       Applying auth.0001_initial... OK
-
