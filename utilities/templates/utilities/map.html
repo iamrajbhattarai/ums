@@ -52,10 +52,9 @@
                         title="User Role" onclick="showUser()">
                         <i class="fas fa-user"></i>
                     </button>
-                    <button type="button" class="btn btn-secondary" id="help" data-toggle="modal" data-target="#helpmodal"
-                        data-placement="top" title="Help">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#helpmodal" title="Help">
                         <i class="fas fa-info-circle"></i>
-                    </button>
+                      </button>
 
                 </div>
             </div>
@@ -72,29 +71,29 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="panel-body">
+                        <hr>
+                        <h6 class="layer-title">Base Layers</h6>
                         <fieldset id="layer0">
-                            <label class="checkbox" for="visible0">
-                                <input id="visible0" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Bing
-                                Satellite
-                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="visible0" checked>
+                                <label class="form-check-label" for="visible0">OpenStreetMap</label>
+                            </div>
                         </fieldset>
                         <fieldset id="layer1">
-                            <label class="checkbox" for="visible1">
-                                <input id="visible1" class="visible" type="checkbox" checked />&nbsp&nbsp <img
-                                    src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/blackhousingboundarymap/layers/HousingBoundary@contestdatasource@@blackhousingboundarymap/legend"
-                                    alt="">
-                                &nbsp Black Background
-                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="visible1" unchecked>
+                                <label class="form-check-label" for="visible1">Bing Satellite</label>
+                            </div>
                         </fieldset>
+                        <hr>
+                        <h6 class="layer-title">Utility Layers</h6>
                         <fieldset id="layer2">
-                            <label class="checkbox" for="visible2">
-                                <input id="visible2" class="visible" type="checkbox" unchecked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/HousingBoundary@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Gray Background
-                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="visible2" checked>
+                                <label class="form-check-label" for="visible2">Buildings</label>
+                            </div>
                         </fieldset>
-                        <fieldset id="layer3">
+                        <!-- <fieldset id="layer3">s
                             <label class="checkbox" for="visible3">
                                 <input id="visible3" class="visible" type="checkbox" checked />&nbsp&nbsp
                                 <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Buildings@contestdatasource@@allmap/legend"
@@ -178,7 +177,8 @@
                                 <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Complaints@contestdatasource@@allmap/legend"
                                     alt=""> &nbsp Complaints
                             </label>
-                        </fieldset>
+                        </fieldset> -->
+                        <hr>
                     </div>
                 </div>
             </div>
@@ -186,7 +186,7 @@
                 <div class="panel-heading" role="tab" id="headingTwo">
                     <h4 class="panel-title">
                         <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
-                            <span>Query Feature</span>
+                            <span class="button-title">Query Feature</span>
                             <i class="fas fa-chevron-down" aria-hidden="true"></i>
                             <i class="fas fa-chevron-up" aria-hidden="true"></i>
                         </a>
@@ -221,7 +221,7 @@
                 <div class="panel-heading" role="tab" id="exportOptions">
                     <h4 class="panel-title">
                         <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
-                            <span>Complaints</span>
+                            <span class="button-title">Complaints</span>
                             <i class="fas fa-chevron-down" aria-hidden="true"></i>
                             <i class="fas fa-chevron-up" aria-hidden="true"></i>
                         </a>
@@ -274,45 +274,38 @@
     </div>
 
     <!-- Modal for user help-->
-    <div class="modal fade" id="helpmodal" tabindex="-1" role="dialog" aria-labelledby="helpmodalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="helpmodalLabel">
-                        <h4>Web-based Utility Management System: A Case Study of
-                            Grande Villa Housing, Kathmandu</h4>
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    1. <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                    Measure distance by drawing line.<br>2. <span class="glyphicon glyphicon-unchecked"
-                        aria-hidden="true"></span> Measure Area by drawing polygon.<br>3. <span
-                        class="glyphicon glyphicon-erase" aria-hidden="true"></span> Reset Everything to defaults.<br>4.
-                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Default Extent of the map. <br>5.
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Query Complaints by passing
-                    Service Type Parameters.<br>6. Under
-                    Layers, select one or
-                    more layers to turn on/off visibility.<br>7. Under Query Feature, select a layer and select query
-                    to query the layer's features. You can edit the attribute and geometry of the features as well
-                    by clicking edit and submit buttons.<br>9. Under complaints, you can add or delete complaints
-                    regarding utilities on the housing area.<br>10. Admin can edit the attribute Charge of Complaints
-                    feature and send email
-                    based on that to the clients as a serive bill.<br><br> <b>-Developed by Raj Bhattarai</b>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+    <div class="modal fade" id="helpmodal" tabindex="-1" aria-labelledby="helpmodalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="helpmodalLabel">
+                    <h4>Web-based Utility Management System for Kathmandu University</h4>
+                </h5>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
+            <div class="modal-body">
+                1. <i class="fas fa-pen"></i>
+                Measure distance by drawing line.<br>2. <i class="far fa-clone"></i> Measure Area by drawing polygon.<br>3. <i class="fas fa-eraser"></i> Reset Everything to defaults.<br>4.
+                <i class="fas fa-home"></i> Default Extent of the map. <br>5.
+                <i class="fas fa-search"></i> Query Complaints by passing
+                Service Type Parameters.<br>6. Under
+                Layers, select one or
+                more layers to turn on/off visibility.<br>7. Under Query Feature, select a layer and select query
+                to query the layer's features. You can edit the attribute and geometry of the features as well
+                by clicking edit and submit buttons.<br>9. Under complaints, you can add or delete complaints
+                regarding utilities on the housing area.<br>10. Admin can edit the attribute Charge of Complaints
+                feature and send email
+                based on that to the clients as a serive bill.<br><br> <b>-Developed by Raj Bhattarai</b>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
     <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script>
     <script type="text/javascript" src="{% static 'utilities/js/map.js' %}"></script>
     <script type="text/javascript" src="{% static 'utilities/js/toolbar.js' %}"></script>
-    {% comment %} <script type="text/javascript" src="{% static 'utilities/js/edit.js' %}"></script> {% endcomment %}
+    <!-- <script type="text/javascript" src="{% static 'utilities/js/edit.js' %}"></script> -->
 
 {% endblock %}
 {% block links %}
