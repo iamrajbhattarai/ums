@@ -15,7 +15,8 @@ var styles = {
 
 // layers to display on the map
 var osmLayer = new ol.layer.Tile({
-  source: new ol.source.OSM()
+  source: new ol.source.OSM(),
+  title: 'OSM',
 });
 
 var bingMapLayer = new ol.layer.Tile({
@@ -25,7 +26,7 @@ var bingMapLayer = new ol.layer.Tile({
     key: "Al8ndH_tSrjQGgBTDzeRsN4v97ct11yzrS78nH4i5zn960SjjFRC9WlmBLIBtHzc",
     imagerySet: "Aerial",
   }),
-  title: "BingMaps",
+  title: 'BingMaps',
 });
 
 var buildingsLayer = new ol.layer.Vector({
@@ -36,20 +37,25 @@ var buildingsLayer = new ol.layer.Vector({
   style: styles['buildings'],
 });
 
-//LayerGroup
-var layerGroup = new ol.layer.Group({
+//BaseMap Layer Group
+var baselayerGroup = new ol.layer.Group({
   layers: [
     osmLayer,
     bingMapLayer,
+  ],
+});
+
+//utility layer group
+var overlayGroup = new ol.layer.Group({
+  layers: [
     buildingsLayer,
   ],
 });
 
-
 //creating a map element
 var map = new ol.Map({
     target: 'map',
-    layers: [layerGroup],
+    layers: [baselayerGroup, overlayGroup],
     view: new ol.View({
       center: [85.3222, 27.753014],
       zoom: 18,
@@ -58,9 +64,19 @@ var map = new ol.Map({
     })
   });
 
+//logic for functioning of baselayers selector
+const baselayers = $("input[type='radio'][name='basemap']");
+for (let baselayer of baselayers) {
+  baselayer.addEventListener("change", function() {
+    let baselayerValue = this.value;
+    baselayerGroup.getLayers().forEach(function(layer, index, array) {
+      let baselayerTitle = layer.get('title');
+      layer.setVisible(baselayerTitle === baselayerValue);
+    })
+  })
+}
 
-
-//logic for functioning of layer selector
+//logic for functioning of overlays selector
 
 function bindInputs(layerid, layer) {
   const visibilityInput = $(layerid + " input.form-check-input");
@@ -72,10 +88,10 @@ function setup(id, group) {
   group.getLayers().forEach(function (layer, i) {
     const layerid = id + i;
     bindInputs(layerid, layer);
-    // if (layer instanceof ol.layer.Group) {
-    //   setup(layerid, layer);
-    // }
+    if (layer instanceof ol.layer.Group) {
+      setup(layerid, layer);
+    }
   });
 }
 
-setup("#layer", layerGroup);
+setup("#layer", overlayGroup);

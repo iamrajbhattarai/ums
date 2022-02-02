@@ -73,24 +73,20 @@
                     <div class="panel-body">
                         <hr>
                         <h6 class="layer-title">Base Layers</h6>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="radio" name = "basemap" id="basemap0" value='OSM' checked>
+                            <label class="form-check-label" for="basemap0">OpenStreetMap</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="radio" name ="basemap" id="basemap1" value='BingMaps' unchecked>
+                            <label class="form-check-label" for="basemap1">Bing Satellite</label>
+                        </div>
+                        <hr>
+                        <h6 class="layer-title">Utility Layers</h6>
                         <fieldset id="layer0">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="visible0" checked>
-                                <label class="form-check-label" for="visible0">OpenStreetMap</label>
-                            </div>
-                        </fieldset>
-                        <fieldset id="layer1">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="visible1" unchecked>
-                                <label class="form-check-label" for="visible1">Bing Satellite</label>
-                            </div>
-                        </fieldset>
-                        <hr>
-                        <h6 class="layer-title">Utility Layers</h6>
-                        <fieldset id="layer2">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="visible2" checked>
-                                <label class="form-check-label" for="visible2">Buildings</label>
+                                <label class="form-check-label" for="visible0">Buildings</label>
                             </div>
                         </fieldset>
                         <!-- <fieldset id="layer3">s
