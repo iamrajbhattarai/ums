@@ -73,7 +73,7 @@ For viewing logs of your docker services.
      template1        | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
                       |          |          |            |            | postgres=CTc/postgres
      template_postgis | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
-    (5 rows)
+    (4 rows)
 
     postgres=# DROP DATABASE postgres;
     DROP DATABASE
@@ -86,7 +86,7 @@ For viewing logs of your docker services.
      template1        | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
                       |          |          |            |            | postgres=CTc/postgres
      template_postgis | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
-    (4 rows)
+    (3 rows)
 
     postgres=# CREATE DATABASE postgres;
     CREATE DATABASE
