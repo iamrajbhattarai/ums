@@ -53,50 +53,6 @@ For viewing logs of your docker services.
       Applying contenttypes.0001_initial... OK
       Applying contenttypes.0002_remove_content_type_name... OK
       Applying auth.0001_initial... OK
-      
-## Create database with all the data from dump sql file
-
-    
-    $ docker exec -it db bash
-    
-    bash-4.4# psql -U postgres
-    psql (11.2)
-    Type "help" for help.
-
-    postgres=# \l
-                                        List of databases
-           Name       |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
-    ------------------+----------+----------+------------+------------+-----------------------
-     postgres         | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
-     template0        | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
-                      |          |          |            |            | postgres=CTc/postgres
-     template1        | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
-                      |          |          |            |            | postgres=CTc/postgres
-     template_postgis | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
-    (4 rows)
-
-    postgres=# DROP DATABASE postgres;
-    DROP DATABASE
-    postgres=# \l
-                                        List of databases
-           Name       |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
-    ------------------+----------+----------+------------+------------+-----------------------
-     template0        | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
-                      |          |          |            |            | postgres=CTc/postgres
-     template1        | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
-                      |          |          |            |            | postgres=CTc/postgres
-     template_postgis | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
-    (3 rows)
-
-    postgres=# CREATE DATABASE postgres;
-    CREATE DATABASE
-
-    postgres=# exit
-    
-    bash-4.4# cd var/lib/postgresql/data
-    ****if error change one path at a time or might need to change to admin/root****
-    **** Copy the dump file inside db directory by navigating as: [project root] > data > db ****
-    bash-4.4# psql -U postgres -d postgres -f postgres.sql
 
 ## Create database with all the data from dump sql file
 
