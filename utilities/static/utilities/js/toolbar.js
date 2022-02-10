@@ -10,15 +10,30 @@ function hideSideBar() {
 
 // function to display hover of buttons
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip();
 })
 
+
+
+function removeNavLinkHighlight() {
+  var navlinks = ['layers-nav-link', 'query-nav-link', 'complaints-nav-link']
+  navlinks.forEach(x => {
+    document.getElementById(x).classList.remove('color-yellow');
+  })
+}
+
+function hidePanelContents() {
+  var contents = ['layers', 'query-feature', 'complaints']
+  contents.forEach(x => {
+    document.getElementById(x).classList.add('d-none');
+  })
+}
 //function to display layer toggler menu
 function displayToggler() {
-  document.getElementById("layers-nav-link").click();
-  document.getElementById("query-feature").classList.add("d-none");
-  document.getElementById("complaints").classList.add("d-none");
+  hidePanelContents();
   document.getElementById("layers").classList.remove("d-none");
+  removeNavLinkHighlight();
+  document.getElementById("layers-nav-link").classList.add("color-yellow");
 }
 
 // function to trigger layer toggler menu by defafult
@@ -29,16 +44,18 @@ window.onload = displayToggler();
 
 //function to display query feature menu
 function displayQueryFeature() {
-  document.getElementById("layers").classList.add("d-none");
-  document.getElementById("complaints").classList.add("d-none");
+  hidePanelContents();
   document.getElementById("query-feature").classList.remove("d-none");
+  removeNavLinkHighlight();
+  document.getElementById("query-nav-link").classList.add("color-yellow");
 }
 
 //function to display complaints menu
 function displayComplaints() {
-  document.getElementById("layers").classList.add("d-none");
-  document.getElementById("query-feature").classList.add("d-none");
+  hidePanelContents();
   document.getElementById("complaints").classList.remove("d-none");
+  removeNavLinkHighlight();
+  document.getElementById("complaints-nav-link").classList.add("color-yellow");
 }
 
 //creating a vector layer to draw upon
