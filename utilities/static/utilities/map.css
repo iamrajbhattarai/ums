@@ -52,6 +52,7 @@
     position: absolute;
     left: 5px;
     top: 50px;
+    padding-bottom: 10px;
     /* text-align: center; */
     background: #FFF;
     z-index: 1000;
@@ -78,7 +79,7 @@ a.icon i {
     padding: 20px;
     /* background: linear-gradient(to bottom, #343A40 0%, #505050 100%); */
     background: #2f3336;
-    transition-duration: 0.5s;
+    transition-duration: 0.9s;
 }
 .sidebar-config-wrap .panel-group .panel-default {
     margin-bottom: 1vh;
@@ -114,7 +115,7 @@ a.icon i {
 
 .sidebar-config-wrap .form-control,
 .sidebar-config-wrap .btn-group {
-    width: 70%;
+    width: 1000%;
     float: right;
 }
 
@@ -235,35 +236,29 @@ a.icon i {
     min-height:  2px;
     margin-top: 0.4rem;
     margin-bottom: 0.4rem;
-    margin-right: 1rem;
+    margin-right: 0rem;
 }
 
+/* .panel-body {
+    width: 80px;
+} */
 .panel-body-parts {
     margin-left: 1.5rem;
 }
 
-
-/* .sidebar-config-wrap .btn-group {
-    display: block;
-    margin-bottom: 10px;
-
-}
-
-.sidebar-config-wrap .btn-group button {
-    width: 50%;
-    outline: none;
-    background: #3394dc;
-}
-
-.sidebar-config-wrap .btn-group button:focus {
-    outline: none;
-} */
 .nav-link {
     color: #FFF;
 }
+
 .nav-link:hover {
-    color: rgb(103, 168, 241);
+    color: #ffe38e;
+
 }
+
 .nav-link:focus {
-    color: #0D6EFC;
+    color: #ffc107;
+}
+
+.color-yellow {
+    color: #ffc107;
 }
