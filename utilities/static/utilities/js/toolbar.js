@@ -13,6 +13,34 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
+//function to display layer toggler menu
+function displayToggler() {
+  document.getElementById("layers-nav-link").click();
+  document.getElementById("query-feature").classList.add("d-none");
+  document.getElementById("complaints").classList.add("d-none");
+  document.getElementById("layers").classList.remove("d-none");
+}
+
+// function to trigger layer toggler menu by defafult
+// window.onload = showSideBar();
+window.onload = displayToggler();
+// window.onload = document.getElementById("layers-nav-link").click();
+
+
+//function to display query feature menu
+function displayQueryFeature() {
+  document.getElementById("layers").classList.add("d-none");
+  document.getElementById("complaints").classList.add("d-none");
+  document.getElementById("query-feature").classList.remove("d-none");
+}
+
+//function to display complaints menu
+function displayComplaints() {
+  document.getElementById("layers").classList.add("d-none");
+  document.getElementById("query-feature").classList.add("d-none");
+  document.getElementById("complaints").classList.remove("d-none");
+}
+
 //creating a vector layer to draw upon
 var drawLine;
 var drawPolygon;

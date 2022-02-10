@@ -2,9 +2,9 @@
 var styles = {
   'buildings': new ol.style.Style({
     stroke: new ol.style.Stroke({
-      color: 'blue',
+      color: 'black',
       lineDash: [4],
-      width: 3,
+      width: 2,
     }),
     fill: new ol.style.Fill({
       color: 'rgba(0, 0, 255, 0.1)',
@@ -13,12 +13,16 @@ var styles = {
 }
 
 
-// layers to display on the map
+//basemap layers to display on the map
+
+//OSM
 var osmLayer = new ol.layer.Tile({
+  visible: false,
   source: new ol.source.OSM(),
   title: 'OSM',
 });
 
+//Bing Satellite
 var bingMapLayer = new ol.layer.Tile({
   visible: false,
   preload: Infinity,
@@ -29,6 +33,35 @@ var bingMapLayer = new ol.layer.Tile({
   title: 'BingMaps',
 });
 
+// //MapBox
+// mapboxgl.accessToken = 'pk.eyJ1IjoicmFqYmhhdHRhcmFpIiwiYSI6ImNrcjNycmMxZDAxZjMycW52NWJia3oyMGEifQ.QXAX2aKoQ2uwh1ySjl68iw';
+// var mapboxLayer = new ol.layer.MapboxVector({
+//   styleUrl: 'mapbox://styles/rajbhattarai/ckz6trs4a000i14qw94l5yxt4',
+//   accessToken: 'pk.eyJ1IjoicmFqYmhhdHRhcmFpIiwiYSI6ImNrejZuZGpzNDBkajEyb254NGt5ZmJrMnAifQ.jjZ9MEMbOuCxTUjbOue7Hg',
+//   projection: 'EPSG:4326',
+//   title: 'MapBox',
+// });
+
+//CartoDB Light
+var cartoLightLayer = new ol.layer.Tile({
+  visible: true,
+  source: new ol.source.XYZ({
+      url:'https://{1-4}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+  }),
+  title: 'CartoLight',
+});
+
+//CartoDB Dark
+var cartoDarkLayer = new ol.layer.Tile({
+  visible: false,
+  source: new ol.source.XYZ({
+    url: 'https://{1-4}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+  }),
+  title: 'CartoDark',
+});
+
+
+//utility overlays to display on the map
 var buildingsLayer = new ol.layer.Vector({
   source: new ol.source.Vector({
     url: 'http://localhost:8000/buildings/',
@@ -37,11 +70,14 @@ var buildingsLayer = new ol.layer.Vector({
   style: styles['buildings'],
 });
 
+
 //BaseMap Layer Group
 var baselayerGroup = new ol.layer.Group({
   layers: [
     osmLayer,
     bingMapLayer,
+    cartoLightLayer,
+    cartoDarkLayer,
   ],
 });
 
@@ -58,8 +94,8 @@ var map = new ol.Map({
     layers: [baselayerGroup, overlayGroup],
     view: new ol.View({
       center: [85.3222, 27.753014],
-      zoom: 18,
-      projection: "EPSG:4326",
+      zoom: 19,
+      projection: 'EPSG:4326',
       multiWorld: true,
     })
   });

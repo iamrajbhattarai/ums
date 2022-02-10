@@ -20,10 +20,8 @@
     <a href="javascript:void(0);" class="icon" onclick="showSideBar()">
         <i class="fa fa-bars"></i>
     </a>
-    <div id="printForm" class="sidebar-config-wrap" role="form">
-        {% comment %} <h7 style="color:#FFF">Web-based Utility Management System</h7> <br>{% endcomment %}
-
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div id="printForm" class="sidebar-config-wrap overflow-hidden" role="form">
+        <div class="panel-group h-100" id="accordion" role="tablist" aria-multiselectable="true">
             <button class="btn btn-primary" id="close" style="margin-left:93%; margin-top: -10px;"
                 onclick="hideSideBar()"><i class="fas fa-times"></i></button>
             <div class="panel panel-primary toolBar" id="toolBar">
@@ -58,204 +56,106 @@
 
                 </div>
             </div>
-            <br>
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="layers">
-                    <h4 class="panel-title">
-                        <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseOne" role="button" aria-expanded="false" aria-controls="collapseOne">
-                            <span>Layers</span>
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                            <i class="fas fa-chevron-up" aria-hidden="true"></i>
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="panel-body">
-                        <hr>
-                        <h6 class="layer-title">Base Layers</h6>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="radio" name = "basemap" id="basemap0" value='OSM' checked>
-                            <label class="form-check-label" for="basemap0">OpenStreetMap</label>
-                        </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="radio" name ="basemap" id="basemap1" value='BingMaps' unchecked>
-                            <label class="form-check-label" for="basemap1">Bing Satellite</label>
-                        </div>
-                        <hr>
-                        <h6 class="layer-title">Utility Layers</h6>
-                        <fieldset id="layer0">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="visible0" checked>
-                                <label class="form-check-label" for="visible0">Buildings</label>
+            <hr style="color:#FFF; margin-left: -1rem; margin-right: -1rem;">
+            <div class="row h-100 gx-0" id="second-container" >
+                <div class="col col-lg-3">
+                    <nav class="nav flex-column navbar-dark h-100" id="second-nav-bar">
+                        <a class="nav-link row" id="layers-nav-link" href="#" onclick="displayToggler()">
+                            <div class="col-12">
+                                <i class="fas fa-layer-group fa-2x"></i>
                             </div>
-                        </fieldset>
-                        <!-- <fieldset id="layer3">s
-                            <label class="checkbox" for="visible3">
-                                <input id="visible3" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Buildings@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Buidings
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer4">
-                            <label class="checkbox" for="visible4">
-                                <input id="visible4" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/SepticWaterTank@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Septic Water Tank
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer5">
-                            <label class="checkbox" for="visible5">
-                                <input id="visible5" class="visible" type="checkbox" checked />&nbsp&nbsp <img
-                                    src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/OpenSpace@contestdatasource@@allmap/legend"
-                                    alt="">
-                                &nbsp Open Space
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer6">
-                            <label class="checkbox" for="visible6">
-                                <input id="visible6" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Road@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Road
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer7">
-                            <label class="checkbox" for="visible7">
-                                <input id="visible7" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/TransmissionLine@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Transmission Line
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer8">
-                            <label class="checkbox" for="visible8">
-                                <input id="visible8" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Pipeline@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Water Pipeline
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer9">
-                            <label class="checkbox" for="visible9">
-                                <input id="visible9" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/DrainageLine@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Drainage Line
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer10">
-                            <label class="checkbox" for="visible10">
-                                <input id="visible10" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/WaterPoints@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Water Point
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer11">
-                            <label class="checkbox" for="visible11">
-                                <input id="visible11" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/ElectricPole@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Electric Pole
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer12">
-                            <label class="checkbox" for="visible12">
-                                <input id="visible12" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/DrainagePoints@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Draingae Point
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer13">
-                            <label class="checkbox" for="visible13">
-                                <input id="visible13" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Temple@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Temple
-                            </label>
-                        </fieldset>
-                        <fieldset id="layer14">
-                            <label class="checkbox" for="visible14">
-                                <input id="visible14" class="visible" type="checkbox" checked />&nbsp&nbsp
-                                <img src="http://localhost:8090/iserver/services/map-contestworkspace/rest/maps/allmap/layers/Complaints@contestdatasource@@allmap/legend"
-                                    alt=""> &nbsp Complaints
-                            </label>
-                        </fieldset> -->
-                        <hr>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingTwo">
-                    <h4 class="panel-title">
-                        <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="false" aria-controls="collapseTwo">
-                            <span class="button-title">Query Feature</span>
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                            <i class="fas fa-chevron-up" aria-hidden="true"></i>
+                            <div class="col-12 text-center" style="font-size:0.8rem;">Layers</div>
                         </a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <label for="title">Feature Of</label>
-                            <select class="form-control" id="featureOf" style="width: 150px;">
-                                <option>Complaints</option>
-                                <option>Buildings</option>
-                                <option>Septic Water Tank</option>
-                                <option>Open Space</option>
-                                <option>Road</option>
-                                <option>Transmission Line</option>
-                                <option>Water Pipeline</option>
-                                <option>Drainage Line</option>
-                                <option>Water Point</option>
-                                <option>Electric Pole</option>
-                                <option>Drainage Point</option>
-                                <option>Temple</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button class="btn btn-warning" style="width:45%" id="query" onclick="clickQuery()">Query</button>
-                </div>
-
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="exportOptions">
-                    <h4 class="panel-title">
-                        <a class="btn btn-light" data-bs-toggle="collapse" href="#collapseThree" role="button" aria-expanded="false" aria-controls="collapseThree">
-                            <span class="button-title">Complaints</span>
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                            <i class="fas fa-chevron-up" aria-hidden="true"></i>
+                        <hr class="left-menu-item-line">
+                        <a class="nav-link row" href="#" onclick="displayQueryFeature()">
+                            <div class="col-12">
+                                <i class="fas fa-search-location fa-2x"></i>
+                            </div>
+                            <div class="col-12 text-center" style="font-size:0.8rem;">Query</div>
                         </a>
-                    </h4>
+                        <hr class="left-menu-item-line">
+                        <a class="nav-link row" href="#" onclick="displayComplaints()">
+                            <div class="col-12">
+                                <i class="fas fa-map-marker-alt fa-2x"></i>
+                            </div>
+                            <div class="col-12 text-center" style="font-size:0.8rem;">Complaints</div>
+                        </a>
+                        <hr class="left-menu-item-line">
+                    </nav>
                 </div>
-                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exportOptions">
-
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <label for="title">Problem:</label>
-                            <input type="text" class="form-control" id="problem" />
+                <div class="col">
+                        <div class="panel-body-parts d-none" id="layers">
+                            <h6 class="layer-title">Base Layers</h6>
+                            <div class="form-check form-switch text-secondary">
+                                <input class="form-check-input" type="radio" name = "basemap" id="basemap0" value='OSM' unchecked>
+                                <label class="form-check-label" for="basemap0">OpenStreetMap</label>
+                            </div>
+                            <div class="form-check form-switch text-secondary">
+                                <input class="form-check-input" type="radio" name ="basemap" id="basemap1" value='BingMaps' unchecked>
+                                <label class="form-check-label" for="basemap1">Bing Satellite</label>
+                            </div>
+                            <div class="form-check form-switch text-secondary">
+                                <input class="form-check-input" type="radio" name ="basemap" id="basemap2" value='CartoLight' checked>
+                                <label class="form-check-label" for="basemap2">CartoDB Light</label>
+                            </div>
+                            <div class="form-check form-switch text-secondary">
+                                <input class="form-check-input" type="radio" name ="basemap" id="basemap3" value='CartoDark' unchecked>
+                                <label class="form-check-label" for="basemap3">CartoDB Dark</label>
+                            </div>
+                            <hr style="color: #FFF;">
+                            <h6 class="layer-title">Utility Layers</h6>
+                            <fieldset id="layer0">
+                                <div class="form-check form-switch text-secondary">
+                                    <input class="form-check-input" type="checkbox" id="visible0" checked>
+                                    <label class="form-check-label" for="visible0">Buildings</label>
+                                </div>
+                            </fieldset>
                         </div>
-                        <div class="form-group">
-                            <label for="title">Description:</label>
-                            <input type="text" class="form-control" id="description"
-                                placeholder="Detailed Information" />
+                        <div class="panel-body-parts d-none" id="query-feature">
+                            <div class="form-group">
+                                <label class="layer-title" for="title">Feature Of</label>
+                                <select class="form-control" id="featureOf" style="width: 150px;">
+                                    <option>Complaints</option>
+                                    <option>Buildings</option>
+                                    <option>Septic Water Tank</option>
+                                    <option>Open Space</option>
+                                    <option>Road</option>
+                                    <option>Transmission Line</option>
+                                    <option>Water Pipeline</option>
+                                    <option>Drainage Line</option>
+                                    <option>Water Point</option>
+                                    <option>Electric Pole</option>
+                                    <option>Drainage Point</option>
+                                    <option>Temple</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-warning" style="width:45%" id="query" onclick="clickQuery()">Query</button>
                         </div>
-                        <div class="form-group">
-                            <label for="title">Service:</label>
-                            <input type="text" class="form-control" id="servicetype" placeholder="Emergency/Normal" />
+                        <div class="panel-body-parts d-none" id="complaints">
+                            <div class="form-group text-light">
+                                <label for="title">Problem:</label>
+                                <input type="text" class="form-control" id="problem" />
+                            </div>
+                            <div class="form-group text-light">
+                                <label for="title">Description:</label>
+                                <input type="text" class="form-control" id="description"
+                                    placeholder="Detailed Information" />
+                            </div>
+                            <div class="form-group text-light">
+                                <label for="title">Service:</label>
+                                <input type="text" class="form-control" id="servicetype" placeholder="Emergency/Normal" />
+                            </div>
+                            <div class="form-group text-light">
+                                <label for="title">Email:</label>
+                                <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
+                            </div>
+                            <button class="btn btn-warning " style="width:45%" onclick="drawComplaints()">Add</button>
+                            <button class="btn btn-primary d-none" style="width:45%"
+                                onclick="deleteBuilding()">Delete</button>
                         </div>
-                        <div class="form-group">
-                            <label for="title">Email:</label>
-                            <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
-                        </div>
-                        <button class="btn btn-warning " style="width:45%" onclick="drawComplaints()">Add</button>
-                        <button class="btn btn-primary d-none" style="width:45%"
-                            onclick="deleteBuilding()">Delete</button>
-
-                    </div>
-
-
                 </div>
-
             </div>
         </div>
-    </div>
-
     </div>
 
     <div id="popup" class="ol-popup">
