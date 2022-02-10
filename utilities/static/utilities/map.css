@@ -8,7 +8,7 @@
     top: 50px;
 }
 #map {
-    height: 93vh;
+    height: 100vh;
     width: 100%;
     top: 25px;
 }
@@ -72,11 +72,12 @@ a.icon i {
 .sidebar-config-wrap {
     position: absolute;
     top: 65px;
-    left: -370px;
+    left: -500px;
     height: 100vh;
-    width: 370px;
+    width: 500px;
     padding: 20px;
-    background: linear-gradient(to bottom, #343A40 0%, #505050 100%);
+    /* background: linear-gradient(to bottom, #343A40 0%, #505050 100%); */
+    background: #2f3336;
     transition-duration: 0.5s;
 }
 .sidebar-config-wrap .panel-group .panel-default {
@@ -157,13 +158,13 @@ a.icon i {
     float: right;
 }
 
-.sidebar-config-wrap .panel-title a[aria-expanded="true"] .fa-chevron-down{
+/* .sidebar-config-wrap .panel-title a[aria-expanded="true"] .fa-chevron-down{
     display: none;
 }
 
 .sidebar-config-wrap .panel-title a[aria-expanded="false"] .fa-chevron-up {
     display: none;
-}
+} */
 
 .sidebar-config-wrap .submit-btn-wrap {
     position: absolute;
@@ -216,4 +217,53 @@ a.icon i {
 
 .layer-title {
     color: #ffffff;
+}
+
+
+#second-container {
+    margin-left: -1rem;
+}
+
+#second-nav-bar {
+    background: #42484d;
+    /* margin-right: 1.5rem; */
+    /* margin-top: -1rem; */
+}
+
+.left-menu-item-line {
+    color: #ffffff;
+    min-height:  2px;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+    margin-right: 1rem;
+}
+
+.panel-body-parts {
+    margin-left: 1.5rem;
+}
+
+
+/* .sidebar-config-wrap .btn-group {
+    display: block;
+    margin-bottom: 10px;
+
+}
+
+.sidebar-config-wrap .btn-group button {
+    width: 50%;
+    outline: none;
+    background: #3394dc;
+}
+
+.sidebar-config-wrap .btn-group button:focus {
+    outline: none;
+} */
+.nav-link {
+    color: #FFF;
+}
+.nav-link:hover {
+    color: rgb(103, 168, 241);
+}
+.nav-link:focus {
+    color: #0D6EFC;
 }

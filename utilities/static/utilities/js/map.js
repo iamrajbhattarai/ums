@@ -2,9 +2,9 @@
 var styles = {
   'buildings': new ol.style.Style({
     stroke: new ol.style.Stroke({
-      color: 'blue',
+      color: 'black',
       lineDash: [4],
-      width: 3,
+      width: 2,
     }),
     fill: new ol.style.Fill({
       color: 'rgba(0, 0, 255, 0.1)',
@@ -94,7 +94,7 @@ var map = new ol.Map({
     layers: [baselayerGroup, overlayGroup],
     view: new ol.View({
       center: [85.3222, 27.753014],
-      zoom: 18,
+      zoom: 19,
       projection: 'EPSG:4326',
       multiWorld: true,
     })
