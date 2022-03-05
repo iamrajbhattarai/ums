@@ -25,11 +25,11 @@
             <div class="panel panel-primary toolBar w-100" id="toolBar">
                 <div class="panel-body content container" style="display: flex;justify-content: space-evenly;">
                     <button type="button" class="btn btn-secondary" id="measureDistance" data-toggle="tooltip"
-                        data-placement="top" title="Measure Distance" onclick="measureDistance()">
+                        data-placement="top" title="Measure Distance" onclick="measure('line')">
                         <i class="fas fa-pen fa-lg"></i>
                     </button>
                     <button type="button" class="btn btn-secondary" id="measureArea" data-toggle="tooltip"
-                        data-placement="top" title="Measure Area" onclick="measureArea()">
+                        data-placement="top" title="Measure Area" onclick="measure('area')">
                         <i class="far fa-clone fa-lg"></i>
                     </button>
                     <button type="button" class="btn btn-secondary" id="clearDraw" data-toggle="tooltip"
@@ -159,9 +159,9 @@
         </div>
     </div>
 
-    <div id="popup" class="ol-popup">
+    <!-- <div id="popup" class="ol-popup">
         <div id="popup-content"></div>
-    </div>
+    </div> -->
 
     <div class="form-group" id="inputPannel" style="position: absolute; top: 80px; right: 100px; display: none;">
         <input type="keyWords" class="form-control" id="keyWordsInput" placeholder="Input Service Type">
@@ -173,35 +173,45 @@
     <!-- Modal for user help-->
     <div class="modal fade" id="helpmodal" tabindex="-1" aria-labelledby="helpmodalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="helpmodalLabel">
-                    <h4>Web-based Utility Management System for Kathmandu University</h4>
-                </h5>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i>
-                </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpmodalLabel">
+                        <h4>Web-based Utility Management System for Kathmandu University</h4>
+                    </h5>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    1. <i class="fas fa-pen"></i>
+                    Measure distance by drawing line.<br>2. <i class="far fa-clone"></i> Measure Area by drawing polygon.<br>3. <i class="fas fa-eraser"></i> Reset Everything to defaults.<br>4.
+                    <i class="fas fa-home"></i> Default Extent of the map. <br>5.
+                    <i class="fas fa-search"></i> Query Complaints by passing
+                    Service Type Parameters.<br>6. Under
+                    Layers, select one or
+                    more layers to turn on/off visibility.<br>7. Under Query Feature, select a layer and select query
+                    to query the layer's features. You can edit the attribute and geometry of the features as well
+                    by clicking edit and submit buttons.<br>9. Under complaints, you can add or delete complaints
+                    regarding utilities on the housing area.<br>10. Admin can edit the attribute Charge of Complaints
+                    feature and send email
+                    based on that to the clients as a serive bill.<br><br> <b>-Developed by Raj Bhattarai and team.</b>
+                </div>
             </div>
-            <div class="modal-body">
-                1. <i class="fas fa-pen"></i>
-                Measure distance by drawing line.<br>2. <i class="far fa-clone"></i> Measure Area by drawing polygon.<br>3. <i class="fas fa-eraser"></i> Reset Everything to defaults.<br>4.
-                <i class="fas fa-home"></i> Default Extent of the map. <br>5.
-                <i class="fas fa-search"></i> Query Complaints by passing
-                Service Type Parameters.<br>6. Under
-                Layers, select one or
-                more layers to turn on/off visibility.<br>7. Under Query Feature, select a layer and select query
-                to query the layer's features. You can edit the attribute and geometry of the features as well
-                by clicking edit and submit buttons.<br>9. Under complaints, you can add or delete complaints
-                regarding utilities on the housing area.<br>10. Admin can edit the attribute Charge of Complaints
-                feature and send email
-                based on that to the clients as a serive bill.<br><br> <b>-Developed by Raj Bhattarai</b>
-            </div>
-          </div>
         </div>
-      </div>
-    <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script>
+    </div>
+    <!-- <form class="form-inline">
+        <label for="type">Measurement type &nbsp;</label>
+        <select id="type">
+          <option value="length">Length (LineString)</option>
+          <option value="area">Area (Polygon)</option>
+        </select>
+    </form> -->
+    <script type="text/javascript" src="{% static 'utilities/js/utils.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script> -->
+    <script type="text/javascript" src="{% static 'utilities/js/panel.js' %}"></script>
+    <script type="text/javascript" src="{% static 'utilities/js/styles.js' %}"></script>
     <script type="text/javascript" src="{% static 'utilities/js/map.js' %}"></script>
-    <script type="text/javascript" src="{% static 'utilities/js/toolbar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'utilities/js/measurement.js' %}"></script>
     <!-- <script type="text/javascript" src="{% static 'utilities/js/edit.js' %}"></script> -->
 
 {% endblock %}
