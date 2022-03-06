@@ -1,0 +1,54 @@
+{% extends 'utilities/home.html' %}
+{% load static %}
+
+{% block title %} Log In{% endblock %}
+
+{% block currentpage %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'webmap' %}">Map</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block content %}
+<div class="row" style="width: 100%;">
+    <div class="col-md-6" style="background: #EFF2FC; padding-left: 10%; padding-top: 8%;">
+        <img style="box-shadow: 10px 10px 10px 10px rgb(146, 146, 146); " src="{% static 'utilities/utility.jpeg' %}" alt="">
+
+    </div>
+    <div class="col-md-6" style="height: 93vh;">
+        <div class= "login-form">
+            <!-- <form method="post" >
+                <h1>Log In</h1>
+                <hr>
+                {% csrf_token %}
+                {{ form.as_p }}
+            <button class="btn btn-warning" type="submit">Log In</button> -->
+
+            <form action="{% url 'signIn' %}" method="POST">
+                {% csrf_token %}
+                <h1>Log In to Utility Management System</h1>
+                <br>
+                <img src="{% static 'utilities/login.png' %}" alt="" style="width: 30%; border-radius: 40%;">
+                <br> <br>
+                <p style="text-align: left;">Please enter your credentials to log into the system.</p>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="username" placeholder="admin">
+                    <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <button type="submit" class="btn btn-warning">Log In</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
