@@ -18,9 +18,10 @@
 }
 
 .scale-line {
+    size: 5rem;
     position: absolute;
-    left: 87%;
-    top: 100%;
+    left: 92%;
+    top: 100vh;
     z-index: 1;
 }
 
@@ -40,12 +41,12 @@
 
 .display-coordinate {
     position: absolute;
-    left: 72%;
+    left: 42%;
     top: 96%;
     color: rgb(253, 253, 253);
-    background-color: rgb(37, 37, 37);
+    background-color: rgb(216, 148, 0);
     z-index: 1;
-    width: 120px;
+    width: 140px;
 }
 
 .toolBar {

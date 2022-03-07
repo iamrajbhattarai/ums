@@ -96,16 +96,35 @@ var overlayGroup = new ol.layer.Group({
 let map = new ol.Map({
     target: 'map',
     layers: [baselayerGroup, overlayGroup, measureLayer],
+    controls: ol.control
+      .defaults({ attributionOptions: {collapsed:true}}),
     view: new ol.View({
-      center: [85.5386, 27.6195],
+      center: [85.5381, 27.6185],
       // center: [9498023.86, 3217870.04],
-      zoom: 19,
+      zoom: 18,
       projection: 'EPSG:4326',
       // projection: 'EPSG:3857',
       multiWorld: true,
     })
   });
 
+//lets add basic web map components
+
+// add scale bar to the map
+var scaleline = new ol.control.ScaleLine({
+  target: document.getElementById("scale-line"),
+});
+map.addControl(scaleline);
+
+//display Coordinates of Map Area
+var mousePositionControl = new ol.control.MousePosition({
+  coordinateFormat: ol.coordinate.createStringXY(4),
+  projection: "EPSG:4326",
+  emptyString: "Out of Map Area",
+  className: "display-coordinate",
+  target: document.getElementById("display-coordinate"),
+});
+map.addControl(mousePositionControl);
 
 
 //logic for functioning of baselayers selector
