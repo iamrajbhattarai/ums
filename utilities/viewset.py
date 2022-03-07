@@ -9,8 +9,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Buildings
-from .serializers import BuildingsSerializer
+from .models import Building
+from .serializers import BuildingSerializer
 
 
 # Create your views here.
@@ -44,8 +44,8 @@ def signOut(request):
     return render(request, 'utilities/login.html', {})
 
 
-class BuildingsViewSet(viewsets.ModelViewSet):
+class BuildingViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Buildings.objects.all()
-    serializer_class = BuildingsSerializer
+    queryset = Building.objects.all()
+    serializer_class = BuildingSerializer
     http_method_names = ['get']

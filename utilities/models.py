@@ -4,10 +4,8 @@ from django.contrib.gis.db import models
 # Create your models here.
 
 
-class Buildings(models.Model):
-    ownername = models.CharField(max_length=50)
-    housenumber = models.CharField(max_length=50)
+class Building(models.Model):
     block = models.CharField(max_length=50)
-    shape_length = models.FloatField()
-    shape_area = models.FloatField()
+    names = models.CharField(max_length=150)
+    area = models.FloatField()
     geom = models.MultiPolygonField(srid=4326)

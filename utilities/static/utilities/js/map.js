@@ -59,10 +59,10 @@ var cartoDarkLayer = new ol.layer.Tile({
 //utility overlays to display on the map
 var buildingsLayer = new ol.layer.Vector({
   source: new ol.source.Vector({
-    url: 'http://localhost:8000/buildings/',
+    url: 'http://localhost:8000/building/',
     format: new ol.format.GeoJSON(),
   }),
-  style: styles['buildings'],
+  style: styles['building'],
 });
 
 
@@ -89,7 +89,7 @@ let map = new ol.Map({
     target: 'map',
     layers: [baselayerGroup, overlayGroup, measureLayer],
     view: new ol.View({
-      center: [85.3222, 27.753014],
+      center: [85.5386, 27.6195],
       // center: [9498023.86, 3217870.04],
       zoom: 19,
       projection: 'EPSG:4326',

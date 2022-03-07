@@ -16,10 +16,10 @@ var styles = {
         }),
       }),
 
-    'buildings': new ol.style.Style({
+    'building': new ol.style.Style({
       stroke: new ol.style.Stroke({
         color: 'black',
-        lineDash: [4],
+        // lineDash: [4],
         width: 2,
       }),
       fill: new ol.style.Fill({

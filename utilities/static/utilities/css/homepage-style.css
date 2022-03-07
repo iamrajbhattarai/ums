@@ -14,12 +14,12 @@ body {
 }
 
 a {
-  color: #e9bf06;
+  color: #b74d00;
   text-decoration: none;
 }
 
 a:hover {
-  color: #aacd6b;
+  color: #ff4800;
   text-decoration: none;
 }
 
@@ -400,7 +400,7 @@ section {
 # Cta
 --------------------------------------------------------------*/
 .cta {
-  background: #e9bf06;
+  background: #212529;
   padding: 50px 0;
 }
 .cta h3 {

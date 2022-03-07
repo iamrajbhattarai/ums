@@ -1,17 +1,17 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from . import views
+from . import viewset
 
 router = DefaultRouter()
-router.register(r'buildings', views.BuildingsViewSet)
+router.register(r'building', viewset.BuildingViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('home/', views.home, name='homepage'),
-    path('map/', views.webmap, name='webmap'),
+    path('home/', viewset.home, name='homepage'),
+    path('map/', viewset.webmap, name='webmap'),
     # path('user/', include('django.contrib.auth.urls')),
-    path('login/', views.signIn, name='signIn'),
-    path('logout/', views.signOut, name='signOut'),
+    path('login/', viewset.signIn, name='signIn'),
+    path('logout/', viewset.signOut, name='signOut'),
 
 ]

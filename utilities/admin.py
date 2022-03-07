@@ -2,16 +2,16 @@ from django.contrib import admin
 # from django.contrib.gis import admin
 from leaflet.admin import LeafletGeoAdmin
 
-from .models import Buildings
+from .models import Building
 
 # Register your models here.
 
 
-class BuildingsAdmin(LeafletGeoAdmin):
-    list_display = ('housenumber', 'ownername', 'block')
-    search_fields = ('housenumber',)
+class BuildingAdmin(LeafletGeoAdmin):
+    list_display = ('block', 'names')
+    search_fields = ('names',)
     list_filter = ('block',)
-    ordering = ('housenumber', )
+    ordering = ('block', )
 
 
-admin.site.register(Buildings, BuildingsAdmin)
+admin.site.register(Building, BuildingAdmin)

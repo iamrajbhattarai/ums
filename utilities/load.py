@@ -2,23 +2,29 @@ from pathlib import Path
 
 from django.contrib.gis.utils import LayerMapping
 
-from .models import Buildings
+from .models import Building
 
-# Auto-generated `LayerMapping` dictionary for Buildings model
-buildings_mapping = {
-    'ownername': 'OwnerName',
-    'housenumber': 'HouseNumbe',
+# building_mapping = {
+#     'ownername': 'OwnerName',
+#     'housenumber': 'HouseNumbe',
+#     'block': 'Block',
+#     'shape_length': 'SHAPE_Leng',
+#     'shape_area': 'SHAPE_Area',
+#     'geom': 'MULTIPOLYGON',
+# }
+
+building_mapping = {
     'block': 'Block',
-    'shape_length': 'SHAPE_Leng',
-    'shape_area': 'SHAPE_Area',
+    'names': 'Names',
+    'area': 'Area',
     'geom': 'MULTIPOLYGON',
 }
 
-buildings_shp = Path(__file__).resolve().parent / \
-    'HousingData' / 'Buildings.shp'
+building_shp = Path(__file__).resolve().parent / \
+    'Shapefiles' / 'Building.shp'
 
 
 def run(verbose=True):
-    lm = LayerMapping(Buildings, buildings_shp,
-                      buildings_mapping, transform=False)
+    lm = LayerMapping(Building, building_shp,
+                      building_mapping, transform=False)
     lm.save(strict=True, verbose=verbose)
