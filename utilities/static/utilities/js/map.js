@@ -65,6 +65,13 @@ var buildingsLayer = new ol.layer.Vector({
   style: styles['building'],
 });
 
+var boundaryLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/boundary/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['boundary'],
+});
 
 //BaseMap Layer Group
 var baselayerGroup = new ol.layer.Group({
@@ -79,6 +86,7 @@ var baselayerGroup = new ol.layer.Group({
 //utility layer group
 var overlayGroup = new ol.layer.Group({
   layers: [
+    boundaryLayer,
     buildingsLayer,
   ],
 });
@@ -97,6 +105,8 @@ let map = new ol.Map({
       multiWorld: true,
     })
   });
+
+
 
 //logic for functioning of baselayers selector
 const baselayers = $("input[type='radio'][name='basemap']");

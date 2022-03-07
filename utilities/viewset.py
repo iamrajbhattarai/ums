@@ -9,8 +9,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Building
-from .serializers import BuildingSerializer
+from .models import *
+from .serializers import *
 
 
 # Create your views here.
@@ -48,4 +48,11 @@ class BuildingViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Building.objects.all()
     serializer_class = BuildingSerializer
+    http_method_names = ['get']
+
+
+class BoundaryViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = Boundary.objects.all()
+    serializer_class = BoundarySerializer
     http_method_names = ['get']
