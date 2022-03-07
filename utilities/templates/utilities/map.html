@@ -4,12 +4,33 @@
 {% block title %} Web Map {% endblock %}
 
 {% block currentpage %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'homepage' %}">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{% url 'webmap' %}">Map</a>
-    </li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page"  href="{% url 'webmap' %}">Map</a>
+            </li>
+        </ul>
+    </div>
+    <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav">
+                {% csrf_token %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link text-success">{{user.username}} </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger " href="{% url 'signOut' %}">Log Out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item text-end">
+                        <a class="nav-link text-danger" href="{% url 'signIn' %}">Log In</a>
+                    </li>
+                {% endif %}
+        </ul>
+    </div>
 {% endblock %}
 {% block content %}
     <div id="map"></div>
@@ -199,13 +220,6 @@
             </div>
         </div>
     </div>
-    <!-- <form class="form-inline">
-        <label for="type">Measurement type &nbsp;</label>
-        <select id="type">
-          <option value="length">Length (LineString)</option>
-          <option value="area">Area (Polygon)</option>
-        </select>
-    </form> -->
     <script type="text/javascript" src="{% static 'utilities/js/utils.js' %}"></script>
     <!-- <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script> -->
     <script type="text/javascript" src="{% static 'utilities/js/panel.js' %}"></script>
