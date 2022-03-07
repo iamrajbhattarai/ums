@@ -1,3 +1,4 @@
 ~
 data
-/utilities/HousingData
+utilities/HousingData
+utilities/static/utilities/*.jpg
