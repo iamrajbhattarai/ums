@@ -97,6 +97,23 @@ var fountainLayer = new ol.layer.Vector({
   }),
   style: styles['fountain'],
 });
+
+var septicTankLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/septic_tank/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['septicTank'],
+});
+
+var waterbodyLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/waterbody/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['waterbody'],
+});
+
 //BaseMap Layer Group
 var baselayerGroup = new ol.layer.Group({
   layers: [
@@ -115,6 +132,8 @@ var overlayGroup = new ol.layer.Group({
     groundLayer,
     roadLayer,
     fountainLayer,
+    septicTankLayer,
+    waterbodyLayer,
   ],
 });
 

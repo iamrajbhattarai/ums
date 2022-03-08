@@ -73,5 +73,26 @@ var styles = {
         }),
       }),
 
+      'septicTank': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'green',
+          // lineDash: [4],
+          width: 2,
+        }),
+        fill: new ol.style.Fill({
+          color: 'blue',
+        }),
+      }),
+
+      'waterbody': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'green',
+          // lineDash: [4],
+          width: 2,
+        }),
+        fill: new ol.style.Fill({
+          color: 'blue',
+        }),
+      }),
 
   }

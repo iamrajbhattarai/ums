@@ -81,3 +81,37 @@ def run(verbose=True):
     lm = LayerMapping(Fountain, fountain_shp,
                       fountain_mapping, transform=False)
     lm.save(strict=True, verbose=verbose)
+
+##############################################################################################################
+
+# septictank_mapping = {
+#     'name': 'Name',
+#     'area': 'Area',
+#     'geom': 'MULTIPOLYGON',
+# }
+
+# septic_tank_shp = Path(__file__).resolve().parent / \
+#     'Shapefiles' / 'Septic_tank.shp'
+
+
+# def run(verbose=True):
+#     lm = LayerMapping(SepticTank, septic_tank_shp,
+#                       septictank_mapping, transform=False)
+#     lm.save(strict=True, verbose=verbose)
+#################################################################################################################
+
+waterbody_mapping = {
+    'area': 'Area',
+    'wbtype': 'WBType',
+    'geom': 'MULTIPOLYGON',
+}
+
+
+waterbody_shp = Path(__file__).resolve().parent / \
+    'Shapefiles' / 'Water_body.shp'
+
+
+# def run(verbose=True):
+#     lm = LayerMapping(WaterBody, waterbody_shp,
+#                       waterbody_mapping, transform=False)
+#     lm.save(strict=True, verbose=verbose)

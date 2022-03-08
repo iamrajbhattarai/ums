@@ -9,6 +9,8 @@ router.register(r'boundary', viewset.BoundaryViewset)
 router.register(r'road', viewset.RoadViewset)
 router.register(r'ground', viewset.GroundViewset)
 router.register(r'fountain', viewset.FountainViewset)
+router.register(r'septic_tank', viewset.SepticTankViewset)
+router.register(r'waterbody', viewset.WaterBodyViewset)
 
 
 urlpatterns = [

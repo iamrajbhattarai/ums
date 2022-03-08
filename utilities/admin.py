@@ -49,3 +49,22 @@ class FountainAdmin(LeafletGeoAdmin):
 
 
 admin.site.register(Fountain, FountainAdmin)
+
+
+class SepticTankAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('id', )
+
+
+admin.site.register(SepticTank, SepticTankAdmin)
+
+
+class WaterBodyAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'wbtype')
+    search_fields = ('wbtype',)
+    list_filter = ('wbtype',)
+    ordering = ('id', )
+
+
+admin.site.register(WaterBody, WaterBodyAdmin)

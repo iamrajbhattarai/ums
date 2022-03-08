@@ -77,3 +77,17 @@ class FountainViewset(viewsets.ModelViewSet):
     queryset = Fountain.objects.all()
     serializer_class = FountainSerializer
     http_method_names = ['get']
+
+
+class SepticTankViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = SepticTank.objects.all()
+    serializer_class = SepticTankSerializer
+    http_method_names = ['get']
+
+
+class WaterBodyViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = WaterBody.objects.all()
+    serializer_class = WaterBodySerializer
+    http_method_names = ['get']

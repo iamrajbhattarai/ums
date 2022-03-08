@@ -43,3 +43,19 @@ class FountainSerializer(GeoFeatureModelSerializer):
         model = Fountain
         geo_field = 'geom'
         fields = '__all__'
+
+
+class SepticTankSerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = SepticTank
+        geo_field = 'geom'
+        fields = '__all__'
+
+
+class WaterBodySerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = WaterBody
+        geo_field = 'geom'
+        fields = '__all__'

@@ -30,3 +30,15 @@ class Ground(models.Model):
 class Fountain(models.Model):
     name = models.CharField(max_length=50)
     geom = models.MultiPolygonField(srid=4326)
+
+
+class SepticTank(models.Model):
+    name = models.CharField(max_length=50)
+    area = models.FloatField()
+    geom = models.MultiPolygonField(srid=4326)
+
+
+class WaterBody(models.Model):
+    wbtype = models.CharField(max_length=100)
+    area = models.FloatField()
+    geom = models.MultiPolygonField(srid=4326)
