@@ -31,6 +31,10 @@
                 {% endif %}
         </ul>
     </div>
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">&nbsp;
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
 {% endblock %}
 {% block content %}
     <div id="map"></div>
@@ -129,67 +133,73 @@
                             <fieldset id="layer0">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible0" checked disabled>
-                                    <label class="form-check-label" for="visible0">Boundary</label>
+                                    <label class="form-check-label" for="visible0"><img src="{% static 'utilities/legend/boundary.png' %}" alt="">&nbsp;&nbsp;Boundary</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer1">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible1" checked>
-                                    <label class="form-check-label" for="visible1">Building</label>
+                                    <label class="form-check-label" for="visible1"><img src="{% static 'utilities/legend/building.png' %}" alt="">&nbsp;&nbsp;Building</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer2">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible2" checked>
-                                    <label class="form-check-label" for="visible2">Ground</label>
+                                    <label class="form-check-label" for="visible2"><img src="{% static 'utilities/legend/ground.png' %}" alt="">&nbsp;&nbsp;Ground</label>
+                                </div>
+                            </fieldset>
+                            <fieldset id="layer3">
+                                <div class="form-check form-switch text-secondary">
+                                    <input class="form-check-input" type="checkbox" id="visible2" checked>
+                                    <label class="form-check-label" for="visible3"><img src="{% static 'utilities/legend/road.png' %}" alt="">&nbsp;&nbsp;Road</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer4">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible4" checked>
-                                    <label class="form-check-label" for="visible4">Fountain</label>
+                                    <label class="form-check-label" for="visible4"><img src="{% static 'utilities/legend/fountain.png' %}" alt="">&nbsp;&nbsp;Fountain</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer5">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible5" checked>
-                                    <label class="form-check-label" for="visible5">Septic Tank</label>
+                                    <label class="form-check-label" for="visible5"><img src="{% static 'utilities/legend/septictank.png' %}" alt="">&nbsp;&nbsp;Septic Tank</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer6">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible6" checked>
-                                    <label class="form-check-label" for="visible6">Water Body</label>
+                                    <label class="form-check-label" for="visible6"><img src="{% static 'utilities/legend/waterbody.png' %}" alt="">&nbsp;&nbsp;Water Body</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer7">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible7" checked>
-                                    <label class="form-check-label" for="visible7">Drainage</label>
+                                    <label class="form-check-label" for="visible7"><img src="{% static 'utilities/legend/drainage.png' %}" alt="">&nbsp;&nbsp;Drainage</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer8">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible8" checked>
-                                    <label class="form-check-label" for="visible8">Sewerline</label>
+                                    <label class="form-check-label" for="visible8"><img src="{% static 'utilities/legend/sewerline.png' %}" alt="">&nbsp;&nbsp;Sewerline</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer9">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible9" checked>
-                                    <label class="form-check-label" for="visible9">Transmission Line</label>
+                                    <label class="form-check-label" for="visible9"><img src="{% static 'utilities/legend/boundary.png' %}" alt="">&nbsp;&nbsp;Transmission Line</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer10">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible10" checked>
-                                    <label class="form-check-label" for="visible10">Street Lamp</label>
+                                    <label class="form-check-label" for="visible10"><img src="{% static 'utilities/legend/streetlamp.png' %}" alt="">&nbsp;&nbsp;Street Lamp</label>
                                 </div>
                             </fieldset>
                             <fieldset id="layer11">
                                 <div class="form-check form-switch text-secondary">
                                     <input class="form-check-input" type="checkbox" id="visible11" checked>
-                                    <label class="form-check-label" for="visible11">Electric Pole</label>
+                                    <label class="form-check-label" for="visible11"><img src="{% static 'utilities/legend/electriclamp.png' %}" alt="">&nbsp;&nbsp;Electric Pole</label>
                                 </div>
                             </fieldset>
                         </div>
