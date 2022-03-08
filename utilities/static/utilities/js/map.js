@@ -57,6 +57,14 @@ var cartoDarkLayer = new ol.layer.Tile({
 
 
 //utility overlays to display on the map
+var boundaryLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/boundary/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['boundary'],
+});
+
 var buildingsLayer = new ol.layer.Vector({
   source: new ol.source.Vector({
     url: 'http://localhost:8000/building/',
@@ -65,12 +73,12 @@ var buildingsLayer = new ol.layer.Vector({
   style: styles['building'],
 });
 
-var boundaryLayer = new ol.layer.Vector({
+var roadLayer = new ol.layer.Vector({
   source: new ol.source.Vector({
-    url: 'http://localhost:8000/boundary/',
+    url: 'http://localhost:8000/road/',
     format: new ol.format.GeoJSON(),
   }),
-  style: styles['boundary'],
+  style: styles['road'],
 });
 
 //BaseMap Layer Group
@@ -88,6 +96,7 @@ var overlayGroup = new ol.layer.Group({
   layers: [
     boundaryLayer,
     buildingsLayer,
+    roadLayer,
   ],
 });
 
@@ -99,7 +108,7 @@ let map = new ol.Map({
     controls: ol.control
       .defaults({ attributionOptions: {collapsed:true}}),
     view: new ol.View({
-      center: [85.5381, 27.6185],
+      center: [85.5361, 27.6185],
       // center: [9498023.86, 3217870.04],
       zoom: 18,
       projection: 'EPSG:4326',
@@ -120,7 +129,7 @@ map.addControl(scaleline);
 var mousePositionControl = new ol.control.MousePosition({
   coordinateFormat: ol.coordinate.createStringXY(4),
   projection: "EPSG:4326",
-  emptyString: "Out of Map Area",
+  emptyString: "Out of Map",
   className: "display-coordinate",
   target: document.getElementById("display-coordinate"),
 });

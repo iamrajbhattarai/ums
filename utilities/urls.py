@@ -6,6 +6,7 @@ from . import viewset
 router = DefaultRouter()
 router.register(r'building', viewset.BuildingViewSet)
 router.register(r'boundary', viewset.BoundaryViewset)
+router.register(r'road', viewset.RoadViewset)
 
 
 urlpatterns = [

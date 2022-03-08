@@ -14,3 +14,8 @@ class Building(models.Model):
     names = models.CharField(max_length=150)
     area = models.FloatField()
     geom = models.MultiPolygonField(srid=4326)
+
+
+class Road(models.Model):
+    name = models.CharField(max_length=50)
+    geom = models.PolygonField(srid=4326)

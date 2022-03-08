@@ -2,7 +2,7 @@ from django.contrib import admin
 # from django.contrib.gis import admin
 from leaflet.admin import LeafletGeoAdmin
 
-from .models import Boundary, Building
+from .models import *
 
 # Register your models here.
 
@@ -22,3 +22,12 @@ class BuildingAdmin(LeafletGeoAdmin):
 
 
 admin.site.register(Building, BuildingAdmin)
+
+
+class RoadAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('id', )
+
+
+admin.site.register(Road, RoadAdmin)

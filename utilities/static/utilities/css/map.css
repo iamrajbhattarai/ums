@@ -18,11 +18,22 @@
 }
 
 .scale-line {
-    size: 5rem;
     position: absolute;
     left: 92%;
     top: 100vh;
     z-index: 1;
+}
+
+.ol-scale-line-inner {
+    /* background-color: #383838; */
+    border: 1px solid #ff7600;
+    border-top: none;
+    color: #ff0100;
+    font-size: 15px;
+    text-align: center;
+    margin: 1px;
+    will-change: contents,width;
+    transition: all .25s;
 }
 
 .overviewmap {
@@ -40,8 +51,9 @@
 }
 
 .display-coordinate {
+    font-size: 18px;
     position: absolute;
-    left: 42%;
+    left: 52%;
     top: 96%;
     color: rgb(253, 253, 253);
     background-color: rgb(216, 148, 0);

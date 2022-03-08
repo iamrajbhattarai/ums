@@ -16,27 +16,39 @@ var styles = {
         }),
       }),
 
-    'building': new ol.style.Style({
-      stroke: new ol.style.Stroke({
-        color: 'black',
-        // lineDash: [4],
-        width: 2,
-      }),
-      fill: new ol.style.Fill({
-        // color: 'rgba(0, 0, 255, 0.1)',
-        color: '#FFF',
-      }),
-    }),
     'boundary': new ol.style.Style({
-      stroke: new ol.style.Stroke({
-        color: 'black',
-        // lineDash: [4],
-        width: 2,
+        stroke: new ol.style.Stroke({
+          color: 'black',
+          // lineDash: [4],
+          width: 2,
+        }),
+        fill: new ol.style.Fill({
+          // color: 'rgba(0, 0, 255, 0.1)',
+          color: '#F7F7F7',
+        }),
       }),
-      fill: new ol.style.Fill({
-        // color: 'rgba(0, 0, 255, 0.1)',
-        color: '#F7F7F7',
+
+    'building': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'black',
+          // lineDash: [4],
+          width: 2,
+        }),
+        fill: new ol.style.Fill({
+          // color: 'rgba(0, 0, 255, 0.1)',
+          color: '#FFF',
+        }),
       }),
-    }),
+
+    'road': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'green',
+          // lineDash: [4],
+          width: 2,
+        }),
+        fill: new ol.style.Fill({
+          color: 'rgba(0, 0, 255, 0.1)',
+        }),
+      }),
 
   }

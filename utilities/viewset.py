@@ -56,3 +56,10 @@ class BoundaryViewset(viewsets.ModelViewSet):
     queryset = Boundary.objects.all()
     serializer_class = BoundarySerializer
     http_method_names = ['get']
+
+
+class RoadViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = Road.objects.all()
+    serializer_class = RoadSerializer
+    http_method_names = ['get']
