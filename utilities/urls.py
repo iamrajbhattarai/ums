@@ -1,17 +1,29 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from . import views
+from . import viewset
 
 router = DefaultRouter()
-router.register(r'buildings', views.BuildingsViewSet)
+router.register(r'building', viewset.BuildingViewSet)
+router.register(r'boundary', viewset.BoundaryViewset)
+router.register(r'road', viewset.RoadViewset)
+router.register(r'ground', viewset.GroundViewset)
+router.register(r'fountain', viewset.FountainViewset)
+router.register(r'septic_tank', viewset.SepticTankViewset)
+router.register(r'waterbody', viewset.WaterBodyViewset)
+router.register(r'drainage', viewset.DrainageViewset)
+router.register(r'sewerline', viewset.SewerlineViewset)
+router.register(r'transmissionline', viewset.TransmissionLineViewset)
+router.register(r'streetlamp', viewset.StreetLampViewset)
+router.register(r'electricpole', viewset.ElectricPoleViewset)
+
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('home/', views.home, name='homepage'),
-    path('map/', views.webmap, name='webmap'),
+    path('home/', viewset.home, name='homepage'),
+    path('map/', viewset.webmap, name='webmap'),
     # path('user/', include('django.contrib.auth.urls')),
-    path('login/', views.signIn, name='signIn'),
-    path('logout/', views.signOut, name='signOut'),
+    path('login/', viewset.signIn, name='signIn'),
+    path('logout/', viewset.signOut, name='signOut'),
 
 ]

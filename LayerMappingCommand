@@ -1,0 +1,1 @@
+python manage.py ogrinspect utilities/Shapefiles/Road.shp Road --srid=4326 --mapping

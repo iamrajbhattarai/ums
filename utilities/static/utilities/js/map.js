@@ -57,14 +57,102 @@ var cartoDarkLayer = new ol.layer.Tile({
 
 
 //utility overlays to display on the map
-var buildingsLayer = new ol.layer.Vector({
+var boundaryLayer = new ol.layer.Vector({
   source: new ol.source.Vector({
-    url: 'http://localhost:8000/buildings/',
+    url: 'http://localhost:8000/boundary/',
     format: new ol.format.GeoJSON(),
   }),
-  style: styles['buildings'],
+  style: styles['boundary'],
 });
 
+var buildingsLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/building/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['building'],
+});
+
+var groundLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/ground/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['ground'],
+});
+
+
+var roadLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/road/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['road'],
+});
+
+var fountainLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/fountain/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['fountain'],
+});
+
+var septicTankLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/septic_tank/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['septicTank'],
+});
+
+var waterbodyLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/waterbody/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['waterbody'],
+});
+
+var drainageLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/drainage/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['drainage'],
+});
+
+var sewerlineLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/sewerline/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['sewerline'],
+});
+
+var transmissionlineLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/transmissionline/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['transmissionline'],
+});
+
+var streetlampLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/streetlamp/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['streetlamp'],
+});
+
+var electricpoleLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/electricpole/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['electricpole'],
+});
 
 //BaseMap Layer Group
 var baselayerGroup = new ol.layer.Group({
@@ -79,7 +167,18 @@ var baselayerGroup = new ol.layer.Group({
 //utility layer group
 var overlayGroup = new ol.layer.Group({
   layers: [
+    boundaryLayer,
     buildingsLayer,
+    groundLayer,
+    roadLayer,
+    fountainLayer,
+    septicTankLayer,
+    waterbodyLayer,
+    drainageLayer,
+    sewerlineLayer,
+    transmissionlineLayer,
+    streetlampLayer,
+    electricpoleLayer,
   ],
 });
 
@@ -88,15 +187,36 @@ var overlayGroup = new ol.layer.Group({
 let map = new ol.Map({
     target: 'map',
     layers: [baselayerGroup, overlayGroup, measureLayer],
+    controls: ol.control
+      .defaults({ attributionOptions: {collapsed:true}}),
     view: new ol.View({
-      center: [85.3222, 27.753014],
+      center: [85.5361, 27.6185],
       // center: [9498023.86, 3217870.04],
-      zoom: 19,
+      zoom: 18,
       projection: 'EPSG:4326',
       // projection: 'EPSG:3857',
       multiWorld: true,
     })
   });
+
+//lets add basic web map components
+
+// add scale bar to the map
+var scaleline = new ol.control.ScaleLine({
+  target: document.getElementById("scale-line"),
+});
+map.addControl(scaleline);
+
+//display Coordinates of Map Area
+var mousePositionControl = new ol.control.MousePosition({
+  coordinateFormat: ol.coordinate.createStringXY(4),
+  projection: "EPSG:4326",
+  emptyString: "Out of Map",
+  className: "display-coordinate",
+  target: document.getElementById("display-coordinate"),
+});
+map.addControl(mousePositionControl);
+
 
 //logic for functioning of baselayers selector
 const baselayers = $("input[type='radio'][name='basemap']");
