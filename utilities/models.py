@@ -57,3 +57,13 @@ class Sewerline(models.Model):
 class TransmissionLine(models.Model):
     name = models.CharField(max_length=50)
     geom = models.MultiLineStringField(srid=4326)
+
+
+class StreetLamp(models.Model):
+    name = models.CharField(max_length=50)
+    geom = models.PointField(srid=4326)
+
+
+class ElectricPole(models.Model):
+    name = models.CharField(max_length=50)
+    geom = models.PointField(srid=4326)

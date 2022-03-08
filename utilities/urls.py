@@ -14,6 +14,8 @@ router.register(r'waterbody', viewset.WaterBodyViewset)
 router.register(r'drainage', viewset.DrainageViewset)
 router.register(r'sewerline', viewset.SewerlineViewset)
 router.register(r'transmissionline', viewset.TransmissionLineViewset)
+router.register(r'streetlamp', viewset.StreetLampViewset)
+router.register(r'electricpole', viewset.ElectricPoleViewset)
 
 
 urlpatterns = [

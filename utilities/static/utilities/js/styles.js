@@ -116,4 +116,18 @@ var styles = {
           width: 2,
         }),
       }),
+      'streetlamp': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'blue',
+          // lineDash: [4],
+          width: 2,
+        }),
+      }),
+      'electricpole': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'green',
+          // lineDash: [4],
+          width: 2,
+        }),
+      }),
   }

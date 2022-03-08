@@ -112,3 +112,17 @@ class TransmissionLineViewset(viewsets.ModelViewSet):
     queryset = Sewerline.objects.all()
     serializer_class = TransmissionLineSerializer
     http_method_names = ['get']
+
+
+class StreetLampViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = StreetLamp.objects.all()
+    serializer_class = StreetLampSerializer
+    http_method_names = ['get']
+
+
+class ElectricPoleViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = ElectricPole.objects.all()
+    serializer_class = ElectricPoleSerializer
+    http_method_names = ['get']

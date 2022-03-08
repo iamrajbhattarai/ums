@@ -95,3 +95,21 @@ class TransmissionLineAdmin(LeafletGeoAdmin):
 
 
 admin.site.register(TransmissionLine, TransmissionLineAdmin)
+
+
+class StreetLampAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('id', )
+
+
+admin.site.register(StreetLamp, StreetLampAdmin)
+
+
+class ElectricPoleAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('id', )
+
+
+admin.site.register(ElectricPole, ElectricPoleAdmin)

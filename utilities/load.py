@@ -148,16 +148,47 @@ from .models import *
 
 #############################################################
 
-transmissionline_mapping = {
+# transmissionline_mapping = {
+#     'name': 'Name',
+#     'geom': 'MULTILINESTRING',
+# }
+
+# transmissionline_shp = Path(__file__).resolve().parent / \
+#     'Shapefiles' / 'Transmission_line.shp'
+
+
+# def run(verbose=True):
+#     lm = LayerMapping(TransmissionLine, transmissionline_shp,
+#                       transmissionline_mapping, transform=False)
+#     lm.save(strict=True, verbose=verbose)
+
+###########################################################################
+
+# streetlamp_mapping = {
+#     'name': 'Name',
+#     'geom': 'POINT',
+# }
+
+# streetlamp_shp = Path(__file__).resolve().parent / \
+#     'Shapefiles' / 'Street_lamp.shp'
+
+# def run(verbose=True):
+#     lm = LayerMapping(StreetLamp, streetlamp_shp,
+#                       streetlamp_mapping, transform=False)
+#     lm.save(strict=True, verbose=verbose)
+
+#########################################################################
+
+electricpole_mapping = {
     'name': 'Name',
-    'geom': 'MULTILINESTRING',
+    'geom': 'POINT',
 }
 
-transmissionline_shp = Path(__file__).resolve().parent / \
-    'Shapefiles' / 'Transmission_line.shp'
+electricpole_shp = Path(__file__).resolve().parent / \
+    'Shapefiles' / 'Electric_lamp.shp'
 
 
 def run(verbose=True):
-    lm = LayerMapping(TransmissionLine, transmissionline_shp,
-                      transmissionline_mapping, transform=False)
+    lm = LayerMapping(ElectricPole, electricpole_shp,
+                      electricpole_mapping, transform=False)
     lm.save(strict=True, verbose=verbose)

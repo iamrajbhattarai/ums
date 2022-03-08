@@ -138,6 +138,22 @@ var transmissionlineLayer = new ol.layer.Vector({
   style: styles['transmissionline'],
 });
 
+var streetlampLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/streetlamp/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['streetlamp'],
+});
+
+var electricpoleLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/electricpole/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['electricpole'],
+});
+
 //BaseMap Layer Group
 var baselayerGroup = new ol.layer.Group({
   layers: [
@@ -161,6 +177,8 @@ var overlayGroup = new ol.layer.Group({
     drainageLayer,
     sewerlineLayer,
     transmissionlineLayer,
+    streetlampLayer,
+    electricpoleLayer,
   ],
 });
 

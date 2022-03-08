@@ -83,3 +83,19 @@ class TransmissionLineSerializer(GeoFeatureModelSerializer):
         model = TransmissionLine
         geo_field = 'geom'
         fields = '__all__'
+
+
+class StreetLampSerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = StreetLamp
+        geo_field = 'geom'
+        fields = '__all__'
+
+
+class ElectricPoleSerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = StreetLamp
+        geo_field = 'geom'
+        fields = '__all__'
