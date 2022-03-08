@@ -86,3 +86,12 @@ class SewerlineAdmin(LeafletGeoAdmin):
 
 
 admin.site.register(Sewerline, SewerlineAdmin)
+
+
+class TransmissionLineAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('id', )
+
+
+admin.site.register(TransmissionLine, TransmissionLineAdmin)

@@ -13,6 +13,7 @@ router.register(r'septic_tank', viewset.SepticTankViewset)
 router.register(r'waterbody', viewset.WaterBodyViewset)
 router.register(r'drainage', viewset.DrainageViewset)
 router.register(r'sewerline', viewset.SewerlineViewset)
+router.register(r'transmissionline', viewset.TransmissionLineViewset)
 
 
 urlpatterns = [

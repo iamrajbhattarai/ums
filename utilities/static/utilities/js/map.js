@@ -130,6 +130,14 @@ var sewerlineLayer = new ol.layer.Vector({
   style: styles['sewerline'],
 });
 
+var transmissionlineLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/transmissionline/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['transmissionline'],
+});
+
 //BaseMap Layer Group
 var baselayerGroup = new ol.layer.Group({
   layers: [
@@ -152,6 +160,7 @@ var overlayGroup = new ol.layer.Group({
     waterbodyLayer,
     drainageLayer,
     sewerlineLayer,
+    transmissionlineLayer,
   ],
 });
 

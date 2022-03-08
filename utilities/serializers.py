@@ -75,3 +75,11 @@ class SewerlineSerializer(GeoFeatureModelSerializer):
         model = Sewerline
         geo_field = 'geom'
         fields = '__all__'
+
+
+class TransmissionLineSerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = TransmissionLine
+        geo_field = 'geom'
+        fields = '__all__'

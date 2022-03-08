@@ -132,16 +132,32 @@ from .models import *
 #     lm.save(strict=True, verbose=verbose)
 
 ######################################################
-sewerline_mapping = {
+# sewerline_mapping = {
+#     'name': 'Name',
+#     'geom': 'MULTILINESTRING',
+# }
+
+# sewerline_shp = Path(__file__).resolve().parent / \
+#     'Shapefiles' / 'Sewer_line.shp'
+
+
+# def run(verbose=True):
+#     lm = LayerMapping(Sewerline, sewerline_shp,
+#                       sewerline_mapping, transform=False)
+#     lm.save(strict=True, verbose=verbose)
+
+#############################################################
+
+transmissionline_mapping = {
     'name': 'Name',
-    'geom': 'LINESTRING',
+    'geom': 'MULTILINESTRING',
 }
 
-sewerline_shp = Path(__file__).resolve().parent / \
-    'Shapefiles' / 'Drain.shp'
+transmissionline_shp = Path(__file__).resolve().parent / \
+    'Shapefiles' / 'Transmission_line.shp'
 
 
 def run(verbose=True):
-    lm = LayerMapping(Sewerline, sewerline_shp,
-                      sewerline_mapping, transform=False)
+    lm = LayerMapping(TransmissionLine, transmissionline_shp,
+                      transmissionline_mapping, transform=False)
     lm.save(strict=True, verbose=verbose)

@@ -52,3 +52,8 @@ class Drainage(models.Model):
 class Sewerline(models.Model):
     name = models.CharField(max_length=50)
     geom = models.MultiLineStringField(srid=4326)
+
+
+class TransmissionLine(models.Model):
+    name = models.CharField(max_length=50)
+    geom = models.MultiLineStringField(srid=4326)

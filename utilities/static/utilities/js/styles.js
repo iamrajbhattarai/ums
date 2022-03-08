@@ -109,4 +109,11 @@ var styles = {
           width: 2,
         }),
       }),
+      'transmissionline': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'black',
+          // lineDash: [4],
+          width: 2,
+        }),
+      }),
   }
