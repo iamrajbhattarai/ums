@@ -19,3 +19,14 @@ class Building(models.Model):
 class Road(models.Model):
     name = models.CharField(max_length=50)
     geom = models.PolygonField(srid=4326)
+
+
+class Ground(models.Model):
+    name = models.CharField(max_length=50)
+    area = models.FloatField()
+    geom = models.MultiPolygonField(srid=4326)
+
+
+class Fountain(models.Model):
+    name = models.CharField(max_length=50)
+    geom = models.MultiPolygonField(srid=4326)

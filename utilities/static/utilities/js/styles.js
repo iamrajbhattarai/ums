@@ -51,4 +51,27 @@ var styles = {
         }),
       }),
 
+    'ground': new ol.style.Style({
+        // stroke: new ol.style.Stroke({
+        //   color: 'green',
+        //   // lineDash: [4],
+        //   width: 2,
+        // }),
+        fill: new ol.style.Fill({
+          color: '#86B1DD',
+        }),
+      }),
+
+      'fountain': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'green',
+          // lineDash: [4],
+          width: 2,
+        }),
+        fill: new ol.style.Fill({
+          color: 'blue',
+        }),
+      }),
+
+
   }

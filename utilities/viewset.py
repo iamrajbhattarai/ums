@@ -63,3 +63,17 @@ class RoadViewset(viewsets.ModelViewSet):
     queryset = Road.objects.all()
     serializer_class = RoadSerializer
     http_method_names = ['get']
+
+
+class GroundViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = Ground.objects.all()
+    serializer_class = GroundSerializer
+    http_method_names = ['get']
+
+
+class FountainViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = Fountain.objects.all()
+    serializer_class = FountainSerializer
+    http_method_names = ['get']

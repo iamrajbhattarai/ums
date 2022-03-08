@@ -36,17 +36,48 @@ from .models import *
 #     lm.save(strict=True, verbose=verbose)
 ###########################################################################################################
 
-road_mapping = {
+# road_mapping = {
+#     'name': 'Name',
+#     'geom': 'POLYGON',
+# }
+
+
+# road_shp = Path(__file__).resolve().parent / \
+#     'Shapefiles' / 'Road.shp'
+
+
+# def run(verbose=True):
+#     lm = LayerMapping(Road, road_shp,
+#                       road_mapping, transform=False)
+#     lm.save(strict=True, verbose=verbose)
+###########################################################################################################
+
+# ground_mapping = {
+#     'name': 'Name',
+#     'area': 'Area',
+#     'geom': 'MULTIPOLYGON',
+# }
+
+# ground_shp = Path(__file__).resolve().parent / \
+#     'Shapefiles' / 'Ground.shp'
+
+
+# def run(verbose=True):
+#     lm = LayerMapping(Ground, ground_shp,
+#                       ground_mapping, transform=False)
+#     lm.save(strict=True, verbose=verbose)
+##############################################################################################################
+
+fountain_mapping = {
     'name': 'Name',
-    'geom': 'POLYGON',
+    'geom': 'MULTIPOLYGON',
 }
 
-
-road_shp = Path(__file__).resolve().parent / \
-    'Shapefiles' / 'Road.shp'
+fountain_shp = Path(__file__).resolve().parent / \
+    'Shapefiles' / 'Fountain.shp'
 
 
 def run(verbose=True):
-    lm = LayerMapping(Road, road_shp,
-                      road_mapping, transform=False)
+    lm = LayerMapping(Fountain, fountain_shp,
+                      fountain_mapping, transform=False)
     lm.save(strict=True, verbose=verbose)

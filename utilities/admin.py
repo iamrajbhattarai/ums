@@ -31,3 +31,21 @@ class RoadAdmin(LeafletGeoAdmin):
 
 
 admin.site.register(Road, RoadAdmin)
+
+
+class GroundAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('id', )
+
+
+admin.site.register(Ground, GroundAdmin)
+
+
+class FountainAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('id', )
+
+
+admin.site.register(Fountain, FountainAdmin)

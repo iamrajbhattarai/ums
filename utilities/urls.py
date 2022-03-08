@@ -7,6 +7,8 @@ router = DefaultRouter()
 router.register(r'building', viewset.BuildingViewSet)
 router.register(r'boundary', viewset.BoundaryViewset)
 router.register(r'road', viewset.RoadViewset)
+router.register(r'ground', viewset.GroundViewset)
+router.register(r'fountain', viewset.FountainViewset)
 
 
 urlpatterns = [

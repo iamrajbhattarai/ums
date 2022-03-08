@@ -73,6 +73,15 @@ var buildingsLayer = new ol.layer.Vector({
   style: styles['building'],
 });
 
+var groundLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/ground/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['ground'],
+});
+
+
 var roadLayer = new ol.layer.Vector({
   source: new ol.source.Vector({
     url: 'http://localhost:8000/road/',
@@ -81,6 +90,13 @@ var roadLayer = new ol.layer.Vector({
   style: styles['road'],
 });
 
+var fountainLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/fountain/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['fountain'],
+});
 //BaseMap Layer Group
 var baselayerGroup = new ol.layer.Group({
   layers: [
@@ -96,7 +112,9 @@ var overlayGroup = new ol.layer.Group({
   layers: [
     boundaryLayer,
     buildingsLayer,
+    groundLayer,
     roadLayer,
+    fountainLayer,
   ],
 });
 

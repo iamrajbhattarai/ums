@@ -27,3 +27,19 @@ class RoadSerializer(GeoFeatureModelSerializer):
         model = Road
         geo_field = 'geom'
         fields = '__all__'
+
+
+class GroundSerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = Ground
+        geo_field = 'geom'
+        fields = '__all__'
+
+
+class FountainSerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = Fountain
+        geo_field = 'geom'
+        fields = '__all__'

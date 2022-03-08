@@ -61,7 +61,7 @@ function displayComplaints() {
 function defaultExtent() {
   map.setView(
     new ol.View({
-      center: [85.5381, 27.6185],
+      center: [85.5361, 27.6185],
       zoom: 18,
       projection: "EPSG:4326",
       multiWorld: true,
