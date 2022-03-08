@@ -68,3 +68,21 @@ class WaterBodyAdmin(LeafletGeoAdmin):
 
 
 admin.site.register(WaterBody, WaterBodyAdmin)
+
+
+class DrainageAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('id', )
+
+
+admin.site.register(Drainage, DrainageAdmin)
+
+
+class SewerlineAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    ordering = ('id', )
+
+
+admin.site.register(Sewerline, SewerlineAdmin)

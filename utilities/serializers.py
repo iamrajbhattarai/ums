@@ -59,3 +59,19 @@ class WaterBodySerializer(GeoFeatureModelSerializer):
         model = WaterBody
         geo_field = 'geom'
         fields = '__all__'
+
+
+class DrainageSerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = Drainage
+        geo_field = 'geom'
+        fields = '__all__'
+
+
+class SewerlineSerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = Sewerline
+        geo_field = 'geom'
+        fields = '__all__'

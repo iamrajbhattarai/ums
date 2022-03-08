@@ -95,4 +95,18 @@ var styles = {
         }),
       }),
 
+      'drainage': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'green',
+          lineDash: [4],
+          width: 2,
+        }),
+      }),
+      'sewerline': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'red',
+          // lineDash: [4],
+          width: 2,
+        }),
+      }),
   }

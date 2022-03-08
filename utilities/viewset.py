@@ -91,3 +91,17 @@ class WaterBodyViewset(viewsets.ModelViewSet):
     queryset = WaterBody.objects.all()
     serializer_class = WaterBodySerializer
     http_method_names = ['get']
+
+
+class DrainageViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = Drainage.objects.all()
+    serializer_class = DrainageSerializer
+    http_method_names = ['get']
+
+
+class SewerlineViewset(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = Sewerline.objects.all()
+    serializer_class = SewerlineSerializer
+    http_method_names = ['get']

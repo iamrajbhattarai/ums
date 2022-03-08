@@ -114,6 +114,22 @@ var waterbodyLayer = new ol.layer.Vector({
   style: styles['waterbody'],
 });
 
+var drainageLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/waterbody/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['drainage'],
+});
+
+var sewerlineLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/sewerline/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['sewerline'],
+});
+
 //BaseMap Layer Group
 var baselayerGroup = new ol.layer.Group({
   layers: [
@@ -134,6 +150,8 @@ var overlayGroup = new ol.layer.Group({
     fountainLayer,
     septicTankLayer,
     waterbodyLayer,
+    drainageLayer,
+    sewerlineLayer,
   ],
 });
 

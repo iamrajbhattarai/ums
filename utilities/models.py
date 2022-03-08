@@ -42,3 +42,13 @@ class WaterBody(models.Model):
     wbtype = models.CharField(max_length=100)
     area = models.FloatField()
     geom = models.MultiPolygonField(srid=4326)
+
+
+class Drainage(models.Model):
+    name = models.CharField(max_length=50)
+    geom = models.MultiLineStringField(srid=4326)
+
+
+class Sewerline(models.Model):
+    name = models.CharField(max_length=50)
+    geom = models.MultiLineStringField(srid=4326)

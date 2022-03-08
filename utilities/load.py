@@ -68,19 +68,19 @@ from .models import *
 #     lm.save(strict=True, verbose=verbose)
 ##############################################################################################################
 
-fountain_mapping = {
-    'name': 'Name',
-    'geom': 'MULTIPOLYGON',
-}
+# fountain_mapping = {
+#     'name': 'Name',
+#     'geom': 'MULTIPOLYGON',
+# }
 
-fountain_shp = Path(__file__).resolve().parent / \
-    'Shapefiles' / 'Fountain.shp'
+# fountain_shp = Path(__file__).resolve().parent / \
+#     'Shapefiles' / 'Fountain.shp'
 
 
-def run(verbose=True):
-    lm = LayerMapping(Fountain, fountain_shp,
-                      fountain_mapping, transform=False)
-    lm.save(strict=True, verbose=verbose)
+# def run(verbose=True):
+#     lm = LayerMapping(Fountain, fountain_shp,
+#                       fountain_mapping, transform=False)
+#     lm.save(strict=True, verbose=verbose)
 
 ##############################################################################################################
 
@@ -100,18 +100,48 @@ def run(verbose=True):
 #     lm.save(strict=True, verbose=verbose)
 #################################################################################################################
 
-waterbody_mapping = {
-    'area': 'Area',
-    'wbtype': 'WBType',
-    'geom': 'MULTIPOLYGON',
-}
+# waterbody_mapping = {
+#     'area': 'Area',
+#     'wbtype': 'WBType',
+#     'geom': 'MULTIPOLYGON',
+# }
 
 
-waterbody_shp = Path(__file__).resolve().parent / \
-    'Shapefiles' / 'Water_body.shp'
+# waterbody_shp = Path(__file__).resolve().parent / \
+#     'Shapefiles' / 'Water_body.shp'
 
 
 # def run(verbose=True):
 #     lm = LayerMapping(WaterBody, waterbody_shp,
 #                       waterbody_mapping, transform=False)
 #     lm.save(strict=True, verbose=verbose)
+
+#############################################################################################################################
+
+# drainage_mapping = {
+#     'name': 'Name',
+#     'geom': 'MULTILINESTRING',
+# }
+
+# drainage_shp = Path(__file__).resolve().parent / \
+#     'Shapefiles' / 'Drain.shp'
+
+# def run(verbose=True):
+#     lm = LayerMapping(Drainage, drainage_shp,
+#                       drainage_mapping, transform=False)
+#     lm.save(strict=True, verbose=verbose)
+
+######################################################
+sewerline_mapping = {
+    'name': 'Name',
+    'geom': 'LINESTRING',
+}
+
+sewerline_shp = Path(__file__).resolve().parent / \
+    'Shapefiles' / 'Drain.shp'
+
+
+def run(verbose=True):
+    lm = LayerMapping(Sewerline, sewerline_shp,
+                      sewerline_mapping, transform=False)
+    lm.save(strict=True, verbose=verbose)
