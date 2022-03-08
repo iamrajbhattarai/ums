@@ -109,7 +109,7 @@ class SewerlineViewset(viewsets.ModelViewSet):
 
 class TransmissionLineViewset(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated]
-    queryset = Sewerline.objects.all()
+    queryset = TransmissionLine.objects.all()
     serializer_class = TransmissionLineSerializer
     http_method_names = ['get']
 

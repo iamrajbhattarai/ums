@@ -96,6 +96,6 @@ class StreetLampSerializer(GeoFeatureModelSerializer):
 class ElectricPoleSerializer(GeoFeatureModelSerializer):
 
     class Meta:
-        model = StreetLamp
+        model = ElectricPole
         geo_field = 'geom'
         fields = '__all__'

@@ -122,12 +122,24 @@ var styles = {
           // lineDash: [4],
           width: 2,
         }),
+        image: new ol.style.Circle({
+          radius: 7,
+          fill: new ol.style.Fill({
+            color: '#ffcc33',
+          }),
+        }),
       }),
       'electricpole': new ol.style.Style({
         stroke: new ol.style.Stroke({
           color: 'green',
           // lineDash: [4],
           width: 2,
+        }),
+        image: new ol.style.Circle({
+          radius: 7,
+          fill: new ol.style.Fill({
+            color: 'blue',
+          }),
         }),
       }),
   }

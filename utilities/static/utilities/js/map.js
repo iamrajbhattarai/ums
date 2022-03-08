@@ -116,7 +116,7 @@ var waterbodyLayer = new ol.layer.Vector({
 
 var drainageLayer = new ol.layer.Vector({
   source: new ol.source.Vector({
-    url: 'http://localhost:8000/waterbody/',
+    url: 'http://localhost:8000/drainage/',
     format: new ol.format.GeoJSON(),
   }),
   style: styles['drainage'],
