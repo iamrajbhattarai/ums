@@ -110,7 +110,7 @@
                     </nav>
                 </div>
                 <div class="col">
-                        <div class="panel-body-parts d-none" id="layers">
+                        <div class="panel-body-parts" id="layers">
                             <h6 class="layer-title">Base Layers</h6>
                             <div class="form-check form-switch text-secondary">
                                 <input class="form-check-input" type="radio" name = "basemap" id="basemap0" value='OSM' unchecked>
@@ -203,8 +203,20 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <div class="panel-body-parts d-none" id="query-feature">
-                            <div class="form-group">
+                        <div class="panel-body-parts" id="query-feature">
+                            <div class="dropdown">
+                                <label class="layer-title" for="title">Feature Of</label>
+                                <button class="btn btn-light dropdown-toggle" type="button" id="select-layer" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 10px;">
+                                    Select a layer
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="select-layer">
+                                  <li><a class="dropdown-item" href="#">Complaint</a></li>
+                                  <li><a class="dropdown-item" href="#">Building</a></li>
+                                  <li><a class="dropdown-item" href="#">Road</a></li>
+                                  <li><a class="dropdown-item" href="#">Fountain</a></li>
+                                </ul>
+                            </div>
+                            <!-- <div class="form-group">
                                 <label class="layer-title" for="title">Feature Of</label>
                                 <select class="form-control" id="featureOf" style="width: 150px;">
                                     <option>Complaints</option>
@@ -220,10 +232,11 @@
                                     <option>Drainage Point</option>
                                     <option>Temple</option>
                                 </select>
-                            </div>
-                            <button class="btn btn-warning" style="width:45%" id="query" onclick="clickQuery()">Query</button>
+                            </div> -->
+                            <br>
+                            <button class="btn btn-warning" style="width:35%" id="query" onclick="clickQuery()">Query</button>
                         </div>
-                        <div class="panel-body-parts d-none" id="complaints">
+                        <div class="panel-body-parts" id="complaints">
                             <div class="form-group text-light">
                                 <label for="title">Problem:</label>
                                 <input type="text" class="form-control" id="problem" />
@@ -242,7 +255,7 @@
                                 <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
                             </div>
                             <button class="btn btn-warning " style="width:45%" onclick="drawComplaints()">Add</button>
-                            <button class="btn btn-primary d-none" style="width:45%"
+                            <button class="btn btn-primary" style="width:45%"
                                 onclick="deleteBuilding()">Delete</button>
                         </div>
                 </div>
