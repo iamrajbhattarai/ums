@@ -69,6 +69,11 @@ function defaultExtent() {
   );
 }
 
+// feature of dropdown menu item display and selction
+ $(".dropdown-menu").on('click', 'li a', function(){
+    $("#select-layer").text($(this).text());
+    $("#select-layer").val($(this).text());
+ });
 /*************************************************************************/
 
 // //creating a vector layer to draw upon

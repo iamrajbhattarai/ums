@@ -2,7 +2,7 @@
 #You can change pgadmin email and password accordingly.
 
 POSTGRES_USER=postgres
-POSTGRES_DB=postgres
+POSTGRES_DB=utilities
 POSTGRES_PASSWORD=postgres
 PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
 PGADMIN_DEFAULT_PASSWORD=root
