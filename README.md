@@ -73,22 +73,24 @@ For viewing logs of your docker services.
      template1        | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
                       |          |          |            |            | postgres=CTc/postgres
      template_postgis | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
-    (4 rows)
+     utilities        | postgres | UTF8     | en_US.utf8 | en_US.utf8 |   
+    (5 rows)
 
-    postgres=# DROP DATABASE postgres;
+    postgres=# DROP DATABASE utilities;
     DROP DATABASE
     postgres=# \l
                                         List of databases
            Name       |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
     ------------------+----------+----------+------------+------------+-----------------------
+     postgres         | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
      template0        | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
                       |          |          |            |            | postgres=CTc/postgres
      template1        | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
                       |          |          |            |            | postgres=CTc/postgres
      template_postgis | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
-    (3 rows)
+    (4 rows)
 
-    postgres=# CREATE DATABASE postgres;
+    postgres=# CREATE DATABASE utilities;
     CREATE DATABASE
 
     postgres=# exit
@@ -96,4 +98,4 @@ For viewing logs of your docker services.
     bash-4.4# cd var/lib/postgresql/data
     ****if error change one path at a time or might need to change to admin/root****
     **** Copy the dump file inside db directory by navigating as: [project root] > data > db ****
-    bash-4.4# psql -U postgres -d postgres -f postgres.sql
+    bash-4.4# psql -U postgres -d utilities -f utilities.sql
