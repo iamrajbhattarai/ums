@@ -21,6 +21,10 @@ const continueLineMsg = 'Click to continue drawing the line';
 // Handle pointer move.
 let draw; // global so we can remove it later
 
+let listener;
+let select;
+let currentLayer;
+
 function measure(type){
   clearDraw();
   const pointerMoveHandler = function (evt) {
@@ -109,7 +113,7 @@ function measure(type){
     createMeasureTooltip();
     createHelpTooltip();
 
-    let listener;
+    // let listener;
     draw.on('drawstart', function (evt) {
       // set sketch
       sketch = evt.feature;
@@ -184,8 +188,91 @@ function measure(type){
 // // function to reset everything drawn and interaction
 function clearDraw() {
   map.removeInteraction(draw);
+  map.removeInteraction(select);
   source.clear();
   map.removeOverlay(helpTooltip);
   map.removeOverlay(measureTooltip);
   removeElementsByClass('ol-tooltip ol-tooltip-static');
+}
+
+// //creating a dictionary which links the inputs from the user to its associated layers. This is used for achieving clickQuery function
+var layerDict = {
+  "Boundary": boundaryLayer,
+  "Building": buildingsLayer,
+  "Ground": groundLayer,
+  "Road": roadLayer,
+  "Fountain": fountainLayer,
+  "Septic Tank": septicTankLayer,
+  "Water Body": waterbodyLayer,
+  "Drainage": drainageLayer,
+  "Sewerline": sewerlineLayer,
+  "Transmission Line": transmissionlineLayer,
+  "Street Lamp": streetlampLayer,
+  "Electric Pole": electricpoleLayer,
+  "Complaint": "",
+};
+
+
+
+
+//function that highlights the queried feature and displays attribute
+function clickQuery() {
+  clearDraw();
+  const pointerMoveHandler = function (evt) {
+    if (evt.dragging) {
+      return;
+    }
+  };
+  // Drawing interaction
+  draw = new ol.interaction.Draw({
+    source : source,
+    type : 'Point',
+    //only draw when Ctrl is pressed.
+    // condition : ol.events.condition.platformModifierKeyOnly
+  });
+  map.addInteraction(draw);
+
+  /* add ol.collection to hold all selected features */
+  select = new ol.interaction.Select();
+  map.addInteraction(select);
+  var selectedFeatures = select.getFeatures();
+
+  draw.on('drawstart',function(event){
+
+    source.clear();
+    select.setActive(false);
+    selectedFeatures.clear();
+  },this);
+
+  draw.on('drawend', function(event) {
+
+    delaySelectActivate();
+    selectedFeatures.clear();
+
+    var polygon = event.feature.getGeometry();
+    // var features = buildingsLayer.getSource().getFeatures();
+    currentLayer = layerDict[$("#select-layer").text()];
+    var features = currentLayer.getSource().getFeatures();
+
+
+    for (var i = 0 ; i < features.length; i++){
+      if (currentLayer==electricpoleLayer || currentLayer==streetlampLayer){
+        var extent = features[i].getGeometry().getExtent();
+        if(polygon.intersectsExtent(ol.extent.buffer(extent, 0.00001))){
+          // if((features[i].getGeometry()).intersectsCoordinate(polygon)){
+            selectedFeatures.push(features[i]);
+          }      }
+      else if(polygon.intersectsExtent( features[i].getGeometry().getExtent() )){
+      // if((features[i].getGeometry()).intersectsCoordinate(polygon)){
+        selectedFeatures.push(features[i]);
+      }
+    }
+    console.log(selectedFeatures);
+  });
+
+  function delaySelectActivate(){
+    setTimeout(function(){
+      select.setActive(true)
+    },300);
+  }
 }
