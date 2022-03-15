@@ -177,15 +177,9 @@ function measure(type){
     map.addOverlay(measureTooltip);
   }
 
-  // Let user change the geometry type.
-  // type.onchange = function () {
-  //   map.removeInteraction(draw);
-  //   addInteraction(type);
-  // };
-
   addInteraction(type);
 }
-// // function to reset everything drawn and interaction
+//function to reset everything drawn and interaction
 function clearDraw() {
   map.removeInteraction(draw);
   map.removeInteraction(select);
@@ -195,7 +189,7 @@ function clearDraw() {
   removeElementsByClass('ol-tooltip ol-tooltip-static');
 }
 
-// //creating a dictionary which links the inputs from the user to its associated layers. This is used for achieving clickQuery function
+//creating a dictionary which links the inputs from the user to its associated layers. This is used for achieving clickQuery function
 var layerDict = {
   "Boundary": boundaryLayer,
   "Building": buildingsLayer,
