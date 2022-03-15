@@ -38,6 +38,10 @@
 {% endblock %}
 {% block content %}
     <div id="map"></div>
+    <div id="popup" class="ol-popup">
+        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+    </div>
     {% comment %} <div id="zoom" class="zoom"></div> {% endcomment %}
     <div id="scale-line" class="scale-line"></div>
     <div id="overviewmap" class="overviewmap"></div>
@@ -270,10 +274,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div id="popup" class="ol-popup">
-        <div id="popup-content"></div>
     </div>
 
     <div class="form-group" id="inputPannel" style="position: absolute; top: 80px; right: 100px; display: none;">

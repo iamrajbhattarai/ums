@@ -24,6 +24,7 @@ let draw; // global so we can remove it later
 let listener;
 let select;
 let currentLayer;
+let currentFeature;
 
 function measure(type){
   clearDraw();
@@ -184,10 +185,31 @@ function clearDraw() {
   map.removeInteraction(draw);
   map.removeInteraction(select);
   source.clear();
+  currentFeature = null;
   map.removeOverlay(helpTooltip);
   map.removeOverlay(measureTooltip);
+  overlay.setPosition(undefined);
   removeElementsByClass('ol-tooltip ol-tooltip-static');
 }
+
+// for popup
+var container = document.getElementById("popup"),
+    content = document.getElementById("popup-content"),
+    closer = document.getElementById('popup-closer');
+var overlay = new ol.Overlay({
+  element: container,
+  autoPan: true,
+  autoPanAnimation: {
+    duration: 250,
+  },
+  offset: [0, -20],
+});
+
+closer.onclick = function () {
+  overlay.setPosition(undefined);
+  closer.blur();
+  return false;
+};
 
 //creating a dictionary which links the inputs from the user to its associated layers. This is used for achieving clickQuery function
 var layerDict = {
@@ -219,7 +241,7 @@ function clickQuery() {
   };
   // Drawing interaction
   draw = new ol.interaction.Draw({
-    source : source,
+    source : popupSource,
     type : 'Point',
     //only draw when Ctrl is pressed.
     // condition : ol.events.condition.platformModifierKeyOnly
@@ -236,14 +258,15 @@ function clickQuery() {
     source.clear();
     select.setActive(false);
     selectedFeatures.clear();
+    currentFeature=null;
   },this);
 
   draw.on('drawend', function(event) {
 
     delaySelectActivate();
     selectedFeatures.clear();
-
-    var polygon = event.feature.getGeometry();
+    currentFeature=null;
+    var point = event.feature.getGeometry();
     // var features = buildingsLayer.getSource().getFeatures();
     currentLayer = layerDict[$("#select-layer").text()];
     var features = currentLayer.getSource().getFeatures();
@@ -252,21 +275,64 @@ function clickQuery() {
     for (var i = 0 ; i < features.length; i++){
       if (currentLayer==electricpoleLayer || currentLayer==streetlampLayer){
         var extent = features[i].getGeometry().getExtent();
-        if(polygon.intersectsExtent(ol.extent.buffer(extent, 0.00001))){
-          // if((features[i].getGeometry()).intersectsCoordinate(polygon)){
+        if(point.intersectsExtent(ol.extent.buffer(extent, 0.00009))){
             selectedFeatures.push(features[i]);
+            currentFeature = features[i];
           }      }
-      else if(polygon.intersectsExtent( features[i].getGeometry().getExtent() )){
-      // if((features[i].getGeometry()).intersectsCoordinate(polygon)){
+      else if(point.intersectsExtent( features[i].getGeometry().getExtent() )){
         selectedFeatures.push(features[i]);
+        currentFeature = features[i];
       }
     }
-    console.log(selectedFeatures);
+    // console.log(selectedFeatures)
+    // console.log(selectedFeatures.getKeys());
+    displayPopup();
   });
 
   function delaySelectActivate(){
     setTimeout(function(){
       select.setActive(true)
     },300);
+  }
+
+  function displayPopup() {
+    propertiesDict = currentFeature.getProperties()
+    var geom = currentFeature.getGeometry();
+    var geomType = geom.getType();
+    console.log(geomType);
+    var contentHTML = "<h5 style='color:#33727e;'><center><b>Popup</b></center></h5>";
+     contentHTML +=  '<table class="table table-bordered">';
+    $.each(propertiesDict, function (idx, obj) {
+      if (idx != "geometry"){
+        contentHTML += "<tr>";
+        contentHTML += "<td class='menu'>" + idx + "</td>";
+        contentHTML +=
+          '<td>'+obj+'</td>';
+        contentHTML += "</tr>";
+      }
+    });
+    contentHTML += "</table>";
+    // contentHTML +=
+    //   '<button class="btn btn-primary" style="width:50%" id="edit" onclick="editGeometry()">Edit</button>';
+    // contentHTML +=
+    //   '<button class="btn btn-primary" style="width:50%" id="submit" onclick="editTable()">Submit</button>';
+    // if (($("#featureOf").val()) == "Complaints") {
+    //   contentHTML +=
+    //   '<br><br><button class="btn btn-primary" style="width:50%" id="edit" onclick="sendEmail()">Send Email</button>';
+    // }
+    content.innerHTML = contentHTML;
+    // console.log(contentHTML);
+    if (geomType == 'Point'){
+      overlay.setPosition(geom.getCoordinates());
+    }
+    else {
+      var extent = geom.getExtent();
+      // console.log(extent);
+      var x = (extent[0]+extent[2])/2, y = extent[3]-0.0001;
+      // console.log(x,y);
+      overlay.setPosition([x,y]);
+    }
+    // console.log(currentFeature.getGeometry().getCoordinates());
+    map.addOverlay(overlay);
   }
 }
