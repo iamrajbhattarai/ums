@@ -73,7 +73,10 @@ function defaultExtent() {
  $(".dropdown-menu").on('click', 'li a', function(){
     $("#select-layer").text($(this).text());
     $("#select-layer").val($(this).text());
+    clearDraw();
+    clickQuery();
  });
+
 /*************************************************************************/
 
 // //creating a vector layer to draw upon

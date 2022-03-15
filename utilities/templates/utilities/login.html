@@ -45,6 +45,14 @@
                     <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
                     <label for="floatingPassword">Password</label>
                 </div>
+                {% if messages %}
+                    <div class="messages" style="color: red;">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                    <br>
+                {% endif %}
                 <button type="submit" class="btn btn-warning">Log In</button>
             </form>
         </div>

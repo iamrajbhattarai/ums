@@ -1,7 +1,8 @@
 // for distance and area measurement in measure.js
 
-let measureLayer, source;
+let measureLayer, source, popupSource;
 source = new ol.source.Vector();
+popupSource = new ol.source.Vector();
 measureLayer = new ol.layer.Vector({
   source: source,
   style: styles['measure']
