@@ -258,7 +258,7 @@ function clickQuery() {
     source.clear();
     select.setActive(false);
     selectedFeatures.clear();
-    currentFeature=null;
+    currentFeature = null;
   },this);
 
   draw.on('drawend', function(event) {
@@ -270,21 +270,39 @@ function clickQuery() {
     // var features = buildingsLayer.getSource().getFeatures();
     currentLayer = layerDict[$("#select-layer").text()];
     var features = currentLayer.getSource().getFeatures();
-
+    //to accomodate for line layers since they intersect at a common point
+    var count = 1;
+    var pointLayerList = [electricpoleLayer, streetlampLayer]
+    var lineLayerList = [transmissionlineLayer, drainageLayer, sewerlineLayer]
 
     for (var i = 0 ; i < features.length; i++){
-      if (currentLayer==electricpoleLayer || currentLayer==streetlampLayer){
+      if (pointLayerList.includes(currentLayer)){
         var extent = features[i].getGeometry().getExtent();
         if(point.intersectsExtent(ol.extent.buffer(extent, 0.00009))){
             selectedFeatures.push(features[i]);
             currentFeature = features[i];
-          }      }
-      else if(point.intersectsExtent( features[i].getGeometry().getExtent() )){
-        selectedFeatures.push(features[i]);
-        currentFeature = features[i];
+        }
+      }
+      else if (lineLayerList.includes(currentLayer)){
+        // point.intersectsExtent( features[i].getGeometry().getExtent() )
+        if(features[i].getGeometry().intersectsExtent(ol.extent.buffer(point.getExtent(), 0.00005))){
+          if (count <= 1){
+            selectedFeatures.push(features[i]);
+            currentFeature = features[i];
+          }
+          count = count + 1;
+          console.log(count);
+        }
+      }
+      else {
+        if(features[i].getGeometry().intersectsExtent(point.getExtent())){
+          selectedFeatures.push(features[i]);
+          currentFeature = features[i];
+        }
       }
     }
-    // console.log(selectedFeatures)
+    // console.log(selectedFeatures);
+    // console.log(selectedFeatures.getArray());
     // console.log(selectedFeatures.getKeys());
     displayPopup();
   });
@@ -299,16 +317,24 @@ function clickQuery() {
     propertiesDict = currentFeature.getProperties()
     var geom = currentFeature.getGeometry();
     var geomType = geom.getType();
-    console.log(geomType);
+    // console.log(geomType);
     var contentHTML = "<h5 style='color:#33727e;'><center><b>Popup</b></center></h5>";
      contentHTML +=  '<table class="table table-bordered">';
     $.each(propertiesDict, function (idx, obj) {
       if (idx != "geometry"){
         contentHTML += "<tr>";
         contentHTML += "<td class='menu'>" + idx + "</td>";
-        contentHTML +=
-          '<td>'+obj+'</td>';
-        contentHTML += "</tr>";
+        if (idx == "area"){
+          // console.log(idx);
+          contentHTML +=
+            '<td>'+obj+' m'+'<sup>2</sup>'+'</td>';
+          contentHTML += "</tr>";
+        }
+        else {
+          contentHTML +=
+            '<td>'+obj+'</td>';
+          contentHTML += "</tr>";
+        }
       }
     });
     contentHTML += "</table>";
