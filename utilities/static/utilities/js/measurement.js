@@ -291,7 +291,7 @@ function clickQuery() {
             currentFeature = features[i];
           }
           count = count + 1;
-          console.log(count);
+          // console.log(count);
         }
       }
       else {
@@ -301,6 +301,7 @@ function clickQuery() {
         }
       }
     }
+    console.log(currentFeature.getId());
     // console.log(selectedFeatures);
     // console.log(selectedFeatures.getArray());
     // console.log(selectedFeatures.getKeys());
@@ -320,20 +321,16 @@ function clickQuery() {
     // console.log(geomType);
     var contentHTML = "<h5 style='color:#33727e;'><center><b>Popup</b></center></h5>";
      contentHTML +=  '<table class="table table-bordered">';
-    $.each(propertiesDict, function (idx, obj) {
-      if (idx != "geometry"){
+     contentHTML += "<tr><td class='menu'>id</td><td>"+currentFeature.getId()+"</td></tr>";
+    $.each(propertiesDict, function (key, value) {
+      if (key != "geometry"){
         contentHTML += "<tr>";
-        contentHTML += "<td class='menu'>" + idx + "</td>";
-        if (idx == "area"){
-          // console.log(idx);
-          contentHTML +=
-            '<td>'+obj+' m'+'<sup>2</sup>'+'</td>';
-          contentHTML += "</tr>";
+        contentHTML += "<td class='menu'>" + key + "</td>";
+        if (key == "area"){
+          contentHTML +="<td>"+value+" m<sup>2</sup></td></tr>";
         }
         else {
-          contentHTML +=
-            '<td>'+obj+'</td>';
-          contentHTML += "</tr>";
+          contentHTML +="<td>"+value+"</td></tr>";
         }
       }
     });
@@ -353,7 +350,7 @@ function clickQuery() {
     }
     else {
       var extent = geom.getExtent();
-      // console.log(extent);
+      console.log(extent);
       var x = (extent[0]+extent[2])/2, y = extent[3]-0.0001;
       // console.log(x,y);
       overlay.setPosition([x,y]);
