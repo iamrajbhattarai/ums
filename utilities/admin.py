@@ -113,3 +113,13 @@ class ElectricPoleAdmin(LeafletGeoAdmin):
 
 
 admin.site.register(ElectricPole, ElectricPoleAdmin)
+
+
+class ComplaintAdmin(LeafletGeoAdmin):
+    list_display = ('id', 'problem', 'service_required_type', 'is_solved')
+    search_fields = ('id', 'problem')
+    list_filter = ('service_required_type', 'is_solved')
+    ordering = ('id', )
+
+
+admin.site.register(Complaint, ComplaintAdmin)

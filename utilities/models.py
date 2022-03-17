@@ -67,3 +67,16 @@ class StreetLamp(models.Model):
 class ElectricPole(models.Model):
     name = models.CharField(max_length=50)
     geom = models.PointField(srid=4326)
+
+
+class Complaint(models.Model):
+    SERVICE_REQUIRED_TYPE_CHOICES = [
+        ("Normal", "Normal"),
+        ("Emergency", "Emergency"),
+    ]
+    problem = models.CharField(max_length=255)
+    description = models.TextField()
+    service_required_type = models.CharField(
+        max_length=50, choices=SERVICE_REQUIRED_TYPE_CHOICES, default="Normal")
+    geom = models.PointField(srid=4326)
+    is_solved = models.BooleanField()
