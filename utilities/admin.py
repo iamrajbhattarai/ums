@@ -1,10 +1,20 @@
 from django.contrib import admin
+from django.contrib.sessions.models import Session
 # from django.contrib.gis import admin
 from leaflet.admin import LeafletGeoAdmin
 
 from .models import *
 
 # Register your models here.
+
+# class SessionAdmin(admin.ModelAdmin):
+#     def _session_data(self, obj):
+#         return obj.get_decoded()  # .get('_auth_user_id')
+#     list_display = ['session_key', '_session_data', 'expire_date']
+#     readonly_fields = ['_session_data', 'session_data']
+#     # exclude = ['session_data']
+#     date_hierarchy = 'expire_date'
+# admin.site.register(Session, SessionAdmin)
 
 
 class BoundaryAdmin(LeafletGeoAdmin):

@@ -79,4 +79,4 @@ class Complaint(models.Model):
     service_required_type = models.CharField(
         max_length=50, choices=SERVICE_REQUIRED_TYPE_CHOICES, default="Normal")
     geom = models.PointField(srid=4326)
-    is_solved = models.BooleanField()
+    is_solved = models.BooleanField(default=False)

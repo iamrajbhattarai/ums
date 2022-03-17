@@ -1,4 +1,5 @@
 from django.urls import include, path
+from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 
 from . import viewset
@@ -22,6 +23,7 @@ router.register(r'complaint', viewset.ComplaintViewset)
 urlpatterns = [
     path('', include(router.urls)),
     # path('set-csrf/', viewset.set_csrf_token, name='Set-CSRF'),
+    path('api-token-auth/', views.obtain_auth_token),
     path('home/', viewset.home, name='homepage'),
     path('map/', viewset.webmap, name='webmap'),
     # path('user/', include('django.contrib.auth.urls')),
