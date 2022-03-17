@@ -155,6 +155,14 @@ var electricpoleLayer = new ol.layer.Vector({
   style: styles['electricpole'],
 });
 
+var complaintLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'http://localhost:8000/complaint/',
+    format: new ol.format.GeoJSON(),
+  }),
+  style: styles['complaint'],
+});
+
 //BaseMap Layer Group
 var baselayerGroup = new ol.layer.Group({
   layers: [
@@ -180,6 +188,7 @@ var overlayGroup = new ol.layer.Group({
     transmissionlineLayer,
     streetlampLayer,
     electricpoleLayer,
+    complaintLayer,
   ],
 });
 

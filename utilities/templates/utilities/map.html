@@ -37,6 +37,7 @@
         </form>
 {% endblock %}
 {% block content %}
+    {% csrf_token %}
     <div id="map"></div>
     <div id="popup" class="ol-popup">
         <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -267,7 +268,7 @@
                                 <label for="title">Email:</label>
                                 <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
                             </div>
-                            <button class="btn btn-warning " style="width:45%" onclick="drawComplaints()">Add</button>
+                            <button class="btn btn-warning " style="width:45%" onclick="addComplaint()">Add</button>
                             <button class="btn btn-primary" style="width:45%"
                                 onclick="deleteBuilding()">Delete</button>
                         </div>
@@ -312,6 +313,7 @@
             </div>
         </div>
     </div>
+    <!-- <script>var token = '{{ csrf_token }}'</script> -->
     <script type="text/javascript" src="{% static 'utilities/js/utils.js' %}"></script>
     <!-- <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script> -->
     <script type="text/javascript" src="{% static 'utilities/js/panel.js' %}"></script>

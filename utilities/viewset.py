@@ -1,12 +1,17 @@
 from django.contrib import auth, messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.core.serializers import serialize
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import include, path
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework import status, viewsets
+from rest_framework.authentication import (BasicAuthentication,
+                                           SessionAuthentication,
+                                           TokenAuthentication)
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import *
@@ -125,3 +130,30 @@ class ElectricPoleViewset(viewsets.ModelViewSet):
     queryset = ElectricPole.objects.all()
     serializer_class = ElectricPoleSerializer
     http_method_names = ['get']
+
+# @ensure_csrf_cookie
+# def set_csrf_token(request):
+#     """
+#     This will be `/set-csrf-cookie/` on `urls.py`
+#     """
+#     return JsonResponse({"details": "CSRF cookie set"})
+
+
+class ComplaintViewset(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Complaint.objects.filter(is_solved=False)
+    serializer_class = ComplaintSerializer
+    http_method_names = ['get', 'post', 'patch']
+
+    # def get_permissions(self):
+    #     if self.action == 'create' or self.action == 'update':
+    #         permission_classes = [IsAuthenticated]
+    #     elif self.action == 'destroy':
+    #         permission_classes = [IsAdminUser]
+    #     else:
+    #         permission_classes = [AllowAny]
+    #     return [permission() for permission in permission_classes]
+
+    def create(request, *args, **kwargs):
+        print(request.data)
+        return Response(data={'message': 'Complaint Registered Succesfully!'}, status=status.HTTP_201_CREATED)

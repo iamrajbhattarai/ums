@@ -16,10 +16,12 @@ router.register(r'sewerline', viewset.SewerlineViewset)
 router.register(r'transmissionline', viewset.TransmissionLineViewset)
 router.register(r'streetlamp', viewset.StreetLampViewset)
 router.register(r'electricpole', viewset.ElectricPoleViewset)
+router.register(r'complaint', viewset.ComplaintViewset)
 
 
 urlpatterns = [
     path('', include(router.urls)),
+    # path('set-csrf/', viewset.set_csrf_token, name='Set-CSRF'),
     path('home/', viewset.home, name='homepage'),
     path('map/', viewset.webmap, name='webmap'),
     # path('user/', include('django.contrib.auth.urls')),

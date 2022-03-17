@@ -225,7 +225,7 @@ var layerDict = {
   "Transmission Line": transmissionlineLayer,
   "Street Lamp": streetlampLayer,
   "Electric Pole": electricpoleLayer,
-  "Complaint": "",
+  "Complaint": complaintLayer,
 };
 
 
@@ -272,7 +272,7 @@ function clickQuery() {
     var features = currentLayer.getSource().getFeatures();
     //to accomodate for line layers since they intersect at a common point
     var count = 1;
-    var pointLayerList = [electricpoleLayer, streetlampLayer]
+    var pointLayerList = [electricpoleLayer, streetlampLayer, complaintLayer]
     var lineLayerList = [transmissionlineLayer, drainageLayer, sewerlineLayer]
 
     for (var i = 0 ; i < features.length; i++){
@@ -350,7 +350,6 @@ function clickQuery() {
     }
     else {
       var extent = geom.getExtent();
-      console.log(extent);
       var x = (extent[0]+extent[2])/2, y = extent[3]-0.0001;
       // console.log(x,y);
       overlay.setPosition([x,y]);
@@ -358,4 +357,73 @@ function clickQuery() {
     // console.log(currentFeature.getGeometry().getCoordinates());
     map.addOverlay(overlay);
   }
+}
+
+
+function addComplaint(){
+  draw = new ol.interaction.Draw({
+    source : popupSource,
+    type : 'Point',
+  });
+  map.addInteraction(draw);
+
+  draw.on('drawstart',function(event){
+
+    source.clear();
+    // select.setActive(false);
+    // selectedFeatures.clear();
+    currentFeature = null;
+  },this);
+
+  draw.on('drawend', function(event) {
+
+    // delaySelectActivate();
+    // selectedFeatures.clear();
+    // currentFeature=null;
+    var point = event.feature.getGeometry();
+    console.log(point);
+
+    let url = "http://localhost:8000/utilities/complaint/";
+    const csrftoken = getCookie('csrftoken');
+
+  //   // var features = buildingsLayer.getSource().getFeatures();
+  //   currentLayer = layerDict[$("#select-layer").text()];
+  //   var features = currentLayer.getSource().getFeatures();
+  //   //to accomodate for line layers since they intersect at a common point
+  //   var count = 1;
+  //   var pointLayerList = [electricpoleLayer, streetlampLayer, complaintLayer]
+  //   var lineLayerList = [transmissionlineLayer, drainageLayer, sewerlineLayer]
+
+  //   for (var i = 0 ; i < features.length; i++){
+  //     if (pointLayerList.includes(currentLayer)){
+  //       var extent = features[i].getGeometry().getExtent();
+  //       if(point.intersectsExtent(ol.extent.buffer(extent, 0.00009))){
+  //           selectedFeatures.push(features[i]);
+  //           currentFeature = features[i];
+  //       }
+  //     }
+  //     else if (lineLayerList.includes(currentLayer)){
+  //       // point.intersectsExtent( features[i].getGeometry().getExtent() )
+  //       if(features[i].getGeometry().intersectsExtent(ol.extent.buffer(point.getExtent(), 0.00005))){
+  //         if (count <= 1){
+  //           selectedFeatures.push(features[i]);
+  //           currentFeature = features[i];
+  //         }
+  //         count = count + 1;
+  //         // console.log(count);
+  //       }
+  //     }
+  //     else {
+  //       if(features[i].getGeometry().intersectsExtent(point.getExtent())){
+  //         selectedFeatures.push(features[i]);
+  //         currentFeature = features[i];
+  //       }
+  //     }
+  //   }
+  //   console.log(currentFeature.getId());
+  //   // console.log(selectedFeatures);
+  //   // console.log(selectedFeatures.getArray());
+  //   // console.log(selectedFeatures.getKeys());
+  //   displayPopup();
+  });
 }
