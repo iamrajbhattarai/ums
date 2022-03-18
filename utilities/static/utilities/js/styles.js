@@ -142,4 +142,26 @@ var styles = {
           }),
         }),
       }),
+      // 'complaint': new ol.style.Style({
+      //   stroke: new ol.style.Stroke({
+      //     color: 'black',
+      //     // lineDash: [4],
+      //     width: 2,
+      //   }),
+      //   image: new ol.style.Circle({
+      //     radius: 4,
+      //     fill: new ol.style.Fill({
+      //       color: 'green',
+      //     }),
+      //   }),
+      // }),
+      'complaint': new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 46],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          src: 'http://localhost:8000/static/utilities/complaint.png',
+        }),
+      }),
+
   }

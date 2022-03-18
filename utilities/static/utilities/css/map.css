@@ -126,12 +126,12 @@ a.icon i {
     margin-bottom: 1vh;
 }
 
-.sidebar-config-wrap .form-control,
 .sidebar-config-wrap .btn-group {
     width: 1000%;
     float: right;
 }
-
+/* .sidebar-config-wrap .form-control {
+} */
 .sidebar-config-wrap .form-group label {
     margin-bottom: 0;
     line-height: 34px;

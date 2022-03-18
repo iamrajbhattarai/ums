@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
+    'rest_framework.authtoken',
     'leaflet',
     # local apps
     'utilities',
@@ -54,11 +55,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework.authentication.TokenAuthentication',
-    #     'rest_framework.authentication.BasicAuthentication',
-    #     # 'rest_framework.authentication.SessionAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
 }
 
 
@@ -184,14 +185,14 @@ LEAFLET_CONFIG = {
     'ATTRIBUTION_PRIFIX': 'Utility Management',
     'RESET_VIEW': False,
     'TILES': [
-        ('OpenStreetMap', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            'maxZoom': 19,
-            'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }),
         ('CartoDB Light', 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             'subdomains': 'abcd',
             'maxZoom': 20
+        }),
+        ('OpenStreetMap', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            'maxZoom': 19,
+            'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }),
         ('Dark Map', 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
             'attribution': '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',

@@ -99,3 +99,11 @@ class ElectricPoleSerializer(GeoFeatureModelSerializer):
         model = ElectricPole
         geo_field = 'geom'
         fields = '__all__'
+
+
+class ComplaintSerializer(GeoFeatureModelSerializer):
+    class Meta:
+        model = Complaint
+        geo_field = 'geom'
+        fields = ('id', 'problem', 'description',
+                  'service_required_type', 'geom')

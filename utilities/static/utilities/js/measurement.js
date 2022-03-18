@@ -26,7 +26,7 @@ let select;
 let currentLayer;
 let currentFeature;
 
-function measure(type){
+function measure(type) {
   clearDraw();
   const pointerMoveHandler = function (evt) {
     if (evt.dragging) {
@@ -61,7 +61,7 @@ function measure(type){
 
   // Format length output.
   const formatLength = function (line) {
-    const length = ol.sphere.getLength(line, {projection:'EPSG:4326'});
+    const length = ol.sphere.getLength(line, { projection: 'EPSG:4326' });
     let output;
     if (length > 100) {
       output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
@@ -73,7 +73,7 @@ function measure(type){
 
   // Format area output.
   const formatArea = function (polygon) {
-    const area = ol.sphere.getArea(polygon, {projection:'EPSG:4326'});
+    const area = ol.sphere.getArea(polygon, { projection: 'EPSG:4326' });
     let output;
     if (area > 10000) {
       output = Math.round((area / 1000000) * 100) / 100 + ' ' + 'km<sup>2</sup>';
@@ -194,8 +194,8 @@ function clearDraw() {
 
 // for popup
 var container = document.getElementById("popup"),
-    content = document.getElementById("popup-content"),
-    closer = document.getElementById('popup-closer');
+  content = document.getElementById("popup-content"),
+  closer = document.getElementById('popup-closer');
 var overlay = new ol.Overlay({
   element: container,
   autoPan: true,
@@ -225,7 +225,7 @@ var layerDict = {
   "Transmission Line": transmissionlineLayer,
   "Street Lamp": streetlampLayer,
   "Electric Pole": electricpoleLayer,
-  "Complaint": "",
+  "Complaint": complaintLayer,
 };
 
 
@@ -241,8 +241,8 @@ function clickQuery() {
   };
   // Drawing interaction
   draw = new ol.interaction.Draw({
-    source : popupSource,
-    type : 'Point',
+    source: popupSource,
+    type: 'Point',
     //only draw when Ctrl is pressed.
     // condition : ol.events.condition.platformModifierKeyOnly
   });
@@ -253,40 +253,40 @@ function clickQuery() {
   map.addInteraction(select);
   var selectedFeatures = select.getFeatures();
 
-  draw.on('drawstart',function(event){
+  draw.on('drawstart', function (event) {
 
     source.clear();
     select.setActive(false);
     selectedFeatures.clear();
     currentFeature = null;
-  },this);
+  }, this);
 
-  draw.on('drawend', function(event) {
+  draw.on('drawend', function (event) {
 
     delaySelectActivate();
     selectedFeatures.clear();
-    currentFeature=null;
+    currentFeature = null;
     var point = event.feature.getGeometry();
     // var features = buildingsLayer.getSource().getFeatures();
     currentLayer = layerDict[$("#select-layer").text()];
     var features = currentLayer.getSource().getFeatures();
     //to accomodate for line layers since they intersect at a common point
     var count = 1;
-    var pointLayerList = [electricpoleLayer, streetlampLayer]
+    var pointLayerList = [electricpoleLayer, streetlampLayer, complaintLayer]
     var lineLayerList = [transmissionlineLayer, drainageLayer, sewerlineLayer]
 
-    for (var i = 0 ; i < features.length; i++){
-      if (pointLayerList.includes(currentLayer)){
+    for (var i = 0; i < features.length; i++) {
+      if (pointLayerList.includes(currentLayer)) {
         var extent = features[i].getGeometry().getExtent();
-        if(point.intersectsExtent(ol.extent.buffer(extent, 0.00009))){
-            selectedFeatures.push(features[i]);
-            currentFeature = features[i];
+        if (point.intersectsExtent(ol.extent.buffer(extent, 0.00009))) {
+          selectedFeatures.push(features[i]);
+          currentFeature = features[i];
         }
       }
-      else if (lineLayerList.includes(currentLayer)){
+      else if (lineLayerList.includes(currentLayer)) {
         // point.intersectsExtent( features[i].getGeometry().getExtent() )
-        if(features[i].getGeometry().intersectsExtent(ol.extent.buffer(point.getExtent(), 0.00005))){
-          if (count <= 1){
+        if (features[i].getGeometry().intersectsExtent(ol.extent.buffer(point.getExtent(), 0.00005))) {
+          if (count <= 1) {
             selectedFeatures.push(features[i]);
             currentFeature = features[i];
           }
@@ -295,23 +295,22 @@ function clickQuery() {
         }
       }
       else {
-        if(features[i].getGeometry().intersectsExtent(point.getExtent())){
+        if (features[i].getGeometry().intersectsExtent(point.getExtent())) {
           selectedFeatures.push(features[i]);
           currentFeature = features[i];
         }
       }
     }
-    console.log(currentFeature.getId());
-    // console.log(selectedFeatures);
-    // console.log(selectedFeatures.getArray());
-    // console.log(selectedFeatures.getKeys());
+    if (!currentFeature) {
+      alert('Please select a feature precisely!');
+    }
     displayPopup();
   });
 
-  function delaySelectActivate(){
-    setTimeout(function(){
+  function delaySelectActivate() {
+    setTimeout(function () {
       select.setActive(true)
-    },300);
+    }, 300);
   }
 
   function displayPopup() {
@@ -320,21 +319,24 @@ function clickQuery() {
     var geomType = geom.getType();
     // console.log(geomType);
     var contentHTML = "<h5 style='color:#33727e;'><center><b>Popup</b></center></h5>";
-     contentHTML +=  '<table class="table table-bordered">';
-     contentHTML += "<tr><td class='menu'>id</td><td>"+currentFeature.getId()+"</td></tr>";
+    contentHTML += '<table class="table table-bordered">';
+    contentHTML += "<tr><td class='menu'>id</td><td>" + currentFeature.getId() + "</td></tr>";
     $.each(propertiesDict, function (key, value) {
-      if (key != "geometry"){
+      if (key != "geometry") {
         contentHTML += "<tr>";
         contentHTML += "<td class='menu'>" + key + "</td>";
-        if (key == "area"){
-          contentHTML +="<td>"+value+" m<sup>2</sup></td></tr>";
+        if (key == "area") {
+          contentHTML += "<td>" + value + " m<sup>2</sup></td></tr>";
         }
         else {
-          contentHTML +="<td>"+value+"</td></tr>";
+          contentHTML += "<td>" + value + "</td></tr>";
         }
       }
     });
     contentHTML += "</table>";
+    if (currentLayer==complaintLayer && user_role=='superadmin'){
+      contentHTML +='<button class="btn btn-danger" style="width:35%" id="delete" onclick="deleteComplaint()">Delete</button>';
+    }
     // contentHTML +=
     //   '<button class="btn btn-primary" style="width:50%" id="edit" onclick="editGeometry()">Edit</button>';
     // contentHTML +=
@@ -345,17 +347,95 @@ function clickQuery() {
     // }
     content.innerHTML = contentHTML;
     // console.log(contentHTML);
-    if (geomType == 'Point'){
+    if (geomType == 'Point') {
       overlay.setPosition(geom.getCoordinates());
     }
     else {
       var extent = geom.getExtent();
-      console.log(extent);
-      var x = (extent[0]+extent[2])/2, y = extent[3]-0.0001;
+      var x = (extent[0] + extent[2]) / 2, y = extent[3] - 0.0001;
       // console.log(x,y);
-      overlay.setPosition([x,y]);
+      overlay.setPosition([x, y]);
     }
     // console.log(currentFeature.getGeometry().getCoordinates());
     map.addOverlay(overlay);
   }
+}
+
+
+function addComplaint() {
+  draw = new ol.interaction.Draw({
+    source: popupSource,
+    type: 'Point',
+  });
+  map.addInteraction(draw);
+
+  draw.on('drawstart', function (event) {
+
+    source.clear();
+    // select.setActive(false);
+    // selectedFeatures.clear();
+    currentFeature = null;
+  }, this);
+
+  draw.on('drawend', function (event) {
+    var pointCoordinates = event.feature.getGeometry().getCoordinates();
+    let url = "http://localhost:8000/complaint/";
+    // const csrftoken = getCookie('csrftoken');
+    // console.log(csrftoken);
+    console.log(token);
+    var complaintDict = {
+      'problem': $("#problem").val(),
+      'description': $("#description").val(),
+      'service_required_type': $("#service_required_type").val(),
+      'long': pointCoordinates[0],
+      'lat': pointCoordinates[1]
+    }
+    console.log(complaintDict);
+    $.ajax({
+      url: url,
+      type: 'post',
+      data: complaintDict,
+      headers: {
+        Authorization: 'Token ' + token,   //If your header name has spaces or any other char not appropriate
+      },
+      dataType: 'json',
+      success: function (data) {
+        alert('You have successfully registered a complaint.!');
+      },
+      error: function () {
+        alert('You are not logged in! Please login first and then try again to register a complaint.');
+      },
+    });
+    clearDraw();
+    complaintLayer.getSource().refresh();
+    source.clear();
+    location.reload();
+  });
+}
+
+function deleteComplaint() {
+  var complaintId = currentFeature.getId();
+  let url = "http://localhost:8000/complaint/"+complaintId+"/";
+  // const csrftoken = getCookie('csrftoken');
+  // console.log(csrftoken);
+  console.log(token);
+  console.log(user_role);
+  $.ajax({
+    url: url,
+    type: 'PATCH',
+    // data: {'is_solved': 'True'},
+    headers: {
+      Authorization: 'Token ' + token,   //If your header name has spaces or any other char not appropriate
+    },
+    success: function (data) {
+      alert('You have successfully deleted a complaint.!');
+    },
+    error: function () {
+      alert('Error Occured! Please Try again!');
+    },
+  });
+  clearDraw();
+  complaintLayer.getSource().refresh();
+  source.clear();
+  location.reload();
 }
