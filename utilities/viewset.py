@@ -172,7 +172,7 @@ class ComplaintViewset(viewsets.ModelViewSet):
             complaint_instance.is_solved = True
             complaint_instance.save()
             return Response(data={'message': 'Data deleted succesfully!'}, status=status.HTTP_201_CREATED)
-        return Response(data={'message': 'Could not retrieve object from database!'}, status=status.HTTP_403_FORBIDDEN)
+        return Response(data={'message': 'Could not retrieve object from database!'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # @ensure_csrf_cookie

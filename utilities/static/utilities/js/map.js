@@ -154,12 +154,12 @@ var electricpoleLayer = new ol.layer.Vector({
   }),
   style: styles['electricpole'],
 });
-
-let complaintLayer = new ol.layer.Vector({
-  source: new ol.source.Vector({
-    url: 'http://localhost:8000/complaint/',
-    format: new ol.format.GeoJSON(),
-  }),
+var sourceComplaint = new ol.source.Vector({
+  url: 'http://localhost:8000/complaint/',
+  format: new ol.format.GeoJSON(),
+});
+var complaintLayer = new ol.layer.Vector({
+  source: sourceComplaint,
   style: styles['complaint'],
 });
 

@@ -77,6 +77,7 @@ function defaultExtent() {
     clickQuery();
  });
 
+
 /*************************************************************************/
 
 // //creating a vector layer to draw upon

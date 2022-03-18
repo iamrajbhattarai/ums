@@ -302,7 +302,7 @@ function clickQuery() {
       }
     }
     if (!currentFeature) {
-      alert('Please select a feature precisely!');
+      $('#noFeatureErrorModal').modal('show');
     }
     displayPopup();
   });
@@ -334,8 +334,8 @@ function clickQuery() {
       }
     });
     contentHTML += "</table>";
-    if (currentLayer==complaintLayer && user_role=='superadmin'){
-      contentHTML +='<button class="btn btn-danger" style="width:35%" id="delete" onclick="deleteComplaint()">Delete</button>';
+    if (currentLayer == complaintLayer && user_role == 'superadmin') {
+      contentHTML += '<button class="btn btn-danger" style="width:35%" id="delete" onclick="deleteComplaint()">Delete</button>';
     }
     // contentHTML +=
     //   '<button class="btn btn-primary" style="width:50%" id="edit" onclick="editGeometry()">Edit</button>';
@@ -393,29 +393,48 @@ function addComplaint() {
     console.log(complaintDict);
     $.ajax({
       url: url,
-      type: 'post',
+      type: 'POST',
       data: complaintDict,
       headers: {
         Authorization: 'Token ' + token,   //If your header name has spaces or any other char not appropriate
       },
       dataType: 'json',
       success: function (data) {
-        alert('You have successfully registered a complaint.!');
+        $("#requestMessage").text('Sucessful! Thank you for registering the complaint. We\'ll try to solve the problem asap.');
+        $('#requestMessageModal').modal('show');
       },
-      error: function () {
-        alert('You are not logged in! Please login first and then try again to register a complaint.');
+      error: function (xhr, status, error) {
+        var errorMessage;
+        if (xhr.status == 400) {
+          errorMessage = "All fields are required!"
+        }
+        else if (xhr.status == 401) {
+          errorMessage = "You must be logged in to add a complaint!"
+        }
+        else {
+          errorMessage = "Please try again!"
+        }
+        errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
+        $("#requestMessage").text(errorMessage);
+        $('#requestMessageModal').modal('show');
       },
     });
-    clearDraw();
+    const pointerMoveHandler = function (evt) {
+      if (evt.dragging) {
+        return;
+      }
+    };
+    alert('This action is going to alter the data.');
     complaintLayer.getSource().refresh();
+    clearDraw();
     source.clear();
-    location.reload();
+    // location.reload();
   });
 }
 
 function deleteComplaint() {
   var complaintId = currentFeature.getId();
-  let url = "http://localhost:8000/complaint/"+complaintId+"/";
+  let url = "http://localhost:8000/complaint/" + complaintId + "/";
   // const csrftoken = getCookie('csrftoken');
   // console.log(csrftoken);
   console.log(token);
@@ -428,14 +447,26 @@ function deleteComplaint() {
       Authorization: 'Token ' + token,   //If your header name has spaces or any other char not appropriate
     },
     success: function (data) {
-      alert('You have successfully deleted a complaint.!');
+      $("#requestMessage").text('You have successfully deleted a complaint.!');
+      $('#requestMessageModal').modal('show');
     },
-    error: function () {
-      alert('Error Occured! Please Try again!');
+    error: function (xhr, status, error) {
+      var errorMessage;
+      if (xhr.status == 400) {
+        errorMessage = "Couln't fetch the data from the database!"
+      }
+      else {
+        errorMessage = "Please try again!"
+      }
+      errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
+      // alert('Error - ' + errorMessage);
+      $("#requestMessage").text(errorMessage);
+      $('#requestMessageModal').modal('show');
     },
   });
-  clearDraw();
+  alert('This action is going to alter the data.');
   complaintLayer.getSource().refresh();
+  clearDraw();
   source.clear();
-  location.reload();
+  // location.reload();
 }
