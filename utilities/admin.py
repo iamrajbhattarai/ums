@@ -24,13 +24,13 @@ class BoundaryAdmin(LeafletGeoAdmin):
 admin.site.register(Boundary, BoundaryAdmin)
 
 
-class BuildingAdmin(LeafletGeoAdmin):
-    list_display = ('id', 'block', 'names')
-    search_fields = ('block', 'names',)
-    ordering = ('id', )
+# class BuildingAdmin(LeafletGeoAdmin):
+#     list_display = ('id', 'block', 'name')
+#     search_fields = ('block', 'name',)
+#     ordering = ('id', )
 
 
-admin.site.register(Building, BuildingAdmin)
+# admin.site.register(Building, BuildingAdmin)
 
 
 class RoadAdmin(LeafletGeoAdmin):

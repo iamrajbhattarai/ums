@@ -11,7 +11,7 @@ class Boundary(models.Model):
 
 class Building(models.Model):
     block = models.CharField(max_length=50)
-    names = models.CharField(max_length=150)
+    name = models.CharField(max_length=150)
     area = models.FloatField()
     geom = models.MultiPolygonField(srid=4326)
 
