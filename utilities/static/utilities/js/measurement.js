@@ -324,7 +324,7 @@ function displayPopup() {
   contentHTML += '<table class="table table-bordered">';
   contentHTML += "<tr><td class='menu'>id</td><td>" + currentFeature.getId() + "</td></tr>";
   $.each(propertiesDict, function (key, value) {
-    if (key != "geometry") {
+    if (key != "geometry" && currentLayer != complaintLayer) {
       contentHTML += "<tr>";
       contentHTML += "<td class='menu'>" + key + "</td>";
       if (key == "area") {
@@ -334,19 +334,23 @@ function displayPopup() {
         contentHTML += "<td>" + value + "</td></tr>";
       }
     }
+    else if (key != "geometry") {
+      contentHTML += "<tr>";
+      contentHTML += "<td class='menu'>" + key + "</td>";
+      if (key == "area") {
+        contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '" m<sup>2</sup></td></tr>';
+      }
+      else {
+        contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '"</td></tr>';
+      }
+    }
   });
   contentHTML += "</table>";
   if (currentLayer == complaintLayer && user_role == 'superadmin') {
-    contentHTML += '<button class="btn btn-danger" style="width:35%" id="delete" onclick="deleteComplaint()">Delete</button>';
+    contentHTML += '<button class="btn btn-danger" style="width:30%" id="delete" onclick="deleteComplaint()">Delete</button>';
+    contentHTML += '&nbsp;&nbsp;<button class="btn btn-secondary" style="width:30%" id="edit" onclick="editGeometry()">Edit</button>';
+    contentHTML += '&nbsp;&nbsp;<button class="btn btn-warning" style="width:30%" id="submit" onclick="editTable()">Update</button>';
   }
-  // contentHTML +=
-  //   '<button class="btn btn-primary" style="width:50%" id="edit" onclick="editGeometry()">Edit</button>';
-  // contentHTML +=
-  //   '<button class="btn btn-primary" style="width:50%" id="submit" onclick="editTable()">Submit</button>';
-  // if (($("#featureOf").val()) == "Complaints") {
-  //   contentHTML +=
-  //   '<br><br><button class="btn btn-primary" style="width:50%" id="edit" onclick="sendEmail()">Send Email</button>';
-  // }
   content.innerHTML = contentHTML;
   // console.log(contentHTML);
   if (geomType == 'Point') {
@@ -483,9 +487,9 @@ function showInput() {
 $("#keyWordsInput").change(function () {
   clearDraw();
   var inputValue = $("#keyWordsInput").val();
-  console.log(inputValue);
+  // console.log(inputValue);
   let url = "http://localhost:8000/complaint/" + "?service_required_type=" + inputValue;
-  console.log(url);
+  // console.log(url);
   $.ajax({
     url: url,
     type: 'GET',
@@ -501,7 +505,7 @@ $("#keyWordsInput").change(function () {
         problem = features[i].properties['problem'];
         optionHTML += "<option value='" + id + "'>" + problem + "</option>";
       }
-      console.log(optionHTML);
+      // console.log(optionHTML);
       $("#keyWordsOptions").show();
       $("#keyWordsTable").empty();
       $("#keyWordsTable").append(optionHTML);
@@ -526,8 +530,69 @@ $("#keyWordsInput").change(function () {
 $("#keyWordsTable").change(function () {
   clearDraw();
   var selectedID = $(this).val()[0];
-  console.log(selectedID);
+  // console.log(selectedID);
   currentLayer = complaintLayer;
   currentFeature = currentLayer.getSource().getFeatureById(selectedID);
   displayPopup();
 });
+
+
+// for editing any feature's attributes.
+function editTable() {
+  $.each(currentFeature.values_, function (idx, obj) {
+    if (idx != "geometry" && idx != "SmID" && idx != "SmUserID" && idx != "SmArea" && idx !=
+      "SmPerimeter") {
+      currentFeature.values_[idx] = $("#" + idx + "Input").val();
+    }
+  });
+  console.log(currentFeature);
+
+  var tempList = (dic[$("#featureOf").val()]).split("@");
+  console.log(tempList[0]);
+  var addFeatureParams = new SuperMap.EditFeaturesParameters({
+    features: [currentFeature],
+    dataSourceName: "contestdatasource",
+    dataSetName: tempList[0],
+    editType: "update",
+    returnContent: true
+  });
+  var editFeaturesService = new ol.supermap.FeatureService(dataUrl);
+  editFeaturesService.editFeatures(addFeatureParams, function (serviceResult) {
+    if (serviceResult.result.succeed) {
+      alert("Feature Modified successfully!");
+      drawLayer.getSource().refresh();
+      clearDraw();
+    }
+  });
+}
+
+var editSource = new ol.source.Vector();
+let editLayer = new ol.layer.Vector({
+  source: editSource
+});
+var modify, snap;
+map.addLayer(editLayer);
+
+// for editing any feature's geometry
+function editGeometry() {
+  editLayer.getSource().clear();
+  drawLayer.getSource().clear();
+  resultLayer.getSource().clear();
+  overlay.setOffset([0, overlay.getOffset()[1] - 60]);
+
+  modify = new ol.interaction.Modify({
+    source: editSource
+  });
+  map.addInteraction(modify);
+
+  snap = new ol.interaction.Snap({
+    source: editSource
+  });
+  map.addInteraction(snap);
+
+  editSource.addFeatures([currentFeature]);
+
+  modify.on('modifyend', function (evt) {
+    currentFeature = evt.features.array_[0];
+  });
+}
