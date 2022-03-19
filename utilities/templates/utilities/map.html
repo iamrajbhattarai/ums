@@ -240,29 +240,51 @@
                             <button class="btn btn-warning" style="width:35%" id="query" onclick="clickQuery()">Query</button>
                         </div>
                         <div class="panel-body-parts" id="complaints">
-                                <div class="form-group text-light">
-                                    <label for="title">Problem:</label>
-                                    <input type="text" class="form-control" id="problem" />
-                                </div>
-                                <div class="form-group text-light">
-                                    <label for="title">Description:</label>
-                                    <textarea class="form-control" id="description" placeholder="Detailed Information" rows="5"></textarea>
-                                </div>
-                                <div class="form-group text-light">
-                                    <label for="title">Service Required Type:</label>
-                                    <select class="form-select" id="service_required_type" aria-label="Service">
-                                        <option selected>----------------------</option>
-                                        <option value="Normal">Normal</option>
-                                        <option value="Emergency">Emergency</option>
-                                    </select>
-                                </div>
-                                <!-- <div class="form-group text-light">
-                                    <label for="title">Email:</label>
-                                    <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
-                                </div> -->
-                                <button class="btn btn-warning" style="width:45%" onclick="addComplaint()">Add</button>
-                                <!-- <button class="btn btn-primary" style="width:45%"
-                                    onclick="deleteBuilding()">Delete</button> -->
+                            <!-- <div class="form-group" id="inputPannel">
+                                <input type="keyWords" class="form-control" id="keyWordsInput" placeholder="Input Service Type">
+                            </div>
+                            <div id="keyWordsOptions" class="keyWordsOptions">
+                                <select multiple class="form-control" id="keyWordsTable"></select>
+                            </div> -->
+
+                            <div class="form-group text-light" id="inputPannel" style="display: none;">
+                                <label for="title">Search Complaints:</label>
+                                <select class="form-select" id="keyWordsInput" aria-label="Service">
+                                    <option selected>Select the Service Type</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Emergency">Emergency</option>
+                                </select>
+                            </div>
+                            <div class="form-group text-light" id="keyWordsOptions" style="display: none;">
+                                <label for="title">List of Complaints:</label>
+                                <!-- <textarea class="form-control" id="keyWordsTable" placeholder="" rows="5"></textarea> -->
+                                <select multiple class="form-control" id="keyWordsTable"></select>
+                                <hr style="color: #FFF;">
+                            </div>
+
+                            <div class="form-group text-light">
+                                <label for="title">Problem:</label>
+                                <input type="text" class="form-control" id="problem" />
+                            </div>
+                            <div class="form-group text-light">
+                                <label for="title">Description:</label>
+                                <textarea class="form-control" id="description" placeholder="Detailed Information" rows="5"></textarea>
+                            </div>
+                            <div class="form-group text-light">
+                                <label for="title">Service Required Type:</label>
+                                <select class="form-select" id="service_required_type" aria-label="Service">
+                                    <option selected>----------------------</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Emergency">Emergency</option>
+                                </select>
+                            </div>
+                            <!-- <div class="form-group text-light">
+                                <label for="title">Email:</label>
+                                <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
+                            </div> -->
+                            <button class="btn btn-warning" style="width:45%" onclick="addComplaint()">Add</button>
+                            <!-- <button class="btn btn-primary" style="width:45%"
+                                onclick="deleteBuilding()">Delete</button> -->
                         </div>
                 </div>
             </div>

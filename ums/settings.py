@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework_gis',
     'rest_framework.authtoken',
     'leaflet',
+    'django_filters',
     # local apps
     'utilities',
 ]

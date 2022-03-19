@@ -134,7 +134,7 @@ class ComplaintViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Complaint.objects.filter(is_solved=False)
     serializer_class = ComplaintSerializer
-    http_method_names = ['get', 'post', 'patch', 'delete']
+    http_method_names = ['get', 'post', 'patch']
 
     def get_permissions(self):
         if self.action == 'create' or self.action == 'update':
@@ -174,6 +174,16 @@ class ComplaintViewset(viewsets.ModelViewSet):
             return Response(data={'message': 'Data deleted succesfully!'}, status=status.HTTP_201_CREATED)
         return Response(data={'message': 'Could not retrieve object from database!'}, status=status.HTTP_400_BAD_REQUEST)
 
+    def list(self, request, *args, **kwargs):
+        queryset = Complaint.objects.filter(is_solved=False)
+        service_required_type = self.request.query_params.get(
+            'service_required_type', None)
+        # print(service_required_type)
+        if service_required_type == 'Normal' or service_required_type == 'Emergency':
+            queryset = queryset.filter(
+                service_required_type=service_required_type)
+        serializer = ComplaintSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 # @ensure_csrf_cookie
 # def set_csrf_token(request):
@@ -181,6 +191,7 @@ class ComplaintViewset(viewsets.ModelViewSet):
 #     This will be `/set-csrf-cookie/` on `urls.py`
 #     """
 #     return JsonResponse({"details": "CSRF cookie set"})
+
 
 def signIn(request):
     if request.method == "POST":

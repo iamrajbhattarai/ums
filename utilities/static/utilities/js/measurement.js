@@ -230,7 +230,6 @@ var layerDict = {
 
 
 
-
 //function that highlights the queried feature and displays attribute
 function clickQuery() {
   clearDraw();
@@ -251,7 +250,7 @@ function clickQuery() {
   /* add ol.collection to hold all selected features */
   select = new ol.interaction.Select();
   map.addInteraction(select);
-  var selectedFeatures = select.getFeatures();
+  selectedFeatures = select.getFeatures();
 
   draw.on('drawstart', function (event) {
 
@@ -313,54 +312,55 @@ function clickQuery() {
     }, 300);
   }
 
-  function displayPopup() {
-    propertiesDict = currentFeature.getProperties()
-    var geom = currentFeature.getGeometry();
-    var geomType = geom.getType();
-    // console.log(geomType);
-    var contentHTML = "<h5 style='color:#33727e;'><center><b>Popup</b></center></h5>";
-    contentHTML += '<table class="table table-bordered">';
-    contentHTML += "<tr><td class='menu'>id</td><td>" + currentFeature.getId() + "</td></tr>";
-    $.each(propertiesDict, function (key, value) {
-      if (key != "geometry") {
-        contentHTML += "<tr>";
-        contentHTML += "<td class='menu'>" + key + "</td>";
-        if (key == "area") {
-          contentHTML += "<td>" + value + " m<sup>2</sup></td></tr>";
-        }
-        else {
-          contentHTML += "<td>" + value + "</td></tr>";
-        }
-      }
-    });
-    contentHTML += "</table>";
-    if (currentLayer == complaintLayer && user_role == 'superadmin') {
-      contentHTML += '<button class="btn btn-danger" style="width:35%" id="delete" onclick="deleteComplaint()">Delete</button>';
-    }
-    // contentHTML +=
-    //   '<button class="btn btn-primary" style="width:50%" id="edit" onclick="editGeometry()">Edit</button>';
-    // contentHTML +=
-    //   '<button class="btn btn-primary" style="width:50%" id="submit" onclick="editTable()">Submit</button>';
-    // if (($("#featureOf").val()) == "Complaints") {
-    //   contentHTML +=
-    //   '<br><br><button class="btn btn-primary" style="width:50%" id="edit" onclick="sendEmail()">Send Email</button>';
-    // }
-    content.innerHTML = contentHTML;
-    // console.log(contentHTML);
-    if (geomType == 'Point') {
-      overlay.setPosition(geom.getCoordinates());
-    }
-    else {
-      var extent = geom.getExtent();
-      var x = (extent[0] + extent[2]) / 2, y = extent[3] - 0.0001;
-      // console.log(x,y);
-      overlay.setPosition([x, y]);
-    }
-    // console.log(currentFeature.getGeometry().getCoordinates());
-    map.addOverlay(overlay);
-  }
 }
 
+
+function displayPopup() {
+  propertiesDict = currentFeature.getProperties()
+  var geom = currentFeature.getGeometry();
+  var geomType = geom.getType();
+  // console.log(geomType);
+  var contentHTML = "<h5 style='color:#33727e;'><center><b>Popup</b></center></h5>";
+  contentHTML += '<table class="table table-bordered">';
+  contentHTML += "<tr><td class='menu'>id</td><td>" + currentFeature.getId() + "</td></tr>";
+  $.each(propertiesDict, function (key, value) {
+    if (key != "geometry") {
+      contentHTML += "<tr>";
+      contentHTML += "<td class='menu'>" + key + "</td>";
+      if (key == "area") {
+        contentHTML += "<td>" + value + " m<sup>2</sup></td></tr>";
+      }
+      else {
+        contentHTML += "<td>" + value + "</td></tr>";
+      }
+    }
+  });
+  contentHTML += "</table>";
+  if (currentLayer == complaintLayer && user_role == 'superadmin') {
+    contentHTML += '<button class="btn btn-danger" style="width:35%" id="delete" onclick="deleteComplaint()">Delete</button>';
+  }
+  // contentHTML +=
+  //   '<button class="btn btn-primary" style="width:50%" id="edit" onclick="editGeometry()">Edit</button>';
+  // contentHTML +=
+  //   '<button class="btn btn-primary" style="width:50%" id="submit" onclick="editTable()">Submit</button>';
+  // if (($("#featureOf").val()) == "Complaints") {
+  //   contentHTML +=
+  //   '<br><br><button class="btn btn-primary" style="width:50%" id="edit" onclick="sendEmail()">Send Email</button>';
+  // }
+  content.innerHTML = contentHTML;
+  // console.log(contentHTML);
+  if (geomType == 'Point') {
+    overlay.setPosition(geom.getCoordinates());
+  }
+  else {
+    var extent = geom.getExtent();
+    var x = (extent[0] + extent[2]) / 2, y = extent[3] - 0.0001;
+    // console.log(x,y);
+    overlay.setPosition([x, y]);
+  }
+  // console.log(currentFeature.getGeometry().getCoordinates());
+  map.addOverlay(overlay);
+}
 
 function addComplaint() {
   draw = new ol.interaction.Draw({
@@ -470,3 +470,64 @@ function deleteComplaint() {
   source.clear();
   // location.reload();
 }
+
+
+
+//function to toggle input panel on and off
+function showInput() {
+  $("#inputPannel").toggle();
+  $("#keyWordsOptions").hide();
+}
+
+//filter feature based on Service Type like emergency or normal. It lists complaitns features with specified service type.
+$("#keyWordsInput").change(function () {
+  clearDraw();
+  var inputValue = $("#keyWordsInput").val();
+  console.log(inputValue);
+  let url = "http://localhost:8000/complaint/" + "?service_required_type=" + inputValue;
+  console.log(url);
+  $.ajax({
+    url: url,
+    type: 'GET',
+    headers: {
+      Authorization: 'Token ' + token,   //If your header name has spaces or any other char not appropriate
+    },
+    success: function (data) {
+      // console.log(data.features[0].properties['problem']);
+      var features = data.features
+      var id, problem, optionHTML = "";
+      for (var i = 0; i < features.length; i++) {
+        id = features[i].id;
+        problem = features[i].properties['problem'];
+        optionHTML += "<option value='" + id + "'>" + problem + "</option>";
+      }
+      console.log(optionHTML);
+      $("#keyWordsOptions").show();
+      $("#keyWordsTable").empty();
+      $("#keyWordsTable").append(optionHTML);
+    },
+    error: function (xhr, status, error) {
+      var errorMessage;
+      if (xhr.status == 400) {
+        errorMessage = "Couln't fetch the data from the database!"
+      }
+      else {
+        errorMessage = "Please try again!"
+      }
+      errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
+      // alert('Error - ' + errorMessage);
+      $("#requestMessage").text(errorMessage);
+      $('#requestMessageModal').modal('show');
+    },
+  });
+});
+
+//based on the selected complaint feature, it shows its attributes on a table.
+$("#keyWordsTable").change(function () {
+  clearDraw();
+  var selectedID = $(this).val()[0];
+  console.log(selectedID);
+  currentLayer = complaintLayer;
+  currentFeature = currentLayer.getSource().getFeatureById(selectedID);
+  displayPopup();
+});
