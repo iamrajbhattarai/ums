@@ -157,7 +157,7 @@ var styles = {
       // }),
       'complaint': new ol.style.Style({
         image: new ol.style.Icon({
-          anchor: [0.5, 46],
+          anchor: [0.5, 27],
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
           src: 'http://localhost:8000/static/utilities/complaint.png',

@@ -25,6 +25,7 @@ let listener;
 let select;
 let currentLayer;
 let currentFeature;
+let resultLayer;
 
 function measure(type) {
   clearDraw();
@@ -184,12 +185,15 @@ function measure(type) {
 function clearDraw() {
   map.removeInteraction(draw);
   map.removeInteraction(select);
+  map.removeInteraction(modify);
+  map.removeInteraction(snap);
   source.clear();
   currentFeature = null;
   map.removeOverlay(helpTooltip);
   map.removeOverlay(measureTooltip);
   overlay.setPosition(undefined);
   removeElementsByClass('ol-tooltip ol-tooltip-static');
+  editSource.clear();
 }
 
 // for popup
@@ -339,6 +343,10 @@ function displayPopup() {
       contentHTML += "<td class='menu'>" + key + "</td>";
       if (key == "area") {
         contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '" m<sup>2</sup></td></tr>';
+      }
+      else if (key == "description") {
+        contentHTML += '<td><textarea class="form-control" id="'+key+'" rows="3">'+value+'</textarea></td></tr>';
+        // contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '"</td></tr>';
       }
       else {
         contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '"</td></tr>';
@@ -539,9 +547,9 @@ $("#keyWordsTable").change(function () {
 
 // for editing any feature's attributes.
 function editTable() {
+  currentFeature
   $.each(currentFeature.values_, function (idx, obj) {
-    if (idx != "geometry" && idx != "SmID" && idx != "SmUserID" && idx != "SmArea" && idx !=
-      "SmPerimeter") {
+    if (idx != "geometry" && idx != "id") {
       currentFeature.values_[idx] = $("#" + idx + "Input").val();
     }
   });
@@ -566,6 +574,20 @@ function editTable() {
   });
 }
 
+resultLayer = new ol.layer.Vector({
+  source: popupSource,
+  style: new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: "#F601ED",
+      width: 3,
+    }),
+    fill: new ol.style.Fill({
+      color: "rgba(0, 0, 255, 0.1)",
+    }),
+  }),
+});
+map.addLayer(resultLayer);
+
 var editSource = new ol.source.Vector();
 let editLayer = new ol.layer.Vector({
   source: editSource
@@ -576,23 +598,28 @@ map.addLayer(editLayer);
 // for editing any feature's geometry
 function editGeometry() {
   editLayer.getSource().clear();
-  drawLayer.getSource().clear();
+  measureLayer.getSource().clear();
   resultLayer.getSource().clear();
   overlay.setOffset([0, overlay.getOffset()[1] - 60]);
 
   modify = new ol.interaction.Modify({
-    source: editSource
+    source: complaintLayer.getSource()
   });
   map.addInteraction(modify);
 
   snap = new ol.interaction.Snap({
-    source: editSource
+    source: complaintLayer.getSource()
   });
   map.addInteraction(snap);
 
-  editSource.addFeatures([currentFeature]);
+  // editSource.addFeatures([currentFeature]);
 
-  modify.on('modifyend', function (evt) {
-    currentFeature = evt.features.array_[0];
+  modify.on('modifyend', function (event) {
+    currentFeature = event.features.item(0);
+    console.log(currentFeature.getId());
+    console.log(currentFeature.getGeometry().getCoordinates());
+    //coordinates changed you can make pull request now.
+    //make put request now
   });
+
 }
