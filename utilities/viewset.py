@@ -134,10 +134,10 @@ class ComplaintViewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Complaint.objects.filter(is_solved=False)
     serializer_class = ComplaintSerializer
-    http_method_names = ['get', 'post', 'patch']
+    http_method_names = ['get', 'post', 'patch', 'put']
 
     def get_permissions(self):
-        if self.action == 'create' or self.action == 'update':
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
             permission_classes = [IsAuthenticated]
         elif self.action == 'delete':
             permission_classes = [IsAdminUser]
@@ -174,6 +174,29 @@ class ComplaintViewset(viewsets.ModelViewSet):
             return Response(data={'message': 'Data deleted succesfully!'}, status=status.HTTP_201_CREATED)
         return Response(data={'message': 'Could not retrieve object from database!'}, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, pk=None):
+        complaint_instance = Complaint.objects.get(pk=pk)
+        # print('pk is :', pk)
+        errors = []
+        lng = request.data.get('long')
+        lat = request.data.get('lat')
+        request.data._mutable = True
+        request.data.pop('long', None)
+        request.data.pop('lat', None)
+        request.data['geom'] = Point(float(lng), float(lat))
+        # request.data['is_solved'] = False
+        serializer = ComplaintSerializer(
+            complaint_instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            # print(serializer.data)
+            return Response(data={'message': 'Complaint Updated Succesfully!'}, status=status.HTTP_201_CREATED)
+        else:
+            for er in serializer._errors:
+                errors.append(
+                    {"errorName": er, "details": serializer._errors[er][0]})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'Error Occured', 'Error': errors})
+
     def list(self, request, *args, **kwargs):
         queryset = Complaint.objects.filter(is_solved=False)
         service_required_type = self.request.query_params.get(
@@ -208,7 +231,7 @@ def signIn(request):
         else:
             messages.error(request, "Invalid username or password!")
             # return render(request, 'utilities/login.html', {})
-            return redirect('/map')
+            return redirect('/login')
     else:
         return render(request, 'utilities/login.html', {})
 

@@ -193,7 +193,7 @@ function clearDraw() {
   map.removeOverlay(measureTooltip);
   overlay.setPosition(undefined);
   removeElementsByClass('ol-tooltip ol-tooltip-static');
-  editSource.clear();
+  // editSource.clear();
 }
 
 // for popup
@@ -322,6 +322,8 @@ function clickQuery() {
 function displayPopup() {
   propertiesDict = currentFeature.getProperties()
   var geom = currentFeature.getGeometry();
+  console.log(geom.getCoordinates());
+  console.log('after');
   var geomType = geom.getType();
   // console.log(geomType);
   var contentHTML = "<h5 style='color:#33727e;'><center><b>Popup</b></center></h5>";
@@ -345,7 +347,7 @@ function displayPopup() {
         contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '" m<sup>2</sup></td></tr>';
       }
       else if (key == "description") {
-        contentHTML += '<td><textarea class="form-control" id="'+key+'" rows="3">'+value+'</textarea></td></tr>';
+        contentHTML += '<td><textarea class="form-control" id="'+key+'Input" rows="3">'+value+'</textarea></td></tr>';
         // contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '"</td></tr>';
       }
       else {
@@ -412,6 +414,7 @@ function addComplaint() {
       },
       dataType: 'json',
       success: function (data) {
+        clearDraw();
         $("#requestMessage").text('Sucessful! Thank you for registering the complaint. We\'ll try to solve the problem asap.');
         $('#requestMessageModal').modal('show');
       },
@@ -431,15 +434,11 @@ function addComplaint() {
         $('#requestMessageModal').modal('show');
       },
     });
-    const pointerMoveHandler = function (evt) {
-      if (evt.dragging) {
-        return;
-      }
-    };
-    alert('This action is going to alter the data.');
-    complaintLayer.getSource().refresh();
-    clearDraw();
+    // alert('This action is going to alter the data.');
     source.clear();
+    map.removeInteraction(draw);
+    clearDraw();
+    complaintLayer.getSource().refresh();
     // location.reload();
   });
 }
@@ -476,10 +475,11 @@ function deleteComplaint() {
       $('#requestMessageModal').modal('show');
     },
   });
-  alert('This action is going to alter the data.');
+  // alert('This action is going to alter the data.');
+  source.clear();
+  map.removeInteraction(draw);
   complaintLayer.getSource().refresh();
   clearDraw();
-  source.clear();
   // location.reload();
 }
 
@@ -497,6 +497,9 @@ $("#keyWordsInput").change(function () {
   var inputValue = $("#keyWordsInput").val();
   // console.log(inputValue);
   let url = "http://localhost:8000/complaint/" + "?service_required_type=" + inputValue;
+  complaintLayer.getSource().setUrl(url);
+  // alert('This action is going to alter the data displayed on the screem.');
+  complaintLayer.getSource().refresh();
   // console.log(url);
   $.ajax({
     url: url,
@@ -547,31 +550,53 @@ $("#keyWordsTable").change(function () {
 
 // for editing any feature's attributes.
 function editTable() {
-  currentFeature
-  $.each(currentFeature.values_, function (idx, obj) {
-    if (idx != "geometry" && idx != "id") {
-      currentFeature.values_[idx] = $("#" + idx + "Input").val();
-    }
-  });
-  console.log(currentFeature);
-
-  var tempList = (dic[$("#featureOf").val()]).split("@");
-  console.log(tempList[0]);
-  var addFeatureParams = new SuperMap.EditFeaturesParameters({
-    features: [currentFeature],
-    dataSourceName: "contestdatasource",
-    dataSetName: tempList[0],
-    editType: "update",
-    returnContent: true
-  });
-  var editFeaturesService = new ol.supermap.FeatureService(dataUrl);
-  editFeaturesService.editFeatures(addFeatureParams, function (serviceResult) {
-    if (serviceResult.result.succeed) {
-      alert("Feature Modified successfully!");
-      drawLayer.getSource().refresh();
+  var complaintId = currentFeature.getId();
+  var newPointCoordinates = currentFeature.getGeometry().getCoordinates();
+  // console.log(currentFeature.getGeometry().getCoordinates());
+  var complaintDict = {
+    'problem': $("#problemInput").val(),
+    'description': $("#descriptionInput").val(),
+    'service_required_type': $("#service_required_typeInput").val(),
+    'long': newPointCoordinates[0],
+    'lat': newPointCoordinates[1]
+  }
+  console.log(complaintDict);
+  let url = "http://localhost:8000/complaint/" + complaintId + "/";
+  $.ajax({
+    url: url,
+    type: 'PUT',
+    data: complaintDict,
+    headers: {
+      Authorization: 'Token ' + token,   //If your header name has spaces or any other char not appropriate
+    },
+    dataType: 'json',
+    success: function (data) {
       clearDraw();
-    }
+      $("#requestMessage").text('Successful! Thank you for updating the complaint. We\'ll try to solve the problem asap.');
+      $('#requestMessageModal').modal('show');
+    },
+    error: function (xhr, status, error) {
+      var errorMessage;
+      if (xhr.status == 400) {
+        errorMessage = "All fields are required!"
+      }
+      else if (xhr.status == 401) {
+        errorMessage = "You must be logged in to update the complaint!"
+      }
+      else {
+        errorMessage = "Please try again!"
+      }
+      errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
+      $("#requestMessage").text(errorMessage);
+      $('#requestMessageModal').modal('show');
+    },
   });
+  map.removeInteraction(snap);
+  map.removeInteraction(modify);
+  map.removeInteraction(draw);
+  clearDraw();
+  // alert('good going?');
+  complaintLayer.getSource().refresh();
 }
 
 resultLayer = new ol.layer.Vector({
@@ -588,38 +613,26 @@ resultLayer = new ol.layer.Vector({
 });
 map.addLayer(resultLayer);
 
-var editSource = new ol.source.Vector();
-let editLayer = new ol.layer.Vector({
-  source: editSource
-});
-var modify, snap;
-map.addLayer(editLayer);
 
 // for editing any feature's geometry
-function editGeometry() {
-  editLayer.getSource().clear();
-  measureLayer.getSource().clear();
-  resultLayer.getSource().clear();
-  overlay.setOffset([0, overlay.getOffset()[1] - 60]);
+var modify, snap;
 
+function editGeometry() {
+  overlay.setOffset([0, overlay.getOffset()[1] - 60]);
   modify = new ol.interaction.Modify({
     source: complaintLayer.getSource()
   });
   map.addInteraction(modify);
-
   snap = new ol.interaction.Snap({
     source: complaintLayer.getSource()
   });
   map.addInteraction(snap);
-
-  // editSource.addFeatures([currentFeature]);
-
   modify.on('modifyend', function (event) {
     currentFeature = event.features.item(0);
-    console.log(currentFeature.getId());
-    console.log(currentFeature.getGeometry().getCoordinates());
-    //coordinates changed you can make pull request now.
-    //make put request now
+    map.removeInteraction(snap);
+    map.removeInteraction(modify);
+    // console.log(currentFeature.getId());
+    // console.log(currentFeature.getGeometry().getCoordinates());
+    //coordinates changed you can make put request now. Making the request only after the attributes have also changed.
   });
-
 }
