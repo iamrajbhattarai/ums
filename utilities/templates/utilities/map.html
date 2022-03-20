@@ -75,7 +75,7 @@
                         <i class="fas fa-search fa-lg"></i>
                     </button>
                     <button type="button" class="btn btn-secondary" id="help" data-toggle="tooltip" data-placement="top"
-                        title="User Role" onclick="alert('{{user.username}}')">
+                        title="Detailed User Information" onclick="$('#userInfo').modal('show');">
                         <i class="fas fa-user fa-lg"></i>
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#helpmodal" title="Help">
@@ -236,50 +236,56 @@
                                   <li><a class="dropdown-item" href="#">Electric Pole</a></li>
                                 </ul>
                             </div>
-                            <!-- <div class="form-group">
-                                <label class="layer-title" for="title">Feature Of</label>
-                                <select class="form-control" id="featureOf" style="width: 150px;">
-                                    <option>Complaints</option>
-                                    <option>Buildings</option>
-                                    <option>Septic Water Tank</option>
-                                    <option>Open Space</option>
-                                    <option>Road</option>
-                                    <option>Transmission Line</option>
-                                    <option>Water Pipeline</option>
-                                    <option>Drainage Line</option>
-                                    <option>Water Point</option>
-                                    <option>Electric Pole</option>
-                                    <option>Drainage Point</option>
-                                    <option>Temple</option>
-                                </select>
-                            </div> -->
                             <br>
                             <button class="btn btn-warning" style="width:35%" id="query" onclick="clickQuery()">Query</button>
                         </div>
                         <div class="panel-body-parts" id="complaints">
-                                <div class="form-group text-light">
-                                    <label for="title">Problem:</label>
-                                    <input type="text" class="form-control" id="problem" />
-                                </div>
-                                <div class="form-group text-light">
-                                    <label for="title">Description:</label>
-                                    <textarea class="form-control" id="description" placeholder="Detailed Information" rows="5"></textarea>
-                                </div>
-                                <div class="form-group text-light">
-                                    <label for="title">Service Required Type:</label>
-                                    <select class="form-select" id="service_required_type" aria-label="Service">
-                                        <option selected>----------------------</option>
-                                        <option value="Normal">Normal</option>
-                                        <option value="Emergency">Emergency</option>
-                                    </select>
-                                </div>
-                                <!-- <div class="form-group text-light">
-                                    <label for="title">Email:</label>
-                                    <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
-                                </div> -->
-                                <button class="btn btn-warning" style="width:45%" onclick="addComplaint()">Add</button>
-                                <!-- <button class="btn btn-primary" style="width:45%"
-                                    onclick="deleteBuilding()">Delete</button> -->
+                            <!-- <div class="form-group" id="inputPannel">
+                                <input type="keyWords" class="form-control" id="keyWordsInput" placeholder="Input Service Type">
+                            </div>
+                            <div id="keyWordsOptions" class="keyWordsOptions">
+                                <select multiple class="form-control" id="keyWordsTable"></select>
+                            </div> -->
+
+                            <div class="form-group text-light" id="inputPannel" style="display: none;">
+                                <label for="title">Search Complaints:</label>
+                                <select class="form-select" id="keyWordsInput" aria-label="Service">
+                                    <option selected>Select the Service Type</option>
+                                    <option value = "All">All</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Emergency">Emergency</option>
+                                </select>
+                            </div>
+                            <div class="form-group text-light" id="keyWordsOptions" style="display: none;">
+                                <label for="title">List of Complaints:</label>
+                                <!-- <textarea class="form-control" id="keyWordsTable" placeholder="" rows="5"></textarea> -->
+                                <select multiple class="form-control" id="keyWordsTable"></select>
+                                <hr style="color: #FFF;">
+                            </div>
+
+                            <div class="form-group text-light">
+                                <label for="title">Problem:</label>
+                                <input type="text" class="form-control" id="problem" />
+                            </div>
+                            <div class="form-group text-light">
+                                <label for="title">Description:</label>
+                                <textarea class="form-control" id="description" placeholder="Detailed Information" rows="5"></textarea>
+                            </div>
+                            <div class="form-group text-light">
+                                <label for="title">Service Required Type:</label>
+                                <select class="form-select" id="service_required_type" aria-label="Service">
+                                    <option selected>----------------------</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Emergency">Emergency</option>
+                                </select>
+                            </div>
+                            <!-- <div class="form-group text-light">
+                                <label for="title">Email:</label>
+                                <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
+                            </div> -->
+                            <button class="btn btn-warning" style="width:45%" onclick="addComplaint()">Add</button>
+                            <!-- <button class="btn btn-primary" style="width:45%"
+                                onclick="deleteBuilding()">Delete</button> -->
                         </div>
                 </div>
             </div>
@@ -294,8 +300,46 @@
     </div>
 
     <!-- Modal for user help-->
+    <div class="modal fade" id="userInfo" tabindex="-1" aria-labelledby="userInfo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpmodalLabel">
+                        <h5 style='color:#33727e;'><center><b>User Information</b></center></h5>
+                    </h5>
+                    <button type="button" class="btn" style="color: #fff;; background:#33727e;" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if user.is_authenticated %}
+                        <table class="table table-bordered">
+                        <tr>
+                            <td class='menu'>ID</td>
+                            <td>{{user.id}}</td>
+                        </tr>
+                        <tr>
+                            <td class='menu'>Username</td>
+                            <td>{{user.username}}</td>
+                        </tr>
+                        <tr>
+                            <td class='menu'>Email</td>
+                            <td>{{user.email}}</td>
+                        </tr>
+                        <tr>
+                            <td class='menu'>Role</td>
+                            <td>{{user_role}}</td>
+                        </tr>
+                        </table>
+                    {% else %}
+                    <center><p style="color: red;">You are not logged in!</p></center>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="helpmodal" tabindex="-1" aria-labelledby="helpmodalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="helpmodalLabel">
@@ -318,6 +362,30 @@
                     regarding utilities on the housing area.<br>10. Admin can edit the attribute Charge of Complaints
                     feature and send email
                     based on that to the clients as a serive bill.<br><br> <b>-Developed by Raj Bhattarai and team.</b>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="noFeatureErrorModal" tabindex="-1" aria-labelledby="noFeatureErrorModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header"style="background: #A4CDAE;color: red;">
+                        <p>Please click over a feature more precisely!</p>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="requestMessageModal" tabindex="-1" aria-labelledby="requestMessageModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header"style="background: #A4CDAE;color: red;">
+                        <p id = "requestMessage"></p>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
         </div>

@@ -249,6 +249,19 @@ ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_use
 
 
 --
+-- Name: authtoken_token; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.authtoken_token (
+    key character varying(40) NOT NULL,
+    created timestamp with time zone NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.authtoken_token OWNER TO postgres;
+
+--
 -- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -414,7 +427,7 @@ ALTER SEQUENCE public.utilities_boundary_id_seq OWNED BY public.utilities_bounda
 CREATE TABLE public.utilities_building (
     id bigint NOT NULL,
     block character varying(50) NOT NULL,
-    names character varying(150) NOT NULL,
+    name character varying(150) NOT NULL,
     area double precision NOT NULL,
     geom public.geometry(MultiPolygon,4326) NOT NULL
 );
@@ -441,6 +454,43 @@ ALTER TABLE public.utilities_building_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.utilities_building_id_seq OWNED BY public.utilities_building.id;
+
+
+--
+-- Name: utilities_complaint; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.utilities_complaint (
+    id bigint NOT NULL,
+    problem character varying(255) NOT NULL,
+    description text NOT NULL,
+    service_required_type character varying(50) NOT NULL,
+    geom public.geometry(Point,4326) NOT NULL,
+    is_solved boolean NOT NULL
+);
+
+
+ALTER TABLE public.utilities_complaint OWNER TO postgres;
+
+--
+-- Name: utilities_complaint_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.utilities_complaint_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.utilities_complaint_id_seq OWNER TO postgres;
+
+--
+-- Name: utilities_complaint_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.utilities_complaint_id_seq OWNED BY public.utilities_complaint.id;
 
 
 --
@@ -864,6 +914,13 @@ ALTER TABLE ONLY public.utilities_building ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: utilities_complaint id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.utilities_complaint ALTER COLUMN id SET DEFAULT nextval('public.utilities_complaint_id_seq'::regclass);
+
+
+--
 -- Name: utilities_drainage id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1026,6 +1083,18 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 70	Can change electric pole	18	change_electricpole
 71	Can delete electric pole	18	delete_electricpole
 72	Can view electric pole	18	view_electricpole
+73	Can add complaint	19	add_complaint
+74	Can change complaint	19	change_complaint
+75	Can delete complaint	19	delete_complaint
+76	Can view complaint	19	view_complaint
+77	Can add Token	20	add_token
+78	Can change Token	20	change_token
+79	Can delete Token	20	delete_token
+80	Can view Token	20	view_token
+81	Can add token	21	add_tokenproxy
+82	Can change token	21	change_tokenproxy
+83	Can delete token	21	delete_tokenproxy
+84	Can view token	21	view_tokenproxy
 \.
 
 
@@ -1034,7 +1103,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$320000$ROrrgjuTjtKH2C9NkhfFHA$sYRsjQVBXUQ7bkEd/kpR43R4SYgZ2oa6IdBMSk5ebYA=	2022-03-13 05:53:06.050307+00	t	admin			raj.naxa@gmail.com	t	t	2022-03-13 05:36:43.813809+00
+1	pbkdf2_sha256$320000$ROrrgjuTjtKH2C9NkhfFHA$sYRsjQVBXUQ7bkEd/kpR43R4SYgZ2oa6IdBMSk5ebYA=	2022-03-20 03:24:55.818486+00	t	admin			raj.naxa@gmail.com	t	t	2022-03-13 05:36:43.813809+00
 \.
 
 
@@ -1055,10 +1124,93 @@ COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
 
 
 --
+-- Data for Name: authtoken_token; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.authtoken_token (key, created, user_id) FROM stdin;
+3a551e7a14412a4e1bfe3a55ec42e60221a09d8a	2022-03-17 09:58:51.044224+00	1
+\.
+
+
+--
 -- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2022-03-17 05:35:44.097543+00	1	Complaint object (1)	1	[{"added": {}}]	19	1
+2	2022-03-17 06:41:28.382436+00	1	Complaint object (1)	2	[]	19	1
+3	2022-03-17 06:47:57.909851+00	2	Complaint object (2)	1	[{"added": {}}]	19	1
+4	2022-03-17 06:55:16.964096+00	1	Complaint object (1)	2	[{"changed": {"fields": ["Geom"]}}]	19	1
+5	2022-03-17 07:27:07.841404+00	2	Complaint object (2)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+6	2022-03-17 09:58:51.048115+00	1	3a551e7a14412a4e1bfe3a55ec42e60221a09d8a	1	[{"added": {}}]	21	1
+7	2022-03-17 16:28:20.144215+00	7	Complaint object (7)	3		19	1
+8	2022-03-17 16:28:20.148802+00	8	Complaint object (8)	3		19	1
+9	2022-03-17 16:28:20.152463+00	9	Complaint object (9)	3		19	1
+10	2022-03-17 16:28:20.156808+00	10	Complaint object (10)	3		19	1
+11	2022-03-17 16:28:20.161484+00	11	Complaint object (11)	3		19	1
+12	2022-03-17 16:28:20.165278+00	12	Complaint object (12)	3		19	1
+13	2022-03-17 16:28:20.16896+00	13	Complaint object (13)	3		19	1
+14	2022-03-17 16:31:06.162519+00	1	Complaint object (1)	3		19	1
+15	2022-03-17 16:31:06.172134+00	2	Complaint object (2)	3		19	1
+16	2022-03-17 16:31:06.177821+00	14	Complaint object (14)	3		19	1
+17	2022-03-17 16:31:06.183225+00	15	Complaint object (15)	3		19	1
+18	2022-03-17 16:31:06.189793+00	16	Complaint object (16)	3		19	1
+19	2022-03-17 16:31:06.196137+00	17	Complaint object (17)	3		19	1
+20	2022-03-17 16:31:06.202451+00	18	Complaint object (18)	3		19	1
+21	2022-03-17 16:31:06.208739+00	19	Complaint object (19)	3		19	1
+22	2022-03-17 16:31:06.214881+00	20	Complaint object (20)	3		19	1
+23	2022-03-18 16:47:24.058991+00	34	Complaint object (34)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+24	2022-03-18 16:47:29.006587+00	26	Complaint object (26)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+25	2022-03-18 16:52:02.234637+00	21	Complaint object (21)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+26	2022-03-18 16:52:07.052889+00	26	Complaint object (26)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+27	2022-03-18 16:52:17.479164+00	25	Complaint object (25)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+28	2022-03-18 16:58:17.56073+00	21	Complaint object (21)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+29	2022-03-18 16:58:22.31776+00	25	Complaint object (25)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+30	2022-03-18 16:58:31.065758+00	34	Complaint object (34)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+31	2022-03-18 16:58:35.403495+00	37	Complaint object (37)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+32	2022-03-18 17:10:58.888252+00	21	Complaint object (21)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+33	2022-03-18 17:11:19.393183+00	22	Complaint object (22)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+34	2022-03-18 17:11:24.780285+00	23	Complaint object (23)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+35	2022-03-18 17:16:39.214335+00	21	Complaint object (21)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+36	2022-03-18 17:17:08.261833+00	22	Complaint object (22)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+37	2022-03-18 17:17:25.984106+00	23	Complaint object (23)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+38	2022-03-18 17:17:31.959073+00	27	Complaint object (27)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+39	2022-03-18 17:41:17.755674+00	21	Complaint object (21)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+40	2022-03-18 17:41:22.26485+00	29	Complaint object (29)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+41	2022-03-18 17:49:41.913938+00	21	Complaint object (21)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+42	2022-03-18 17:50:09.531525+00	21	Complaint object (21)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+43	2022-03-18 17:50:14.153116+00	29	Complaint object (29)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+44	2022-03-18 17:50:24.205698+00	26	Complaint object (26)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+45	2022-03-18 17:52:37.448798+00	22	Complaint object (22)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+46	2022-03-19 03:53:35.719487+00	21	Complaint object (21)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+47	2022-03-19 03:53:42.234661+00	23	Complaint object (23)	2	[{"changed": {"fields": ["Service required type", "Is solved"]}}]	19	1
+48	2022-03-19 03:53:46.739441+00	25	Complaint object (25)	2	[{"changed": {"fields": ["Is solved"]}}]	19	1
+49	2022-03-20 06:46:11.190103+00	29	Complaint object (29)	3		19	1
+50	2022-03-20 06:46:11.202938+00	30	Complaint object (30)	3		19	1
+51	2022-03-20 06:46:11.20872+00	34	Complaint object (34)	3		19	1
+52	2022-03-20 06:46:11.214564+00	35	Complaint object (35)	3		19	1
+53	2022-03-20 06:46:11.221706+00	36	Complaint object (36)	3		19	1
+54	2022-03-20 06:46:11.228067+00	37	Complaint object (37)	3		19	1
+55	2022-03-20 06:46:11.234311+00	38	Complaint object (38)	3		19	1
+56	2022-03-20 06:46:11.23972+00	39	Complaint object (39)	3		19	1
+57	2022-03-20 06:46:11.24587+00	40	Complaint object (40)	3		19	1
+58	2022-03-20 06:46:11.252113+00	41	Complaint object (41)	3		19	1
+59	2022-03-20 06:46:11.257933+00	42	Complaint object (42)	3		19	1
+60	2022-03-20 06:46:11.265055+00	43	Complaint object (43)	3		19	1
+61	2022-03-20 06:46:11.271516+00	44	Complaint object (44)	3		19	1
+62	2022-03-20 06:46:11.277564+00	45	Complaint object (45)	3		19	1
+63	2022-03-20 06:46:11.28378+00	46	Complaint object (46)	3		19	1
+64	2022-03-20 06:46:11.289629+00	47	Complaint object (47)	3		19	1
+65	2022-03-20 06:46:11.29522+00	78	Complaint object (78)	3		19	1
+66	2022-03-20 06:46:11.300784+00	79	Complaint object (79)	3		19	1
+67	2022-03-20 06:46:11.306237+00	80	Complaint object (80)	3		19	1
+68	2022-03-20 06:46:11.311578+00	81	Complaint object (81)	3		19	1
+69	2022-03-20 06:46:11.317094+00	82	Complaint object (82)	3		19	1
+70	2022-03-20 06:46:11.322874+00	83	Complaint object (83)	3		19	1
+71	2022-03-20 06:46:11.328922+00	84	Complaint object (84)	3		19	1
+72	2022-03-20 06:46:11.334845+00	85	Complaint object (85)	3		19	1
+73	2022-03-20 06:46:11.340573+00	86	Complaint object (86)	3		19	1
+74	2022-03-20 06:46:11.347538+00	119	Complaint object (119)	3		19	1
 \.
 
 
@@ -1085,6 +1237,9 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 16	utilities	transmissionline
 17	utilities	streetlamp
 18	utilities	electricpole
+19	utilities	complaint
+20	authtoken	token
+21	authtoken	tokenproxy
 \.
 
 
@@ -1130,6 +1285,13 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 35	utilities	0017_transmissionline	2022-03-13 05:33:54.719297+00
 36	utilities	0018_streetlamp	2022-03-13 05:33:54.746018+00
 37	utilities	0019_electricpole	2022-03-13 05:33:54.771663+00
+38	utilities	0020_complaint	2022-03-17 05:31:45.300462+00
+39	utilities	0021_rename_is_deleted_complaint_is_solved	2022-03-17 05:34:06.346194+00
+40	authtoken	0001_initial	2022-03-17 09:58:03.966905+00
+41	authtoken	0002_auto_20160226_1747	2022-03-17 09:58:04.023832+00
+42	authtoken	0003_tokenproxy	2022-03-17 09:58:04.031232+00
+43	utilities	0022_alter_complaint_is_solved	2022-03-17 16:16:07.447403+00
+44	utilities	0023_rename_names_building_name	2022-03-18 18:04:54.226735+00
 \.
 
 
@@ -1139,6 +1301,10 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 872o43hbd9jime5a9132rf9fxpuz05de	.eJxVjDsOwjAQBe_iGln-O1DS5wzWrr2LA8iR4qRC3B0ipYD2zcx7iQTbWtPWaUlTERehxel3Q8gPajsod2i3Wea5rcuEclfkQbsc50LP6-H-HVTo9VtbBdFZ5zQYMJFBxWxLyeTJFhqUVo4B2WmMxgweOSJx0OfASrMPwYr3B-SbN-0:1nTHAA:PF6wlPcdzwBIr9k-JLyEgsO2K8B3aUXbFvNRC5Ur7rA	2022-03-27 05:53:06.058476+00
+7ew8n46qoqei49azr1yp669p9evu17lg	.eJxVjDsOwjAQBe_iGln-O1DS5wzWrr2LA8iR4qRC3B0ipYD2zcx7iQTbWtPWaUlTERehxel3Q8gPajsod2i3Wea5rcuEclfkQbsc50LP6-H-HVTo9VtbBdFZ5zQYMJFBxWxLyeTJFhqUVo4B2WmMxgweOSJx0OfASrMPwYr3B-SbN-0:1nUuxj:DMbroRvFkGl3FOea5tv5RkP-nQTIW8fMaSMPB_zMPvg	2022-03-31 18:35:03.685992+00
+yrtz7fmz54m76ackxb8e38tjq6msp8ba	e30:1nUpI2:_Q6iC0N1MtqTPqPu6zjBbt1AoywueBJQaRieycOPv6g	2022-03-31 12:31:38.358404+00
+v6o31b7wy7xdqrr7disqkt4y6svmmfqo	e30:1nUpLs:TKzRkPx-hYMDzqeyOJb8MH2Z84jaWVHG8VzhZCATwOQ	2022-03-31 12:35:36.820222+00
+j7cyjf5thsmpu1vlhuuvvgt7p3bvs48p	.eJxVjDsOwjAQBe_iGln-O1DS5wzWrr2LA8iR4qRC3B0ipYD2zcx7iQTbWtPWaUlTERehxel3Q8gPajsod2i3Wea5rcuEclfkQbsc50LP6-H-HVTo9VtbBdFZ5zQYMJFBxWxLyeTJFhqUVo4B2WmMxgweOSJx0OfASrMPwYr3B-SbN-0:1nVmBb:WO8e9lFQMY7ogjAFvVOgNCpd8OdgGLSTobuL9K2xgJg	2022-04-03 03:24:55.822725+00
 \.
 
 
@@ -1163,7 +1329,7 @@ COPY public.utilities_boundary (id, area, name, geom) FROM stdin;
 -- Data for Name: utilities_building; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.utilities_building (id, block, names, area, geom) FROM stdin;
+COPY public.utilities_building (id, block, name, area, geom) FROM stdin;
 1	11	Teachers Training Block	985.482999999999947	0106000020E610000001000000010300000002000000170000002B972736706255404E2A0DE1949E3B40310E2F3E706255405145054C909E3B40229889C270625540177C7459909E3B404063D4DA70625540ACCDB251819E3B403090885770625540DC583F45819E3B407C32505E70625540234E24B07C9E3B40D53809AA6C625540EB19F6587C9E3B40CF9BD55D6C625540E8BEA1517D9E3B40DE6901596C625540053855F0809E3B4003F8A51C6C6255400E3300EC809E3B406E6A6FD56B625540167AA8E5819E3B40602061CF6B6255406E753ABE859E3B40DEF10D186C6255409FF836BF869E3B40B76313516C62554001C736C4869E3B409A6B6C4C6C625540F5E6762F8A9E3B404B673A0E6C625540C61A002B8A9E3B4056D303C76B6255400C60A8248B9E3B4054546FC16B625540413C09F98E9E3B40892B1C0A6C6255406EC005FA8F9E3B40741A84446C625540C3A324FF8F9E3B4046C67A3D6C6255404EDD3799939E3B40EEC342856C6255408799AAA1949E3B402B972736706255404E2A0DE1949E3B4005000000FB5641EF6E625540BFC87A65819E3B40FC09E2E26E625540A1AE29F38F9E3B40A6814FFD6D6255404C91C9D18F9E3B40A24011146E6255405CBD3448819E3B40FB5641EF6E625540BFC87A65819E3B40
 2	12	Pharmacy Block	984.482999999999947	0106000020E61000000100000001030000000200000018000000F36FB2E5706255409980D665799E3B4017B2A7ED706255408AA9FFC1749E3B40A4A635727162554000B293C8749E3B40E3716D8C71625540086DFABD659E3B40BE39F40671625540F72E49AF659E3B4030F5720F71625540C9322A11619E3B40B29906616D625540D90309CE609E3B4065800F176D625540478442C7619E3B403E8F69106D6255403BF33D69659E3B40FAE4F1D56C625540CD3A1E62659E3B40AA42078A6C625540F0BE1F5C669E3B404B4F7E826C6255408B4A262D6A9E3B40D7ACD6CA6C62554021E477336B9E3B40C18DAB056D6255401E090C396B9E3B404E601F006D625540EB49B69F6E9E3B408D7D4AC56C6255407E24229A6E9E3B405A2EB1796C62554072C2E7926F9E3B409EA118736C62554071750D69739E3B40A39F45BB6C6255401805416E749E3B406CF58FF76C6255403E94F473749E3B401BD58AEF6C625540CD725C0F789E3B4092DA9C366D625540CE20A922799E3B403BBA0F5F6F6255402F5B034A799E3B40F36FB2E5706255409980D665799E3B4005000000363245AB6F62554048E5EEE3659E3B4086A50A8D6F6255408615CC48749E3B407BA3C8A56E625540F2022449749E3B40BCE66BCA6E62554087FA70D2659E3B40363245AB6F62554048E5EEE3659E3B40
 3	10	Classroom Block	1023.48000000000002	0106000020E61000000200000001030000000100000004000000E0699282716255406E77AA95989E3B40EB30B682716255406A61AE95989E3B40306A958271625540D16E7892989E3B40E0699282716255406E77AA95989E3B4001030000000200000017000000E0699282716255406E77AA95989E3B40343372C96D625540C2AF632D989E3B406F01127B6D6255404D04E853999E3B40129ED27F6D625540C6393FC49C9E3B40973B022F6D625540015FBAF09C9E3B40214F6BF36C625540E2E584EC9D9E3B40756B66EC6C625540D5CA29BEA19E3B40A04F6A3A6D6255400B9DCC91A29E3B40F954DB746D625540BBC6469CA29E3B404D9466766D625540AD97D215A69E3B400CE040256D62554089156922A69E3B408E117CE96C62554091562325A79E3B40862D98E86C6255400CE401FBAA9E3B4005A64E2F6D6255402C9063EEAB9E3B40DB8039656D6255405151B000AC9E3B4074DB765A6D6255400BEEF79AAF9E3B407C41D4A16D62554011DD1683B09E3B406916185C71625540D9CAACDEB09E3B409E8A1B5D716255408DB2CC5EAC9E3B4004BD42F37162554071235756AC9E3B4023E6F9F971625540FFE1B7299D9E3B40B701527E716255406A1F7E1C9D9E3B40E0699282716255406E77AA95989E3B4005000000968C180970625540C0E5EA0AAA9E3B40E80349226F625540F3387C04AA9E3B40916639256F625540B962C04E9F9E3B408F519815706255405E23DE4E9F9E3B40968C180970625540C0E5EA0AAA9E3B40
@@ -1217,6 +1383,28 @@ COPY public.utilities_building (id, block, names, area, geom) FROM stdin;
 51	28A	Balaram Tara Energy Block For Department of Mechanical Engineering	309.684000000000026	0106000020E610000001000000010300000001000000080000005B1AAAA65F62554080B6526BB59E3B40919598246062554066A3A270B59E3B407C5FE42260625540F8D06A71B79E3B406F18ACB761625540AED27D82B79E3B40DC5DBBA961625540A1C35D2BA89E3B4081ED75A45F62554013D39225A89E3B4087BA2AA25F625540AC24226BB59E3B405B1AAAA65F62554080B6526BB59E3B40
 52	28B	Lab Block For Department Of Environment Science and Engineering	337.908000000000015	0106000020E6100000010000000103000000010000000A000000A8DE5BE9906255400C351000519E3B40BA314EE9906255406D7BDE04519E3B400DA3FD7C92625540D4C46E7C519E3B4005797DF89262554060654AC3409E3B4042B78B63916255401B640C3C409E3B401EB4395B916255402C357D16429E3B404168DAD790625540766FDEDA419E3B405B677C7890625540869966D84E9E3B40D8FF2BFA90625540753AF3134F9E3B40A8DE5BE9906255400C351000519E3B40
 53	01	Main Square	559.436000000000035	0106000020E61000000100000001030000000200000025000000AED020FB77625540848C1B18989E3B40115BB3FD77625540459AC593969E3B40CD97BA707A625540DD887FC8969E3B40B87F5E767A625540E992BB93969E3B40CAF56D967A625540C659F454959E3B40D19ED5E57A625540D5988C6A919E3B408A14EA117B62554022DA21DF8D9E3B409F63FC247B6255405B6FE39B8A9E3B401491182A7B625540D9848C65899E3B40D70701267B62554058CEFEFE869E3B405823A4157B6255404923F450849E3B4071566E057B625540300DAA78829E3B40AD6477E87A625540556FB262809E3B40996337C87A625540B8E4EAAF7E9E3B4009B7289D7A625540981BE2947C9E3B4072D4712579625540554E4A757C9E3B4044D8FC1B7862554091CEF75E7C9E3B402F58F220786255409D572FF6799E3B405DE9609D77625540C26D97E8799E3B40AF866F9177625540564D4F107A9E3B40F5825C8D7762554001DC4A6B7C9E3B4008BCF991756255404E734E287C9E3B408C850A6A75625540C1E0CF3D7D9E3B40D864674575625540E6837F527E9E3B40EC043D23756255408BAE28D47F9E3B404306D30E756255405930BDF2809E3B40E30B26FE74625540F3820210829E3B4005CA5AE9746255409802B88D839E3B40EC5528C874625540A57F5C99879E3B40D32200C47462554081B733F68A9E3B40CB6D4510756255407CD027BA919E3B405CAD821B75625540C9C484A2929E3B40C1673E3075625540579D88AD939E3B401E6A8A6575625540AD97EB5B969E3B403620F45377625540A55E7F85969E3B407D936151776255405750D509989E3B40AED020FB77625540848C1B18989E3B400F000000B1F5E8297A6255402317F6E77E9E3B4044A11B647A625540AC1DF278829E3B40761627817A62554088425BA5859E3B4039A0CF897A625540DA1AC4D8889E3B40EE0C96797A62554079AE070B8D9E3B40E2A067527A625540B552B454909E3B40640469027A62554046E9B289949E3B40A5F258DB756255404DEF4D30949E3B40725C64A47562554053CF2EE0909E3B40F97CCE7F75625540996277778C9E3B4002296F83756255408356FF66879E3B40379077A7756255404BD26AB5839E3B400148EACD75625540F4E081E5809E3B40F43ACD057662554019DB91677E9E3B40B1F5E8297A6255402317F6E77E9E3B40
+\.
+
+
+--
+-- Data for Name: utilities_complaint; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.utilities_complaint (id, problem, description, service_required_type, geom, is_solved) FROM stdin;
+24	asdfasdf	asdfasdf	Normal	0101000020E61000005DB4E73C69625540974F10CEAD9E3B40	t
+28	asdf	asdfasdf	Emergency	0101000020E6100000AFD81F8D78625540779318A4889E3B40	t
+120	abc	ABCD	Emergency	0101000020E6100000B0D8DF3F6062554076931899849E3B40	f
+26	Electricity Pole is Burning	asdf	Normal	0101000020E6100000C2258F3B63625540D95E3ED3269E3B40	t
+22	asdf	asdfasdf	Normal	0101000020E6100000AFD89FF5446255407693181A319E3B40	t
+23	asdfasdf	asdfasdf	Emergency	0101000020E6100000AFD89F9784625540769318C8379E3B40	f
+25	Electricity Pole is Burning	asdf	Normal	0101000020E6100000AFD81F7A40625540779318AAFB9D3B40	t
+121	adfasdf	asdfasdf	Emergency	0101000020E61000002FCDB92F4362554044DC581C2C9E3B40	f
+27	asdf	asdfasdf	Emergency	0101000020E6100000AFD81F9D596255407793182EFF9D3B40	t
+122	adfasdf	asdfasdf	Emergency	0101000020E61000002FCD39404962554044DC58661E9E3B40	f
+124	asdfasdf	asdfasdf	Emergency	0101000020E6100000AFD85FB98462554076931861539E3B40	f
+123	Electricity Pole is Burning	afasdf	Normal	0101000020E6100000AFD85F456262554076931807269E3B40	t
+125	Electricity Pole is Burning	dfsgsdfg	Normal	0101000020E6100000AFD8DFDB786255407693181D889E3B40	f
+21	Raj fdgsdf	Raj dfgsdfgsdfgsdfg	Normal	0101000020E6100000AFD85FB35D62554076931805469E3B40	f
 \.
 
 
@@ -1513,7 +1701,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 72, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 84, true);
 
 
 --
@@ -1541,21 +1729,21 @@ SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 1, false);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 74, true);
 
 
 --
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 18, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 21, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 37, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 44, true);
 
 
 --
@@ -1570,6 +1758,13 @@ SELECT pg_catalog.setval('public.utilities_boundary_id_seq', 1, true);
 --
 
 SELECT pg_catalog.setval('public.utilities_building_id_seq', 53, true);
+
+
+--
+-- Name: utilities_complaint_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.utilities_complaint_id_seq', 125, true);
 
 
 --
@@ -1739,6 +1934,22 @@ ALTER TABLE ONLY public.auth_user
 
 
 --
+-- Name: authtoken_token authtoken_token_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: authtoken_token authtoken_token_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_user_id_key UNIQUE (user_id);
+
+
+--
 -- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1792,6 +2003,14 @@ ALTER TABLE ONLY public.utilities_boundary
 
 ALTER TABLE ONLY public.utilities_building
     ADD CONSTRAINT utilities_building_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: utilities_complaint utilities_complaint_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.utilities_complaint
+    ADD CONSTRAINT utilities_complaint_pkey PRIMARY KEY (id);
 
 
 --
@@ -1938,6 +2157,13 @@ CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (u
 
 
 --
+-- Name: authtoken_token_key_10f0b77e_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX authtoken_token_key_10f0b77e_like ON public.authtoken_token USING btree (key varchar_pattern_ops);
+
+
+--
 -- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1977,6 +2203,13 @@ CREATE INDEX utilities_boundary_geom_87648dc5_id ON public.utilities_boundary US
 --
 
 CREATE INDEX utilities_building_geom_86de2065_id ON public.utilities_building USING gist (geom);
+
+
+--
+-- Name: utilities_complaint_geom_9ef3130a_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX utilities_complaint_geom_9ef3130a_id ON public.utilities_complaint USING gist (geom);
 
 
 --
@@ -2103,6 +2336,14 @@ ALTER TABLE ONLY public.auth_user_user_permissions
 
 ALTER TABLE ONLY public.auth_user_user_permissions
     ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: authtoken_token authtoken_token_user_id_35299eff_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_user_id_35299eff_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

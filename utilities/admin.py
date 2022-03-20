@@ -25,8 +25,8 @@ admin.site.register(Boundary, BoundaryAdmin)
 
 
 class BuildingAdmin(LeafletGeoAdmin):
-    list_display = ('id', 'block', 'names')
-    search_fields = ('block', 'names',)
+    list_display = ('id', 'block', 'name')
+    search_fields = ('block', 'name',)
     ordering = ('id', )
 
 
