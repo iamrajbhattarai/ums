@@ -434,7 +434,7 @@ function addComplaint() {
         $('#requestMessageModal').modal('show');
       },
     });
-    // alert('This action is going to alter the data.');
+    alert('This action is going to alter the data displayed on the map.');
     source.clear();
     map.removeInteraction(draw);
     clearDraw();
@@ -475,11 +475,11 @@ function deleteComplaint() {
       $('#requestMessageModal').modal('show');
     },
   });
-  // alert('This action is going to alter the data.');
+  alert('This action is going to alter the data displayed on the map.');
   source.clear();
   map.removeInteraction(draw);
-  complaintLayer.getSource().refresh();
   clearDraw();
+  complaintLayer.getSource().refresh();
   // location.reload();
 }
 
@@ -560,7 +560,7 @@ function editTable() {
     'long': newPointCoordinates[0],
     'lat': newPointCoordinates[1]
   }
-  console.log(complaintDict);
+  // console.log(complaintDict);
   let url = "http://localhost:8000/complaint/" + complaintId + "/";
   $.ajax({
     url: url,
@@ -591,11 +591,11 @@ function editTable() {
       $('#requestMessageModal').modal('show');
     },
   });
-  map.removeInteraction(snap);
-  map.removeInteraction(modify);
+  // map.removeInteraction(snap);
+  // map.removeInteraction(modify);
   map.removeInteraction(draw);
   clearDraw();
-  // alert('good going?');
+  alert('This action is going to alter the data displayed on the map.');
   complaintLayer.getSource().refresh();
 }
 
@@ -618,7 +618,7 @@ map.addLayer(resultLayer);
 var modify, snap;
 
 function editGeometry() {
-  overlay.setOffset([0, overlay.getOffset()[1] - 60]);
+  overlay.setOffset([0, overlay.getOffset()[1]]);
   modify = new ol.interaction.Modify({
     source: complaintLayer.getSource()
   });
@@ -629,8 +629,6 @@ function editGeometry() {
   map.addInteraction(snap);
   modify.on('modifyend', function (event) {
     currentFeature = event.features.item(0);
-    map.removeInteraction(snap);
-    map.removeInteraction(modify);
     // console.log(currentFeature.getId());
     // console.log(currentFeature.getGeometry().getCoordinates());
     //coordinates changed you can make put request now. Making the request only after the attributes have also changed.

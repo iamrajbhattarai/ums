@@ -136,14 +136,14 @@ class ComplaintViewset(viewsets.ModelViewSet):
     serializer_class = ComplaintSerializer
     http_method_names = ['get', 'post', 'patch', 'put']
 
-    def get_permissions(self):
-        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
-            permission_classes = [IsAuthenticated]
-        elif self.action == 'delete':
-            permission_classes = [IsAdminUser]
-        else:
-            permission_classes = [AllowAny]
-        return [permission() for permission in permission_classes]
+    # def get_permissions(self):
+    #     if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+    #         permission_classes = [IsAuthenticated]
+    #     elif self.action == 'delete':
+    #         permission_classes = [IsAdminUser]
+    #     else:
+    #         permission_classes = [AllowAny]
+    #     return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
         errors = []
