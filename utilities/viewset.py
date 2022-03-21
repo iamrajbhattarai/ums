@@ -131,19 +131,19 @@ class ElectricPoleViewset(viewsets.ModelViewSet):
 
 
 class ComplaintViewset(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Complaint.objects.filter(is_solved=False)
     serializer_class = ComplaintSerializer
     http_method_names = ['get', 'post', 'patch', 'put']
 
-    # def get_permissions(self):
-    #     if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
-    #         permission_classes = [IsAuthenticated]
-    #     elif self.action == 'delete':
-    #         permission_classes = [IsAdminUser]
-    #     else:
-    #         permission_classes = [AllowAny]
-    #     return [permission() for permission in permission_classes]
+    def get_permissions(self):
+        if self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+            permission_classes = [IsAuthenticated]
+        elif self.action == 'delete':
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
         errors = []
@@ -216,26 +216,26 @@ class ComplaintViewset(viewsets.ModelViewSet):
 #     return JsonResponse({"details": "CSRF cookie set"})
 
 
-def signIn(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
+# def signIn(request):
+#     if request.method == "POST":
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
+#         if user is not None:
+#             login(request, user)
 
-            # print(token)
-            # return render(request, 'utilities/map.html', {'token': token})
-            return redirect('/map')
+#             # print(token)
+#             # return render(request, 'utilities/map.html', {'token': token})
+#             return redirect('/map')
 
-        else:
-            messages.error(request, "Invalid username or password!")
-            # return render(request, 'utilities/login.html', {})
-            return redirect('/login')
-    else:
-        return render(request, 'utilities/login.html', {})
+#         else:
+#             messages.error(request, "Invalid username or password!")
+#             # return render(request, 'utilities/login.html', {})
+#             return redirect('/login')
+#     else:
+#         return render(request, 'utilities/login.html', {})
 
 
-def signOut(request):
-    logout(request)
-    return render(request, 'utilities/login.html', {})
+# def signOut(request):
+#     logout(request)
+#     return render(request, 'utilities/login.html', {})

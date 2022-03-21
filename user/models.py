@@ -70,7 +70,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     # thumbnail = models.ImageField(
     #     upload_to='profile_pic/thumb/', editable=False,  blank=True, null=True)
     group = models.ForeignKey(
-        Group, related_name='UserGroup', on_delete=models.CASCADE, blank=True, null=True)
+        Group, related_name='UserGroup', on_delete=models.SET_NULL, blank=True, null=True)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -80,10 +80,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def has_perm(self, perm, obj=None):
-        return self.is_superuser
+        return True
 
     def has_module_perms(self, app_label):
-        return self.is_superuser
+        return True
 
     def save(self, *args, **kwargs):
         # if self.image:

@@ -434,7 +434,7 @@ function addComplaint() {
         $('#requestMessageModal').modal('show');
       },
     });
-    alert('This action is going to alter the data displayed on the map.');
+    // alert('This action is going to alter the data displayed on the map.');
     source.clear();
     map.removeInteraction(draw);
     clearDraw();
@@ -475,7 +475,7 @@ function deleteComplaint() {
       $('#requestMessageModal').modal('show');
     },
   });
-  alert('This action is going to alter the data displayed on the map.');
+  // alert('This action is going to alter the data displayed on the map.');
   source.clear();
   map.removeInteraction(draw);
   clearDraw();

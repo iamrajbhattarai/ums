@@ -27,7 +27,6 @@ urlpatterns = [
     path('home/', viewset.home, name='homepage'),
     path('map/', viewset.webmap, name='webmap'),
     # path('user/', include('django.contrib.auth.urls')),
-    path('login/', viewset.signIn, name='signIn'),
-    path('logout/', viewset.signOut, name='signOut'),
+
 
 ]
