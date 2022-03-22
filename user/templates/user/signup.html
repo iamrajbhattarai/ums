@@ -30,16 +30,16 @@
                 {{ form.as_p }}
             <button class="btn btn-warning" type="submit">Log In</button> -->
 
-            <form action="{% url 'password_reset' %}" method="POST">
+            <form action="{% url 'signUp' %}" method="POST">
                 {% csrf_token %}
-                <h1>Reset Password</h1>
+                <h1>Sign Up</h1>
                 <br>
                 <img src="{% static 'utilities/login.png' %}" alt="" style="width: 30%; border-radius: 40%;">
                 <br> <br>
                 <p style="text-align: left;">Please enter passwords to set a new one.</p>
                 <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="resetpassword1" name="resetpassword1" placeholder="resetpassword1">
-                    <label for="floatingPassword">New Password</label>
+                    <label for="floatingPassword">Password</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="resetpassword2" name="resetpassword2" placeholder="resetpassword2">

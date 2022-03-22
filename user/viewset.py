@@ -157,6 +157,37 @@ def resetPassword(request):
         return render(request, 'user/reset-password.html', {})
 
 
+def changePassword(request):
+    # defined global so as to retrieve user id from get request to post request
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            old_password = request.POST["oldpassword"]
+            new_password1 = request.POST["changepassword1"]
+            new_password2 = request.POST["changepassword2"]
+            '''validating old password'''
+            user = request.user
+            check_old_password = user.check_password(old_password)
+            if check_old_password:
+                if new_password1 == new_password2:
+                    user.set_password(new_password1)
+                    user.save()
+                    messages.success(
+                        request, "Your have successfully changed your password!")
+                    return redirect('/user/change-password')
+                else:
+                    messages.error(request, "Passwords don't match!")
+                    return redirect('/user/change-password')
+            else:
+                messages.error(
+                    request, "Please entry your old password correctly!")
+                return redirect('/user/change-password')
+        else:
+            messages.error(request, "Your are not logged in!")
+            return redirect('/user/change-password')
+    else:
+        return render(request, 'user/change-password.html', {})
+
+
 class ActivateView(APIView):
     # queryset = User.objects.none()
     # should have been a post request. However why extra fuss when you can achieve with less.
@@ -176,28 +207,6 @@ class ActivateView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Invalid token!"})
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Error!", "Details": str(e)})
-
-
-class ChangePasswordView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        old_password = request.data["old_password"]
-        new_password1 = request.data["new_password1"]
-        new_password2 = request.data["new_password2"]
-        '''validating old password'''
-        user = User.objects.get(id=request.user.id)
-        check_old_password = user.check_password(old_password)
-        if check_old_password:
-            if new_password1 == new_password2:
-                user.set_password(new_password1)
-                # user.is_password_changed = True
-                user.save()
-                return Response({'message': 'Password Change Succesful!'})
-            else:
-                return Response({"message": "New passwords don't match!"})
-        else:
-            return Response({"message": "Your old password is wrong!"})
 
 
 def signIn(request):
