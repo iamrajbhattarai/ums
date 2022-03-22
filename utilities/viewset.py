@@ -131,7 +131,7 @@ class ElectricPoleViewset(viewsets.ModelViewSet):
 
 
 class ComplaintViewset(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Complaint.objects.filter(is_solved=False)
     serializer_class = ComplaintSerializer
     http_method_names = ['get', 'post', 'patch', 'put']
@@ -216,26 +216,26 @@ class ComplaintViewset(viewsets.ModelViewSet):
 #     return JsonResponse({"details": "CSRF cookie set"})
 
 
-def signIn(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
+# def signIn(request):
+#     if request.method == "POST":
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
+#         if user is not None:
+#             login(request, user)
 
-            # print(token)
-            # return render(request, 'utilities/map.html', {'token': token})
-            return redirect('/map')
+#             # print(token)
+#             # return render(request, 'utilities/map.html', {'token': token})
+#             return redirect('/map')
 
-        else:
-            messages.error(request, "Invalid username or password!")
-            # return render(request, 'utilities/login.html', {})
-            return redirect('/login')
-    else:
-        return render(request, 'utilities/login.html', {})
+#         else:
+#             messages.error(request, "Invalid username or password!")
+#             # return render(request, 'utilities/login.html', {})
+#             return redirect('/login')
+#     else:
+#         return render(request, 'utilities/login.html', {})
 
 
-def signOut(request):
-    logout(request)
-    return render(request, 'utilities/login.html', {})
+# def signOut(request):
+#     logout(request)
+#     return render(request, 'utilities/login.html', {})

@@ -2,4 +2,4 @@
 data
 utilities/Shapefiles
 utilities/static/utilities/*.jpg
-.env
+/.env

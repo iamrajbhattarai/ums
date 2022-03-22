@@ -6,7 +6,7 @@ from .models import *
 
 building_mapping = {
     'block': 'Block',
-    'names': 'Names',
+    'name': 'Name',
     'area': 'Area',
     'geom': 'MULTIPOLYGON',
 }
