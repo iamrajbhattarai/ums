@@ -23,6 +23,13 @@ urlpatterns = [
     path('forgot-password/', forgotPassword, name='forgot_password'),
     path('forgot-password-email-check/', ResetPasswordEmailConfirmationView.as_view(),
          name='password_reset_email_check'),
+
+    # path('reset-password-link/', ResetEmailConfirmationLink.as_view(),
+    #     name='password_reset_link'),
+    #     path('reset-password/', ResetPasswordView.as_view(),
+    #          name='password_reset'),
+    path('reset-password/', resetPassword,
+         name='password_reset'),
     path('change-password/', ChangePasswordView.as_view(),
          name='password_change'),
     path('login/', signIn, name='signIn'),

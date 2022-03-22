@@ -18,6 +18,7 @@ from rest_framework.authentication import (BasicAuthentication,
                                            TokenAuthentication)
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -86,48 +87,6 @@ class UsersViewsSet(viewsets.ModelViewSet):
     #         return Response(serializer.data, status=status.HTTP_201_CREATED)
     #     return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
 
-    # def list(self, request, *args, **kwargs):
-    #     try:
-    #         if not request.user.is_authenticated:
-    #             return Response(status=status.HTTP_403_FORBIDDEN, data={"message": "You are not logged in."})
-    #         group_id = request.user.group.id
-    #         wards_list = []
-    #         for ward in request.user.wards.all():
-    #             wards_list.append(ward.id)
-    #         if User.objects.filter(group=group_id).exists():
-    #             if group_id == int(os.environ.get('SUPER_ADMIN')):
-    #                 user_qs = User.objects.all()
-    #             elif group_id == int(os.environ.get('MUNICIPAL_EDITOR')):
-    #                 user_qs = User.objects.filter(Q(group=group_id) | Q(group=int(
-    #                     os.environ.get('WARD_EDITOR'))) | Q(group=int(os.environ.get('VIEWER'))))
-    #             elif group_id == int(os.environ.get('WARD_EDITOR')):
-    #                 user_qs = User.objects.filter(((Q(wards__in=wards_list) & Q(
-    #                     group=group_id)) | Q(group=int(os.environ.get('VIEWER'))))).distinct()
-    #                 print(user_qs)
-    #             else:
-    #                 user_qs = User.objects.filter(group=group_id)
-    #         user_list = []
-    #         if user_qs:
-    #             user_qs = user_qs.values(
-    #                 'id', 'image', 'full_name', 'designation', 'contact', 'email', 'last_login', 'is_active')
-    #             for q in user_qs:
-    #                 user_details = {}
-    #                 user_details['id'] = q['id']
-    #                 user_details['image'] = str(
-    #                     os.environ.get('BACKEND_DOMAIN'))+q['image']
-    #                 user_details['full_name'] = q['full_name']
-    #                 user_details['designation'] = q['designation']
-    #                 user_details['contact'] = q['contact']
-    #                 user_details['email'] = q['email']
-    #                 user_details['last_login'] = q['last_login']
-    #                 user_details['active_status'] = q['is_active']
-    #                 user_list.append(user_details)
-    #             return Response(user_list, status=status.HTTP_200_OK)
-    #         else:
-    #             return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'There are no any users in your group.'})
-    #     except Exception as e:
-    #         return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': str(e)})
-
 
 def forgotPassword(request):
     return render(request, 'user/forgot-password.html', {})
@@ -136,9 +95,9 @@ def forgotPassword(request):
 class ResetPasswordEmailConfirmationView(APIView):
     def post(self, request, *args, **kwargs):
         try:
-            username_or_email = self.request.query_params.get(
+            username_or_email = request.data.get(
                 'username_or_email')
-            print(username_or_email, 'i am here')
+            print(username_or_email)
             if User.objects.filter(Q(username=username_or_email) | Q(email=username_or_email)).exists():
                 profile = User.objects.filter(
                     Q(username=username_or_email) | Q(email=username_or_email))
@@ -146,17 +105,13 @@ class ResetPasswordEmailConfirmationView(APIView):
                     uuid_code1 = uuid.uuid4()
                     uuid_code2 = uuid.uuid4()
                     uuid_code = str(uuid_code1)+str(uuid_code2)
-                    # new_password = str(uuid.uuid4())
                     user = profile[0]
                     print(user, 'user')
                     user.email_verification_token = uuid_code
-                    # user.set_password(new_password)
-                    # user.is_email_verified = False
-                    # user.is_password_changed = False
                     user.save()
                     subject = "Reset Password Verification"
                     message = f'Click in the link to reset your password. ' + \
-                        os.environ.get('FORGOT_PASSWORD_URL') + \
+                        os.environ.get('RESET_PASSWORD_URL') + \
                         '/?token='+uuid_code
                     email_from = settings.EMAIL_HOST_USER
                     email_to = [user.email]
@@ -164,14 +119,42 @@ class ResetPasswordEmailConfirmationView(APIView):
                     send_mail(subject, message, email_from, email_to)
                     messages.success(
                         request, 'A reset password link is sent to your email. Please check it.')
-                    return redirect('/user/login')
+                    return redirect('/user/forgot-password/')
                     # return Response(status=status.HTTP_200_OK, data={"message": "A reset password link is sent to your email. Please check it."})
             messages.error(
                 request, 'Please input correct username or email and try again!')
-            return redirect('/user/login')
+            return redirect('/user/forgot-password/')
             # return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Incorrect Email or no email found!"})
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Error!", "Details": str(e)})
+
+
+def resetPassword(request):
+    # defined global so as to retrieve user id from get request to post request
+    global email_verification_token
+    if request.method == "POST":
+        if User.objects.filter(email_verification_token=email_verification_token).exists():
+            user = User.objects.get(
+                email_verification_token=email_verification_token)
+        else:
+            messages.error(
+                request, "Your account is not registered. Try again for registered account!")
+            return redirect('/user/reset-password')
+        password1 = request.POST['resetpassword1']
+        password2 = request.POST['resetpassword2']
+        if password1 == password2:
+            user.set_password(password1)
+            user.save()
+            messages.success(
+                request, 'Your password has been reset successfully!')
+            return redirect('/user/reset-password')
+        else:
+            messages.error(request, "Passwords do not match!")
+            return redirect('/user/reset-password')
+
+    else:
+        email_verification_token = request.GET.get('token', None)
+        return render(request, 'user/reset-password.html', {})
 
 
 class ActivateView(APIView):
@@ -187,33 +170,10 @@ class ActivateView(APIView):
                 user.is_active = True
                 # user.is_staff = True
                 user.save()
-                Token.objects.create(user=user)
                 # create token also for the created user.
+                Token.objects.create(user=user)
                 return redirect('/user/login')
             return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Invalid token!"})
-        except Exception as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Error!", "Details": str(e)})
-
-
-class ResetPasswordView(APIView):
-    def post(self, request, *args, **kwargs):
-        try:
-            email_verification_token = self.request.query_params.get('token')
-            password1 = request.data.get("new_password1")
-            password2 = request.data.get("new_password2")
-            if password1 == password2:
-                if User.objects.filter(email_verification_token=email_verification_token).exists():
-                    profile = User.objects.filter(
-                        email_verification_token=email_verification_token)
-                    user = profile[0]
-                    user.set_password(password1)
-                    # user.email_verification_token = ''  # change
-                    user.is_active = True
-                    # user.is_staff = True
-                    user.save()
-                    return Response(status=status.HTTP_200_OK, data={"message": "Password reset successful. Please Login!"})
-                return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Invalid token!"})
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "New Passwords did not match!"})
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Error!", "Details": str(e)})
 
