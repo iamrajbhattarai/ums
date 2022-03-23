@@ -34,14 +34,12 @@ class UsersViewsSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'patch']
 
     def create(self, request, *args, **kwargs):
+        print(request.data)
         errors = []
         request.data._mutable = True
         serializer = UserSerializer(data=request.data)
-        print('I am at first!')
-
         if serializer.is_valid():
             serializer.save()
-            print('I am here!')
             email = serializer.validated_data.get('email')
             user = User.objects.get(email=email)
             user.save()
@@ -158,7 +156,6 @@ def resetPassword(request):
 
 
 def changePassword(request):
-    # defined global so as to retrieve user id from get request to post request
     if request.method == "POST":
         if request.user.is_authenticated:
             old_password = request.POST["oldpassword"]

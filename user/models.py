@@ -57,20 +57,33 @@ class User(AbstractBaseUser, PermissionsMixin):
         ("Student", "Student"), ("Teacher",
                                  "Teacher"), ("Staff", "Staff"), ("Other", "Other")
     )
+    DEPARTMENT_CHOICES = (
+        ("Geomatics Engineering", "Geomatics Engineering"),
+        ("Computer Science and Engineering", "Computer Science and Engineering"),
+        ("Civil Engineering with Architecture Program",
+         "Civil Engineering with Architecture Program"),
+        ("Chemical Engineering", "Chemical Engineering"),
+        ("Mechanical Engineering", "Mechanical Engineering"),
+        ("Electrical and Electronics Engineering",
+         "Electrical and Electronics Engineering"),
+        ("Other", "Other"),
+    )
     username = models.CharField(max_length=64, unique=True)
     full_name = models.CharField(max_length=64)
     contact = models.CharField(max_length=10, validators=[
                                RegexValidator(r'^\d{1,10}$')], blank=True, null=True)
     designation = models.CharField(
         max_length=15, default="Student", choices=DESIGNATION_CHOICES)
+    department = models.CharField(
+        max_length=50, choices=DEPARTMENT_CHOICES, default="Geomatics Engineering")
     email = models.EmailField(unique=True)
     gender = models.CharField(
         max_length=15, default="Male", choices=GENDER_CHOICES)
     # image = models.ImageField(upload_to='profile_pic/', blank=True, null=True)
     # thumbnail = models.ImageField(
     #     upload_to='profile_pic/thumb/', editable=False,  blank=True, null=True)
-    group = models.ForeignKey(
-        Group, related_name='UserGroup', on_delete=models.SET_NULL, blank=True, null=True)
+    # group = models.ForeignKey(
+    #     Group, related_name='UserGroup', on_delete=models.SET_NULL, blank=True, null=True)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

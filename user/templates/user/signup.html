@@ -24,24 +24,17 @@
     </div>
     <div class="col-md-6" style="height: 93vh; ">
         <div class="signup-form">
-            <!-- <form method="post" >
-                <h1>Log In</h1>
-                <hr>
-                {% csrf_token %}
-                {{ form.as_p }}
-            <button class="btn btn-warning" type="submit">Log In</button> -->
-
-            <form action="{% url 'signUp' %}" method="POST">
+            <form>
+            <!-- <form> -->
                 {% csrf_token %}
                 <h1 style="text-align: center;"><b>Sign Up</b></h1>
                 <br>
-                <!-- <center><img src="{% static 'utilities/login.png' %}" alt="" style="width: 30%; border-radius: 40%;"></center> -->
                 <div class="row">
                     <div class="col-1">
                         &nbsp;<i class="bi bi-person-plus fa-3x"></i>
                     </div>
                     <div class="form-floating col-11">
-                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="fullname"
+                        <input type="text" class="form-control" id="signupfullname" name="signupfullname" placeholder="signupfullname"
                             required>
                         <label for="floatingPassword">Full name</label>
                     </div>
@@ -143,9 +136,15 @@
                         &nbsp;<i class="bi bi-building fa-3x"></i>
                     </div>
                     <div class="form-floating col-11">
-                        <input type="text" class="form-control" id="signupdepartment" name="signupdepartment"
-                            placeholder="signupdepartment" required>
-                        <label for="floatingPassword">Department</label>
+                        <select class="form-select" id="signupdepartment" aria-label="signupdepartment">
+                            <option selected value="Geomatics Engineering">Geomatics Engineering</option>
+                            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                            <option value="Civil Engineering with Architecture Program">Civil Engineering with Architecture Program</option>
+                            <option value="Chemical Engineering">Chemical Engineering</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row">
@@ -160,7 +159,7 @@
                 </div>
                 <div class="row">
                     <div class="col-1">
-                        <i class="bi bi-telephone fa-3x"></i>
+                        &nbsp;<i class="bi bi-telephone fa-3x"></i>
                     </div>
                     <div class="form-floating col-11">
                         <input type="text" class="form-control" id="signupcontact" name="signupcontact"
@@ -168,21 +167,24 @@
                         <label for="floatingPassword">Contact</label>
                     </div>
                 </div>
-
-                {% if messages %}
-                <div class="messages" style="color: red;">
-                    {% for message in messages %}
-                    {{ message }}
-                    {% endfor %}
+                <div class="modal fade" id="userrequestMessageModal" tabindex="-1" aria-labelledby="userrequestMessageModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header"style="background: #A4CDAE;color: red;">
+                                    <p id = "userrequestMessage"></p>
+                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                {% endif %}
-                <button type="submit" class="btn btn-warning" style="margin-left: 43%;">Create Account</button>
+                <button type="button" class="btn btn-warning" style="margin-left: 43%;" onclick="createUser()">Create Account</button>
                 <!-- <a href="{% url 'forgot_password' %}" style="color:red; margin-left: 17%;"><u>Forgot password?</u></a> -->
                 <a href="{% url 'signIn' %}" style="color:green; margin-left: 25%;"><u>Log In</u></a>
             </form>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="{% static 'user/js/user.js' %}"></script>
+<script type="text/javascript" src="{% static 'user/js/user-register.js' %}"></script>
 {% endblock %}
