@@ -27,5 +27,7 @@ urlpatterns = [
          name='password_change'),
     path('login/', signIn, name='signIn'),
     path('logout/', signOut, name='signOut'),
+    path('signUp/', signUp, name='signUp'),
+
 
 ]
