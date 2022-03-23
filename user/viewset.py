@@ -232,3 +232,7 @@ def signIn(request):
 def signOut(request):
     logout(request)
     return render(request, 'user/login.html', {})
+
+
+def signUp(request):
+    return render(request, 'user/signup.html', {})

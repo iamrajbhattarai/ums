@@ -4,25 +4,26 @@
 {% block title %} Log In{% endblock %}
 
 {% block currentpage %}
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'homepage' %}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'webmap' %}">GIS</a>
-            </li>
-        </ul>
-    </div>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'webmap' %}">GIS</a>
+        </li>
+    </ul>
+</div>
 {% endblock %}
 {% block content %}
 <div class="row" style="width: 100%;">
     <div class="col-md-6" style="background: #cedbe9; padding-left: 10%; padding-top: 8%;">
-        <img style="box-shadow: 10px 10px 10px 10px rgb(88, 88, 88); " src="{% static 'utilities/utility.jpeg' %}" alt="">
+        <img style="box-shadow: 10px 10px 10px 10px rgb(88, 88, 88); " src="{% static 'utilities/utility.jpeg' %}"
+            alt="">
 
     </div>
     <div class="col-md-6" style="height: 93vh; ">
-        <div class= "login-form">
+        <div class="signup-form">
             <!-- <form method="post" >
                 <h1>Log In</h1>
                 <hr>
@@ -32,30 +33,153 @@
 
             <form action="{% url 'signUp' %}" method="POST">
                 {% csrf_token %}
-                <h1>Sign Up</h1>
+                <h1 style="text-align: center;"><b>Sign Up</b></h1>
                 <br>
-                <img src="{% static 'utilities/login.png' %}" alt="" style="width: 30%; border-radius: 40%;">
-                <br> <br>
-                <p style="text-align: left;">Please enter passwords to set a new one.</p>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="resetpassword1" name="resetpassword1" placeholder="resetpassword1">
-                    <label for="floatingPassword">Password</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="resetpassword2" name="resetpassword2" placeholder="resetpassword2">
-                    <label for="floatingPassword">Confirm Password</label>
-                </div>
-                {% if messages %}
-                    <div class="messages" style="color: red;">
-                        {% for message in messages %}
-                            {{ message }}
-                        {% endfor %}
+                <!-- <center><img src="{% static 'utilities/login.png' %}" alt="" style="width: 30%; border-radius: 40%;"></center> -->
+                <div class="row">
+                    <div class="col-1">
+                        &nbsp;<i class="bi bi-person-plus fa-3x"></i>
                     </div>
-                    <br>
+                    <div class="form-floating col-11">
+                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="fullname"
+                            required>
+                        <label for="floatingPassword">Full name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <i class="bi bi-gender-ambiguous fa-3x"></i>
+                    </div>
+                    <div class="col-2">
+                        <br>
+                        <div class="form-check">
+                            <label class="form-check-label" for="male">Male</label>
+                            <input class="form-check-input" type="radio" name="gender" id="male" value="Male" checked>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <br>
+                        <div class="form-check">
+                            <label class="form-check-label text-start" for="female">Female</label>
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <br>
+                        <div class="form-check">
+                            <label class="form-check-label" for="other">Other</label>
+                            <input class="form-check-input" type="radio" name="gender" id="other" value="Other">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <i class="bi bi-person fa-3x"></i>
+                    </div>
+                    <div class="form-floating col-11">
+                        <input type="text" class="form-control" id="signupusername" name="signupusername"
+                            placeholder="signupusername" required>
+                        <label for="floatingPassword">username</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <i class="bi bi-lock fa-3x"></i>
+                    </div>
+                    <div class="form-floating col-11">
+                        <input type="password" class="form-control" id="signuppassword1" name="signuppassword1"
+                            placeholder="signuppassword1" required>
+                        <label for="floatingPassword">Password</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        &nbsp;<i class="bi bi-key fa-3x"></i>
+                    </div>
+                    <div class="form-floating col-11">
+                        <input type="password" class="form-control" id="signuppassword2" name="signuppassword2"
+                            placeholder="signuppassword2" required>
+                        <label for="floatingPassword">Confirm Password</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <i class="bi bi-people fa-3x"></i>
+                    </div>
+                    <div class="col-2">
+                        <br>
+                        <div class="form-check">
+                            <label class="form-check-label" for="student">Student</label>
+                            <input class="form-check-input" type="radio" name="designation" id="student" value="Student"
+                                checked>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <br>
+                        <div class="form-check">
+                            <label class="form-check-label text-start" for="teacher">Teacher</label>
+                            <input class="form-check-input" type="radio" name="designation" id="teacher"
+                                value="Teacher">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <br>
+                        <div class="form-check">
+                            <label class="form-check-label" for="staff">Staff</label>
+                            <input class="form-check-input" type="radio" name="designation" id="staff" value="Staff">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <br>
+                        <div class="form-check">
+                            <label class="form-check-label" for="otherstaff">Other</label>
+                            <input class="form-check-input" type="radio" name="designation" id="otherstaff"
+                                value="OtherStaff">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        &nbsp;<i class="bi bi-building fa-3x"></i>
+                    </div>
+                    <div class="form-floating col-11">
+                        <input type="text" class="form-control" id="signupdepartment" name="signupdepartment"
+                            placeholder="signupdepartment" required>
+                        <label for="floatingPassword">Department</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        &nbsp;<i class="bi bi-envelope fa-3x"></i>
+                    </div>
+                    <div class="form-floating col-11">
+                        <input type="email" class="form-control" id="signupemail" name="signupemail"
+                            placeholder="signupemail" required>
+                        <label for="floatingPassword">Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
+                        <i class="bi bi-telephone fa-3x"></i>
+                    </div>
+                    <div class="form-floating col-11">
+                        <input type="text" class="form-control" id="signupcontact" name="signupcontact"
+                            placeholder="signupcontact" required>
+                        <label for="floatingPassword">Contact</label>
+                    </div>
+                </div>
+
+                {% if messages %}
+                <div class="messages" style="color: red;">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                <br>
                 {% endif %}
-                <button type="submit" class="btn btn-warning" style="margin-left: 43%;">Reset Password</button>
-                <a href="{% url 'forgot_password' %}" style="color:red; margin-left: 17%;"><u>Forgot password?</u></a>
-                <a href="{% url 'signIn' %}" style="color:green; margin-left: 2%;"><u>Log In</u></a>
+                <button type="submit" class="btn btn-warning" style="margin-left: 43%;">Create Account</button>
+                <!-- <a href="{% url 'forgot_password' %}" style="color:red; margin-left: 17%;"><u>Forgot password?</u></a> -->
+                <a href="{% url 'signIn' %}" style="color:green; margin-left: 25%;"><u>Log In</u></a>
             </form>
         </div>
     </div>

@@ -18,7 +18,7 @@
 {% block content %}
 <div class="row" style="width: 100%;">
     <div class="col-md-6" style="background: #cedbe9; padding-left: 10%; padding-top: 8%;">
-        <img style="box-shadow: 10px 10px 10px 10px rgb(88, 88, 88); " src="{% static 'utilities/utility.jpeg' %}" alt="">
+        <img style="box-shadow: 10px 10px 10px 10px rgb(88, 88, 88); size: 10rem;" src="{% static 'utilities/utility.jpeg' %}" alt="">
 
     </div>
     <div class="col-md-6" style="height: 93vh; ">
@@ -55,7 +55,7 @@
                 {% endif %}
                 <button type="submit" class="btn btn-warning" style="margin-left: 45%;">Log In</button>
                 <a href="{% url 'forgot_password' %}" style="color:red; margin-left: 20%;"><u>Forgot password?</u></a>
-                <a href="{% url 'forgot_password' %}" style="color:green; margin-left: 2%;"><u>Sign Up</u></a>
+                <a href="{% url 'signUp' %}" style="color:green; margin-left: 2%;"><u>Sign Up</u></a>
             </form>
         </div>
     </div>
