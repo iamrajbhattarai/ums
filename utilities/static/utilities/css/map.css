@@ -392,3 +392,9 @@ tr:nth-child(even){background-color: #f2f2f2}
 .signup-form .form-floating>.form-select~label {
     transform: scale(.85) translateY(-0.8rem) translateX(0.15rem);
 }
+
+code {
+    font-size: .875em;
+    color: #f1bf0c;
+    word-wrap: break-word;
+}

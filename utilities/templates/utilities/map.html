@@ -4,432 +4,490 @@
 {% block title %} Web Map {% endblock %}
 
 {% block currentpage %}
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'homepage' %}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page"  href="{% url 'webmap' %}">GIS</a>
-            </li>
-        </ul>
-    </div>
-    <div class="collapse navbar-collapse justify-content-end">
-        <ul class="navbar-nav">
-                {% csrf_token %}
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link text-success">{{user.username}} </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-warning " href="{% url 'password_change' %}">Change Password</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-danger " href="{% url 'signOut' %}">Log Out</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item text-end">
-                        <a class="nav-link text-danger" href="{% url 'signIn' %}">Log In</a>
-                    </li>
-                {% endif %}
-        </ul>
-    </div>
-        <!-- <form class="d-flex">
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'webmap' %}">GIS</a>
+        </li>
+    </ul>
+</div>
+<div class="collapse navbar-collapse justify-content-end">
+    <ul class="navbar-nav">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link text-success">{{user.username}} </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-warning " href="{% url 'password_change' %}">Change Password</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-danger " href="{% url 'signOut' %}">Log Out</a>
+        </li>
+        {% else %}
+        <li class="nav-item text-end">
+            <a class="nav-link text-danger" href="{% url 'signIn' %}">Log In</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+<!-- <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">&nbsp;
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form> -->
 {% endblock %}
 {% block content %}
-    {% csrf_token %}
-    <div id="map"></div>
-    <div id="popup" class="ol-popup">
-        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-        <div id="popup-content"></div>
-    </div>
-    {% comment %} <div id="zoom" class="zoom"></div> {% endcomment %}
-    <div id="scale-line" class="scale-line"></div>
-    <div id="overviewmap" class="overviewmap"></div>
-    <div id="display-coordinate" class="display-coordinate"></div>
-    <a href="javascript:void(0);" class="icon" onclick="showSideBar()">
-        <i class="fa fa-bars"></i>
-    </a>
-    <div id="printForm" class="sidebar-config-wrap overflow-hidden" role="form">
-        <div class="panel-group h-100" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-primary toolBar w-100" id="toolBar">
-                <div class="panel-body content container" style="display: flex;justify-content: space-evenly;">
-                    <button type="button" class="btn btn-secondary" id="measureDistance" data-toggle="tooltip"
-                        data-placement="top" title="Measure Distance" onclick="measure('line')">
-                        <i class="fas fa-pen fa-lg"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="measureArea" data-toggle="tooltip"
-                        data-placement="top" title="Measure Area" onclick="measure('area')">
-                        <i class="far fa-clone fa-lg"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="clearDraw" data-toggle="tooltip"
-                        data-placement="top" title="Reset" onclick="clearDraw()">
-                        <i class="fas fa-eraser fa-lg"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="defaultExtent" data-toggle="tooltip"
-                        data-placement="top" title="Default Extent" onclick="defaultExtent()">
-                        <i class="fas fa-home fa-lg"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="search" data-toggle="tooltip" data-placement="top"
-                        title="Search Complaints" onclick="showInput()">
-                        <i class="fas fa-search fa-lg"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="help" data-toggle="tooltip" data-placement="top"
-                        title="Detailed User Information" onclick="$('#userInfo').modal('show');">
-                        <i class="fas fa-user fa-lg"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#helpmodal" title="Help">
-                        <i class="fas fa-info-circle fa-lg"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary" id="close" data-toggle="tooltip" data-placement="top" title="Close" onclick="hideSideBar()">
-                        <i class="fas fa-times fa-lg"></i>
-                    </button>
-                </div>
+{% csrf_token %}
+<div id="map"></div>
+<div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content"></div>
+</div>
+{% comment %} <div id="zoom" class="zoom"></div> {% endcomment %}
+<div id="scale-line" class="scale-line"></div>
+<div id="overviewmap" class="overviewmap"></div>
+<div id="display-coordinate" class="display-coordinate"></div>
+<a href="javascript:void(0);" class="icon" onclick="showSideBar()">
+    <i class="fa fa-bars"></i>
+</a>
+<div id="printForm" class="sidebar-config-wrap overflow-hidden" role="form">
+    <div class="panel-group h-100" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-primary toolBar w-100" id="toolBar">
+            <div class="panel-body content container" style="display: flex;justify-content: space-evenly;">
+                <button type="button" class="btn btn-secondary" id="measureDistance" data-toggle="tooltip"
+                    data-placement="top" title="Measure Distance" onclick="measure('line')">
+                    <i class="fas fa-pen fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-secondary" id="measureArea" data-toggle="tooltip"
+                    data-placement="top" title="Measure Area" onclick="measure('area')">
+                    <i class="far fa-clone fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-secondary" id="clearDraw" data-toggle="tooltip"
+                    data-placement="top" title="Reset" onclick="clearDraw()">
+                    <i class="fas fa-eraser fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-secondary" id="defaultExtent" data-toggle="tooltip"
+                    data-placement="top" title="Default Extent" onclick="defaultExtent()">
+                    <i class="fas fa-home fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-secondary" id="search" data-toggle="tooltip" data-placement="top"
+                    title="Search Complaints" onclick="showInput()">
+                    <i class="fas fa-search fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-secondary" id="help" data-toggle="tooltip" data-placement="top"
+                    title="Detailed User Information" onclick="$('#userInfo').modal('show');">
+                    <i class="fas fa-user fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#helpmodal"
+                    title="Help">
+                    <i class="fas fa-info-circle fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-primary" id="close" data-toggle="tooltip" data-placement="top"
+                    title="Close" onclick="hideSideBar()">
+                    <i class="fas fa-times fa-lg"></i>
+                </button>
             </div>
-            <br>
-            <hr style="color:#FFF; margin-left: -1rem; margin-right: -1rem;">
-            <div class="row h-100 gx-0" id="second-container" >
-                <div class="col col-lg-3">
-                    <nav class="nav flex-column navbar-dark h-100" id="second-nav-bar">
-                        <a class="nav-link row" id="layers-nav-link" href="#" onclick="displayToggler()">
-                            <div class="col-12 text-center">
-                                <i class="fas fa-layer-group fa-2x"></i>
-                            </div>
-                            <div class="col-12 text-center" style="font-size:0.8rem;">Layers</div>
-                        </a>
-                        <hr class="left-menu-item-line">
-                        <a class="nav-link row" id="query-nav-link" href="#" onclick="displayQueryFeature()">
-                            <div class="col-12 text-center">
-                                <i class="fas fa-search-location fa-2x"></i>
-                            </div>
-                            <div class="col-12 text-center" style="font-size:0.8rem;">Query</div>
-                        </a>
-                        <hr class="left-menu-item-line">
-                        <a class="nav-link row" id="complaints-nav-link" href="#" onclick="displayComplaints()">
-                            <div class="col-12 text-center">
-                                <i class="fas fa-map-marker-alt fa-2x"></i>
-                            </div>
-                            <div class="col-12 text-center" style="font-size:0.8rem;">Complaints</div>
-                        </a>
-                        <hr class="left-menu-item-line">
-                    </nav>
+        </div>
+        <br>
+        <hr style="color:#FFF; margin-left: -1rem; margin-right: -1rem;">
+        <div class="row h-100 gx-0" id="second-container">
+            <div class="col col-lg-3">
+                <nav class="nav flex-column navbar-dark h-100" id="second-nav-bar">
+                    <a class="nav-link row" id="layers-nav-link" href="#" onclick="displayToggler()">
+                        <div class="col-12 text-center">
+                            <i class="fas fa-layer-group fa-2x"></i>
+                        </div>
+                        <div class="col-12 text-center" style="font-size:0.8rem;">Layers</div>
+                    </a>
+                    <hr class="left-menu-item-line">
+                    <a class="nav-link row" id="query-nav-link" href="#" onclick="displayQueryFeature()">
+                        <div class="col-12 text-center">
+                            <i class="fas fa-search-location fa-2x"></i>
+                        </div>
+                        <div class="col-12 text-center" style="font-size:0.8rem;">Query</div>
+                    </a>
+                    <hr class="left-menu-item-line">
+                    <a class="nav-link row" id="complaints-nav-link" href="#" onclick="displayComplaints()">
+                        <div class="col-12 text-center">
+                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                        </div>
+                        <div class="col-12 text-center" style="font-size:0.8rem;">Complaints</div>
+                    </a>
+                    <hr class="left-menu-item-line">
+                    <a class="nav-link row" id="mylocation-nav-link" href="#" onclick="displayMyLocation()">
+                        <div class="col-12 text-center">
+                            <i class="bi bi-geo-fill fa-2x"></i>
+                        </div>
+                        <div class="col-12 text-center" style="font-size:0.8rem;">My Location</div>
+                    </a>
+                    <hr class="left-menu-item-line">
+                </nav>
+            </div>
+            <div class="col">
+                <div class="panel-body-parts" id="layers">
+                    <h6 class="layer-title">Base Layers</h6>
+                    <div class="form-check form-switch text-secondary">
+                        <input class="form-check-input" type="radio" name="basemap" id="basemap0" value='OSM' unchecked>
+                        <label class="form-check-label" for="basemap0">OpenStreetMap</label>
+                    </div>
+                    <div class="form-check form-switch text-secondary">
+                        <input class="form-check-input" type="radio" name="basemap" id="basemap1" value='BingMaps'
+                            unchecked>
+                        <label class="form-check-label" for="basemap1">Bing Satellite</label>
+                    </div>
+                    <div class="form-check form-switch text-secondary">
+                        <input class="form-check-input" type="radio" name="basemap" id="basemap2" value='CartoLight'
+                            checked>
+                        <label class="form-check-label" for="basemap2">CartoDB Light</label>
+                    </div>
+                    <div class="form-check form-switch text-secondary">
+                        <input class="form-check-input" type="radio" name="basemap" id="basemap3" value='CartoDark'
+                            unchecked>
+                        <label class="form-check-label" for="basemap3">CartoDB Dark</label>
+                    </div>
+                    <hr style="color: #FFF;">
+                    <h6 class="layer-title">Utility Layers</h6>
+                    <fieldset id="layer0">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible0" checked disabled>
+                            <label class="form-check-label" for="visible0"><img
+                                    src="{% static 'utilities/legend/boundary.png' %}"
+                                    alt="">&nbsp;&nbsp;Boundary</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer1">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible1" checked>
+                            <label class="form-check-label" for="visible1"><img
+                                    src="{% static 'utilities/legend/building.png' %}"
+                                    alt="">&nbsp;&nbsp;Building</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer2">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible2" checked>
+                            <label class="form-check-label" for="visible2"><img
+                                    src="{% static 'utilities/legend/ground.png' %}" alt="">&nbsp;&nbsp;Ground</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer3">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible2" checked>
+                            <label class="form-check-label" for="visible3"><img
+                                    src="{% static 'utilities/legend/road.png' %}" alt="">&nbsp;&nbsp;Road</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer4">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible4" checked>
+                            <label class="form-check-label" for="visible4"><img
+                                    src="{% static 'utilities/legend/fountain.png' %}"
+                                    alt="">&nbsp;&nbsp;Fountain</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer5">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible5" checked>
+                            <label class="form-check-label" for="visible5"><img
+                                    src="{% static 'utilities/legend/septictank.png' %}" alt="">&nbsp;&nbsp;Septic
+                                Tank</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer6">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible6" checked>
+                            <label class="form-check-label" for="visible6"><img
+                                    src="{% static 'utilities/legend/waterbody.png' %}" alt="">&nbsp;&nbsp;Water
+                                Body</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer7">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible7" checked>
+                            <label class="form-check-label" for="visible7"><img
+                                    src="{% static 'utilities/legend/drainage.png' %}"
+                                    alt="">&nbsp;&nbsp;Drainage</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer8">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible8" checked>
+                            <label class="form-check-label" for="visible8"><img
+                                    src="{% static 'utilities/legend/sewerline.png' %}"
+                                    alt="">&nbsp;&nbsp;Sewerline</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer9">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible9" checked>
+                            <label class="form-check-label" for="visible9"><img
+                                    src="{% static 'utilities/legend/boundary.png' %}" alt="">&nbsp;&nbsp;Transmission
+                                Line</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer10">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible10" checked>
+                            <label class="form-check-label" for="visible10"><img
+                                    src="{% static 'utilities/legend/streetlamp.png' %}" alt="">&nbsp;&nbsp;Street
+                                Lamp</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer11">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible11" checked>
+                            <label class="form-check-label" for="visible11"><img
+                                    src="{% static 'utilities/legend/electriclamp.png' %}" alt="">&nbsp;&nbsp;Electric
+                                Pole</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="layer12">
+                        <div class="form-check form-switch text-secondary">
+                            <input class="form-check-input" type="checkbox" id="visible12" checked>
+                            <label class="form-check-label" for="visible12"><img
+                                    src="{% static 'utilities/legend/electriclamp.png' %}"
+                                    alt="">&nbsp;&nbsp;Complaint</label>
+                        </div>
+                    </fieldset>
                 </div>
-                <div class="col">
-                        <div class="panel-body-parts" id="layers">
-                            <h6 class="layer-title">Base Layers</h6>
-                            <div class="form-check form-switch text-secondary">
-                                <input class="form-check-input" type="radio" name = "basemap" id="basemap0" value='OSM' unchecked>
-                                <label class="form-check-label" for="basemap0">OpenStreetMap</label>
-                            </div>
-                            <div class="form-check form-switch text-secondary">
-                                <input class="form-check-input" type="radio" name ="basemap" id="basemap1" value='BingMaps' unchecked>
-                                <label class="form-check-label" for="basemap1">Bing Satellite</label>
-                            </div>
-                            <div class="form-check form-switch text-secondary">
-                                <input class="form-check-input" type="radio" name ="basemap" id="basemap2" value='CartoLight' checked>
-                                <label class="form-check-label" for="basemap2">CartoDB Light</label>
-                            </div>
-                            <div class="form-check form-switch text-secondary">
-                                <input class="form-check-input" type="radio" name ="basemap" id="basemap3" value='CartoDark' unchecked>
-                                <label class="form-check-label" for="basemap3">CartoDB Dark</label>
-                            </div>
-                            <hr style="color: #FFF;">
-                            <h6 class="layer-title">Utility Layers</h6>
-                            <fieldset id="layer0">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible0" checked disabled>
-                                    <label class="form-check-label" for="visible0"><img src="{% static 'utilities/legend/boundary.png' %}" alt="">&nbsp;&nbsp;Boundary</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer1">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible1" checked>
-                                    <label class="form-check-label" for="visible1"><img src="{% static 'utilities/legend/building.png' %}" alt="">&nbsp;&nbsp;Building</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer2">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible2" checked>
-                                    <label class="form-check-label" for="visible2"><img src="{% static 'utilities/legend/ground.png' %}" alt="">&nbsp;&nbsp;Ground</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer3">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible2" checked>
-                                    <label class="form-check-label" for="visible3"><img src="{% static 'utilities/legend/road.png' %}" alt="">&nbsp;&nbsp;Road</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer4">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible4" checked>
-                                    <label class="form-check-label" for="visible4"><img src="{% static 'utilities/legend/fountain.png' %}" alt="">&nbsp;&nbsp;Fountain</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer5">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible5" checked>
-                                    <label class="form-check-label" for="visible5"><img src="{% static 'utilities/legend/septictank.png' %}" alt="">&nbsp;&nbsp;Septic Tank</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer6">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible6" checked>
-                                    <label class="form-check-label" for="visible6"><img src="{% static 'utilities/legend/waterbody.png' %}" alt="">&nbsp;&nbsp;Water Body</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer7">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible7" checked>
-                                    <label class="form-check-label" for="visible7"><img src="{% static 'utilities/legend/drainage.png' %}" alt="">&nbsp;&nbsp;Drainage</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer8">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible8" checked>
-                                    <label class="form-check-label" for="visible8"><img src="{% static 'utilities/legend/sewerline.png' %}" alt="">&nbsp;&nbsp;Sewerline</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer9">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible9" checked>
-                                    <label class="form-check-label" for="visible9"><img src="{% static 'utilities/legend/boundary.png' %}" alt="">&nbsp;&nbsp;Transmission Line</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer10">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible10" checked>
-                                    <label class="form-check-label" for="visible10"><img src="{% static 'utilities/legend/streetlamp.png' %}" alt="">&nbsp;&nbsp;Street Lamp</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer11">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible11" checked>
-                                    <label class="form-check-label" for="visible11"><img src="{% static 'utilities/legend/electriclamp.png' %}" alt="">&nbsp;&nbsp;Electric Pole</label>
-                                </div>
-                            </fieldset>
-                            <fieldset id="layer12">
-                                <div class="form-check form-switch text-secondary">
-                                    <input class="form-check-input" type="checkbox" id="visible12" checked>
-                                    <label class="form-check-label" for="visible12"><img src="{% static 'utilities/legend/electriclamp.png' %}" alt="">&nbsp;&nbsp;Complaint</label>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div class="panel-body-parts" id="query-feature">
-                            <div class="dropdown">
-                                <label class="layer-title" for="title">Feature Of</label>
-                                <button class="btn btn-light dropdown-toggle" type="button" id="select-layer" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 10px;">
-                                    Select a layer
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="select-layer">
-                                  <li><a class="dropdown-item" href="#">Complaint</a></li>
-                                  <li><a class="dropdown-item" href="#">Boundary</a></li>
-                                  <li><a class="dropdown-item" href="#">Building</a></li>
-                                  <li><a class="dropdown-item" href="#">Ground</a></li>
-                                  <li><a class="dropdown-item" href="#">Road</a></li>
-                                  <li><a class="dropdown-item" href="#">Fountain</a></li>
-                                  <li><a class="dropdown-item" href="#">Septic Tank</a></li>
-                                  <li><a class="dropdown-item" href="#">Water Body</a></li>
-                                  <li><a class="dropdown-item" href="#">Drainage</a></li>
-                                  <li><a class="dropdown-item" href="#">Sewerline</a></li>
-                                  <li><a class="dropdown-item" href="#">Transmission Line</a></li>
-                                  <li><a class="dropdown-item" href="#">Street Lamp</a></li>
-                                  <li><a class="dropdown-item" href="#">Electric Pole</a></li>
-                                </ul>
-                            </div>
-                            <br>
-                            <button class="btn btn-warning" style="width:35%" id="query" onclick="clickQuery()">Query</button>
-                        </div>
-                        <div class="panel-body-parts" id="complaints">
-                            <!-- <div class="form-group" id="inputPannel">
+                <div class="panel-body-parts" id="query-feature">
+                    <div class="dropdown">
+                        <label class="layer-title" for="title">Feature Of</label>
+                        <button class="btn btn-light dropdown-toggle" type="button" id="select-layer"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 10px;">
+                            Select a layer
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="select-layer">
+                            <li><a class="dropdown-item" href="#">Complaint</a></li>
+                            <li><a class="dropdown-item" href="#">Boundary</a></li>
+                            <li><a class="dropdown-item" href="#">Building</a></li>
+                            <li><a class="dropdown-item" href="#">Ground</a></li>
+                            <li><a class="dropdown-item" href="#">Road</a></li>
+                            <li><a class="dropdown-item" href="#">Fountain</a></li>
+                            <li><a class="dropdown-item" href="#">Septic Tank</a></li>
+                            <li><a class="dropdown-item" href="#">Water Body</a></li>
+                            <li><a class="dropdown-item" href="#">Drainage</a></li>
+                            <li><a class="dropdown-item" href="#">Sewerline</a></li>
+                            <li><a class="dropdown-item" href="#">Transmission Line</a></li>
+                            <li><a class="dropdown-item" href="#">Street Lamp</a></li>
+                            <li><a class="dropdown-item" href="#">Electric Pole</a></li>
+                        </ul>
+                    </div>
+                    <br>
+                    <button class="btn btn-warning" style="width:35%" id="query" onclick="clickQuery()">Query</button>
+                </div>
+                <div class="panel-body-parts" id="complaints">
+                    <!-- <div class="form-group" id="inputPannel">
                                 <input type="keyWords" class="form-control" id="keyWordsInput" placeholder="Input Service Type">
                             </div>
                             <div id="keyWordsOptions" class="keyWordsOptions">
                                 <select multiple class="form-control" id="keyWordsTable"></select>
                             </div> -->
 
-                            <div class="form-group text-light" id="inputPannel" style="display: none;">
-                                <label for="title">Filter Complaints:</label>
-                                <select class="form-select" class="keyWordsInput" id="keyWordsInput1" aria-label="Service">
-                                    <option selected>Select the Service Type</option>
-                                    <option value = "All">All</option>
-                                    <option value="Normal">Normal</option>
-                                    <option value="Emergency">Emergency</option>
-                                </select>
-                                <br>
-                                <select class="form-select" class="keyWordsInput" id="keyWordsInput2" aria-label="Utility Type">
-                                    <option value = "Select the Utility Type" selected>Select the Utility Type</option>
-                                    <option value = "All">All</option>
-                                    <option value="Electric Pole">Electric Pole</option>
-                                    <option value="Street Lamp">Street Lamp</option>
-                                    <option value="Transmission Line">Transmission Line</option>
-                                    <option value="Drainage">Drainage</option>
-                                    <option value="Water Body">Water Body</option>
-                                    <option value="Septic Tank">Septic Tank</option>
-                                    <option value="Fountain">Fountain</option>
-                                    <option value="Road">Road</option>
-                                    <option value="Ground">Ground</option>
-                                    <option value="Building">Building</option>
-                                    <option value="Boundary">Boundary</option>
-                                </select>
-                            </div>
-                            <div class="form-group text-light" id="keyWordsOptions" style="display: none;">
-                                <label for="title">List of Complaints:</label>
-                                <!-- <textarea class="form-control" id="keyWordsTable" placeholder="" rows="5"></textarea> -->
-                                <select multiple class="form-control" id="keyWordsTable"></select>
-                                <hr style="color: #FFF;">
-                            </div>
+                    <div class="form-group text-light" id="inputPannel" style="display: none;">
+                        <label for="title">Filter Complaints:</label>
+                        <select class="form-select" class="keyWordsInput" id="keyWordsInput1" aria-label="Service">
+                            <option selected>Select the Service Type</option>
+                            <option value="All">All</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Emergency">Emergency</option>
+                        </select>
+                        <br>
+                        <select class="form-select" class="keyWordsInput" id="keyWordsInput2" aria-label="Utility Type">
+                            <option value="Select the Utility Type" selected>Select the Utility Type</option>
+                            <option value="All">All</option>
+                            <option value="Electric Pole">Electric Pole</option>
+                            <option value="Street Lamp">Street Lamp</option>
+                            <option value="Transmission Line">Transmission Line</option>
+                            <option value="Drainage">Drainage</option>
+                            <option value="Water Body">Water Body</option>
+                            <option value="Septic Tank">Septic Tank</option>
+                            <option value="Fountain">Fountain</option>
+                            <option value="Road">Road</option>
+                            <option value="Ground">Ground</option>
+                            <option value="Building">Building</option>
+                            <option value="Boundary">Boundary</option>
+                        </select>
+                    </div>
+                    <div class="form-group text-light" id="keyWordsOptions" style="display: none;">
+                        <label for="title">List of Complaints:</label>
+                        <!-- <textarea class="form-control" id="keyWordsTable" placeholder="" rows="5"></textarea> -->
+                        <select multiple class="form-control" id="keyWordsTable"></select>
+                        <hr style="color: #FFF;">
+                    </div>
 
-                            <div class="form-group text-light">
-                                <label for="title">Problem Related Utility:</label>
-                                <select class="form-select" id="problem_related_utility" aria-label="problem_related_utility">
-                                    <option selected>-------------------------</option>
-                                    <option value="Electric Pole">Electric Pole</option>
-                                    <option value="Street Lamp">Street Lamp</option>
-                                    <option value="Transmission Line">Transmission Line</option>
-                                    <option value="Drainage">Drainage</option>
-                                    <option value="Water Body">Water Body</option>
-                                    <option value="Septic Tank">Septic Tank</option>
-                                    <option value="Fountain">Fountain</option>
-                                    <option value="Road">Road</option>
-                                    <option value="Ground">Ground</option>
-                                    <option value="Building">Building</option>
-                                    <option value="Boundary">Boundary</option>
-                                </select>
-                            </div>
-                            <div class="form-group text-light">
-                                <label for="title">Description:</label>
-                                <textarea class="form-control" id="description" placeholder="Detailed Information" rows="5"></textarea>
-                            </div>
-                            <div class="form-group text-light">
-                                <label for="title">Service Required Type:</label>
-                                <select class="form-select" id="service_required_type" aria-label="Service">
-                                    <option selected>-------------------------</option>
-                                    <option value="Normal">Normal</option>
-                                    <option value="Emergency">Emergency</option>
-                                </select>
-                            </div>
-                            <!-- <div class="form-group text-light">
+                    <div class="form-group text-light">
+                        <label for="title">Problem Related Utility:</label>
+                        <select class="form-select" id="problem_related_utility" aria-label="problem_related_utility">
+                            <option selected>-------------------------</option>
+                            <option value="Electric Pole">Electric Pole</option>
+                            <option value="Street Lamp">Street Lamp</option>
+                            <option value="Transmission Line">Transmission Line</option>
+                            <option value="Drainage">Drainage</option>
+                            <option value="Water Body">Water Body</option>
+                            <option value="Septic Tank">Septic Tank</option>
+                            <option value="Fountain">Fountain</option>
+                            <option value="Road">Road</option>
+                            <option value="Ground">Ground</option>
+                            <option value="Building">Building</option>
+                            <option value="Boundary">Boundary</option>
+                        </select>
+                    </div>
+                    <div class="form-group text-light">
+                        <label for="title">Description:</label>
+                        <textarea class="form-control" id="description" placeholder="Detailed Information"
+                            rows="5"></textarea>
+                    </div>
+                    <div class="form-group text-light">
+                        <label for="title">Service Required Type:</label>
+                        <select class="form-select" id="service_required_type" aria-label="Service">
+                            <option selected>-------------------------</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Emergency">Emergency</option>
+                        </select>
+                    </div>
+                    <!-- <div class="form-group text-light">
                                 <label for="title">Email:</label>
                                 <input type="text" class="form-control" id="email" placeholder="name@gmail.com" />
                             </div> -->
-                            <button class="btn btn-warning" style="width:45%" onclick="addComplaint()">Add</button>
-                            <!-- <button class="btn btn-primary" style="width:45%"
+                    <button class="btn btn-warning" style="width:45%" onclick="addComplaint()">Add</button>
+                    <!-- <button class="btn btn-primary" style="width:45%"
                                 onclick="deleteBuilding()">Delete</button> -->
-                        </div>
+                </div>
+                <div class="panel-body-parts" id="mylocation">
+                    <div id="info" style="display: none;"></div>
+                    <div class="form-check form-switch text-light">
+                        <input class="form-check-input" type="checkbox" id="track">
+                        <label class="form-check-label" for="track">Track my location</label>
+                    </div>
+                    <br>
+                    <p style="color: #fff;">Accuracy: <code id="accuracy"></code></p>
+                    <p style="color: #fff;">Altitude: <code id="altitude"></code></p>
+                    <p style="color: #fff;">Altitude Accuracy: <code id="altitudeAccuracy"></code></p>
+                    <p style="color: #fff;">Heading: <code id="heading"></code></p>
+                    <p style="color: #fff;">Speed: <code id="speed"></code></p>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="form-group" id="inputPannel" style="position: absolute; top: 80px; right: 100px; display: none;">
-        <input type="keyWords" class="form-control" id="keyWordsInput" placeholder="Input Service Type">
-    </div>
-    <div id="keyWordsOptions" class="keyWordsOptions">
-        <select multiple class="form-control" id="keyWordsTable"></select>
-    </div>
+<div class="form-group" id="inputPannel" style="position: absolute; top: 80px; right: 100px; display: none;">
+    <input type="keyWords" class="form-control" id="keyWordsInput" placeholder="Input Service Type">
+</div>
+<div id="keyWordsOptions" class="keyWordsOptions">
+    <select multiple class="form-control" id="keyWordsTable"></select>
+</div>
 
-    <!-- Modal for user help-->
-    <div class="modal fade" id="userInfo" tabindex="-1" aria-labelledby="userInfo" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="helpmodalLabel">
-                        <h5 style='color:#33727e;'><center><b>User Information</b></center></h5>
+<!-- Modal for user help-->
+<div class="modal fade" id="userInfo" tabindex="-1" aria-labelledby="userInfo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="helpmodalLabel">
+                    <h5 style='color:#33727e;'>
+                        <center><b>User Information</b></center>
                     </h5>
-                    <button type="button" class="btn" style="color: #fff;; background:#33727e;" data-bs-dismiss="modal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {% if user.is_authenticated %}
-                        <table class="table table-bordered">
-                        <tr>
-                            <td class='menu'>ID</td>
-                            <td>{{user.id}}</td>
-                        </tr>
-                        <tr>
-                            <td class='menu'>Username</td>
-                            <td>{{user.username}}</td>
-                        </tr>
-                        <tr>
-                            <td class='menu'>Email</td>
-                            <td>{{user.email}}</td>
-                        </tr>
-                        <tr>
-                            <td class='menu'>Role</td>
-                            <td>{{user_role}}</td>
-                        </tr>
-                        </table>
-                    {% else %}
-                    <center><p style="color: red;">You are not logged in!</p></center>
-                    {% endif %}
-                </div>
+                </h5>
+                <button type="button" class="btn" style="color: #fff;; background:#33727e;" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if user.is_authenticated %}
+                <table class="table table-bordered">
+                    <tr>
+                        <td class='menu'>ID</td>
+                        <td>{{user.id}}</td>
+                    </tr>
+                    <tr>
+                        <td class='menu'>Username</td>
+                        <td>{{user.username}}</td>
+                    </tr>
+                    <tr>
+                        <td class='menu'>Email</td>
+                        <td>{{user.email}}</td>
+                    </tr>
+                    <tr>
+                        <td class='menu'>Role</td>
+                        <td>{{user_role}}</td>
+                    </tr>
+                </table>
+                {% else %}
+                <center>
+                    <p style="color: red;">You are not logged in!</p>
+                </center>
+                {% endif %}
             </div>
         </div>
     </div>
-    <div class="modal fade" id="helpmodal" tabindex="-1" aria-labelledby="helpmodalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="helpmodalLabel">
-                        <h4>Web-based Utility Management System for Kathmandu University</h4>
-                    </h5>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    1. <i class="fas fa-pen"></i>
-                    Measure distance by drawing line.<br>2. <i class="far fa-clone"></i> Measure Area by drawing polygon.<br>3. <i class="fas fa-eraser"></i> Reset Everything to defaults.<br>4.
-                    <i class="fas fa-home"></i> Default Extent of the map. <br>5.
-                    <i class="fas fa-search"></i> Query Complaints by passing
-                    Service Type Parameters.<br>6. Under
-                    Layers, select one or
-                    more layers to turn on/off visibility.<br>7. Under Query Feature, select a layer and select query
-                    to query the layer's features. You can edit the attribute and geometry of the features as well
-                    by clicking edit and submit buttons.<br>9. Under complaints, you can add or delete complaints
-                    regarding utilities on the housing area.<br>10. Admin can edit the attribute Charge of Complaints
-                    feature and send email
-                    based on that to the clients as a serive bill.<br><br> <b>-Developed by Raj Bhattarai and team.</b>
-                </div>
+</div>
+<div class="modal fade" id="helpmodal" tabindex="-1" aria-labelledby="helpmodalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="helpmodalLabel">
+                    <h4>Web-based Utility Management System for Kathmandu University</h4>
+                </h5>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                1. <i class="fas fa-pen"></i>
+                Measure distance by drawing line.<br>2. <i class="far fa-clone"></i> Measure Area by drawing
+                polygon.<br>3. <i class="fas fa-eraser"></i> Reset Everything to defaults.<br>4.
+                <i class="fas fa-home"></i> Default Extent of the map. <br>5.
+                <i class="fas fa-search"></i> Query Complaints by passing
+                Service Type Parameters.<br>6. Under
+                Layers, select one or
+                more layers to turn on/off visibility.<br>7. Under Query Feature, select a layer and select query
+                to query the layer's features. You can edit the attribute and geometry of the features as well
+                by clicking edit and submit buttons.<br>9. Under complaints, you can add or delete complaints
+                regarding utilities on the housing area.<br>10. Admin can edit the attribute Charge of Complaints
+                feature and send email
+                based on that to the clients as a serive bill.<br><br> <b>-Developed by Raj Bhattarai and team.</b>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="noFeatureErrorModal" tabindex="-1" aria-labelledby="noFeatureErrorModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header"style="background: #A4CDAE;color: red;">
-                        <p>Please click over a feature more precisely!</p>
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+</div>
+<div class="modal fade" id="noFeatureErrorModal" tabindex="-1" aria-labelledby="noFeatureErrorModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #A4CDAE;color: red;">
+                <p>Please click over a feature more precisely!</p>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="requestMessageModal" tabindex="-1" aria-labelledby="requestMessageModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header"style="background: #A4CDAE;color: red;">
-                        <p id = "requestMessage"></p>
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+</div>
+<div class="modal fade" id="requestMessageModal" tabindex="-1" aria-labelledby="requestMessageModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #A4CDAE;color: red;">
+                <p id="requestMessage"></p>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
     </div>
-    <script>var user_id = '{{ user_id }}', user_role = '{{ user_role }}', token = '{{ token }}'</script>
-    <script type="text/javascript" src="{% static 'utilities/js/utils.js' %}"></script>
-    <!-- <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script> -->
-    <script type="text/javascript" src="{% static 'utilities/js/panel.js' %}"></script>
-    <script type="text/javascript" src="{% static 'utilities/js/styles.js' %}"></script>
-    <script type="text/javascript" src="{% static 'utilities/js/map.js' %}"></script>
-    <script type="text/javascript" src="{% static 'utilities/js/measurement.js' %}"></script>
-    <!-- <script type="text/javascript" src="{% static 'utilities/js/edit.js' %}"></script> -->
+</div>
+<script>var user_id = '{{ user_id }}', user_role = '{{ user_role }}', token = '{{ token }}'</script>
+<script type="text/javascript" src="{% static 'utilities/js/utils.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'utilities/js/panel.js' %}"></script>
+<script type="text/javascript" src="{% static 'utilities/js/styles.js' %}"></script>
+<script type="text/javascript" src="{% static 'utilities/js/map.js' %}"></script>
+<script type="text/javascript" src="{% static 'utilities/js/measurement.js' %}"></script>
+<script type="text/javascript" src="{% static 'utilities/js/geolocation.js' %}"></script>
+
+<!-- <script type="text/javascript" src="{% static 'utilities/js/edit.js' %}"></script> -->
 
 {% endblock %}
 {% block links %}

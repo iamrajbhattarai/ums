@@ -15,7 +15,7 @@ $(function () {
 
 //function to control highlight of nav-links on toolbar.
 function removeNavLinkHighlight() {
-  var navlinks = ['layers-nav-link', 'query-nav-link', 'complaints-nav-link']
+  var navlinks = ['layers-nav-link', 'query-nav-link', 'complaints-nav-link', 'mylocation-nav-link']
   navlinks.forEach(x => {
     document.getElementById(x).classList.remove('color-yellow');
   })
@@ -23,7 +23,7 @@ function removeNavLinkHighlight() {
 
 //function to control contents baseed on the navlink selection.
 function hidePanelContents() {
-  var contents = ['layers', 'query-feature', 'complaints']
+  var contents = ['layers', 'query-feature', 'complaints', 'mylocation']
   contents.forEach(x => {
     document.getElementById(x).classList.add('d-none');
   })
@@ -56,6 +56,14 @@ function displayComplaints() {
   removeNavLinkHighlight();
   document.getElementById("complaints-nav-link").classList.add("color-yellow");
 }
+
+function displayMyLocation() {
+  hidePanelContents();
+  document.getElementById("mylocation").classList.remove("d-none");
+  removeNavLinkHighlight();
+  document.getElementById("mylocation-nav-link").classList.add("color-yellow");
+}
+//function to display mylocation menu
 
 // function to return the map extent to this default location
 function defaultExtent() {
