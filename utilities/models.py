@@ -1,6 +1,8 @@
 # from django.db import models
 from django.contrib.gis.db import models
 
+from user.models import User
+
 
 # Create your models here.
 class Boundary(models.Model):
@@ -70,13 +72,33 @@ class ElectricPole(models.Model):
 
 
 class Complaint(models.Model):
-    SERVICE_REQUIRED_TYPE_CHOICES = [
+    SERVICE_REQUIRED_TYPE_CHOICES = (
         ("Normal", "Normal"),
         ("Emergency", "Emergency"),
-    ]
-    problem = models.CharField(max_length=255)
+    )
+
+    PROBLEM_REALTED_UTILITY_CHOICES = (
+        ("Electric Pole", "Electric Pole"),
+        ("Street Lamp", "Street Lamp"),
+        ("Transmission Line", "Transmission Line"),
+        ("Sewerline", "Sewerline"),
+        ("Water Body", "Water Body"),
+        ("Septic Tank", "Septic Tank"),
+        ("Fountain", "Fountain"),
+        ("Road", "Road"),
+        ("Ground", "Ground"),
+        ("Building", "Building"),
+        ("Boundary", "Boundary"),
+        ("Other", "Other"),
+    )
+
+    problem_related_utility = models.CharField(
+        max_length=255, choices=PROBLEM_REALTED_UTILITY_CHOICES, default='Other')
     description = models.TextField()
     service_required_type = models.CharField(
         max_length=50, choices=SERVICE_REQUIRED_TYPE_CHOICES, default="Normal")
     geom = models.PointField(srid=4326)
     is_solved = models.BooleanField(default=False)
+    registration_date = models.DateTimeField(auto_now_add=True)
+    registered_by = models.ForeignKey(
+        User, related_name="complaint_registering_user", on_delete=models.SET_NULL, blank=True, null=True)

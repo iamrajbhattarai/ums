@@ -125,9 +125,11 @@ admin.site.register(ElectricPole, ElectricPoleAdmin)
 
 
 class ComplaintAdmin(LeafletGeoAdmin):
-    list_display = ('id', 'problem', 'service_required_type', 'is_solved')
-    search_fields = ('id', 'problem')
-    list_filter = ('service_required_type', 'is_solved')
+    list_display = ('id', 'problem_related_utility', 'service_required_type',
+                    'is_solved', 'registration_date', 'registered_by')
+    search_fields = ('id', 'problem_related_utility')
+    list_filter = ('problem_related_utility',
+                   'service_required_type', 'is_solved')
     ordering = ('id', )
 
 

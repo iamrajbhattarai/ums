@@ -213,7 +213,7 @@ a.icon i {
     border: 1px solid #cccccc;
     bottom: 12px;
     left: -150px;
-    width: 370px;
+    width: 480px;
 }
 
 .keyWordsOptions {
@@ -377,3 +377,18 @@ tr:nth-child(even){background-color: #f2f2f2}
     height: 100%;
   }
 } */
+
+.signup-form .form-floating>.form-control,
+.signup-form .form-floating>.form-select{
+    height: calc(3rem + 5px);
+    padding: 1rem 0.6rem;
+}
+
+.signup-form .form-floating>label{
+    padding: 0.75rem 1.5rem;
+}
+.signup-form .form-floating>.form-control:focus~label,
+.signup-form .form-floating>.form-control:not(:placeholder-shown)~label,
+.signup-form .form-floating>.form-select~label {
+    transform: scale(.85) translateY(-0.8rem) translateX(0.15rem);
+}

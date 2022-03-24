@@ -251,12 +251,28 @@
                             </div> -->
 
                             <div class="form-group text-light" id="inputPannel" style="display: none;">
-                                <label for="title">Search Complaints:</label>
-                                <select class="form-select" id="keyWordsInput" aria-label="Service">
+                                <label for="title">Filter Complaints:</label>
+                                <select class="form-select" class="keyWordsInput" id="keyWordsInput1" aria-label="Service">
                                     <option selected>Select the Service Type</option>
                                     <option value = "All">All</option>
                                     <option value="Normal">Normal</option>
                                     <option value="Emergency">Emergency</option>
+                                </select>
+                                <br>
+                                <select class="form-select" class="keyWordsInput" id="keyWordsInput2" aria-label="Utility Type">
+                                    <option value = "Select the Utility Type" selected>Select the Utility Type</option>
+                                    <option value = "All">All</option>
+                                    <option value="Electric Pole">Electric Pole</option>
+                                    <option value="Street Lamp">Street Lamp</option>
+                                    <option value="Transmission Line">Transmission Line</option>
+                                    <option value="Drainage">Drainage</option>
+                                    <option value="Water Body">Water Body</option>
+                                    <option value="Septic Tank">Septic Tank</option>
+                                    <option value="Fountain">Fountain</option>
+                                    <option value="Road">Road</option>
+                                    <option value="Ground">Ground</option>
+                                    <option value="Building">Building</option>
+                                    <option value="Boundary">Boundary</option>
                                 </select>
                             </div>
                             <div class="form-group text-light" id="keyWordsOptions" style="display: none;">
@@ -267,8 +283,21 @@
                             </div>
 
                             <div class="form-group text-light">
-                                <label for="title">Problem:</label>
-                                <input type="text" class="form-control" id="problem" />
+                                <label for="title">Problem Related Utility:</label>
+                                <select class="form-select" id="problem_related_utility" aria-label="problem_related_utility">
+                                    <option selected>-------------------------</option>
+                                    <option value="Electric Pole">Electric Pole</option>
+                                    <option value="Street Lamp">Street Lamp</option>
+                                    <option value="Transmission Line">Transmission Line</option>
+                                    <option value="Drainage">Drainage</option>
+                                    <option value="Water Body">Water Body</option>
+                                    <option value="Septic Tank">Septic Tank</option>
+                                    <option value="Fountain">Fountain</option>
+                                    <option value="Road">Road</option>
+                                    <option value="Ground">Ground</option>
+                                    <option value="Building">Building</option>
+                                    <option value="Boundary">Boundary</option>
+                                </select>
                             </div>
                             <div class="form-group text-light">
                                 <label for="title">Description:</label>
@@ -277,7 +306,7 @@
                             <div class="form-group text-light">
                                 <label for="title">Service Required Type:</label>
                                 <select class="form-select" id="service_required_type" aria-label="Service">
-                                    <option selected>----------------------</option>
+                                    <option selected>-------------------------</option>
                                     <option value="Normal">Normal</option>
                                     <option value="Emergency">Emergency</option>
                                 </select>
@@ -393,7 +422,7 @@
             </div>
         </div>
     </div>
-    <script>var user_role = '{{ user_role }}', token = '{{ token }}'</script>
+    <script>var user_id = '{{ user_id }}', user_role = '{{ user_role }}', token = '{{ token }}'</script>
     <script type="text/javascript" src="{% static 'utilities/js/utils.js' %}"></script>
     <!-- <script type="text/javascript" src="{% static 'utilities/js/functionalities.js' %}"></script> -->
     <script type="text/javascript" src="{% static 'utilities/js/panel.js' %}"></script>
