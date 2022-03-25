@@ -131,6 +131,7 @@ class ComplaintAdmin(LeafletGeoAdmin):
     list_filter = ('problem_related_utility',
                    'service_required_type', 'is_solved')
     ordering = ('id', )
+    change_list_template = 'utilities/change_list_graph.html'
 
 
 admin.site.register(Complaint, ComplaintAdmin)

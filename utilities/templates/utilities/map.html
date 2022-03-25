@@ -4,6 +4,7 @@
 {% block title %} Web Map {% endblock %}
 
 {% block currentpage %}
+{% csrf_token %}
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
@@ -12,11 +13,15 @@
         <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'webmap' %}">GIS</a>
         </li>
+        {% if user.is_superuser %}
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="http://localhost:8000/admin/" target="_blank">Dashboard</a>
+            </li>
+        {% endif %}
     </ul>
 </div>
 <div class="collapse navbar-collapse justify-content-end">
     <ul class="navbar-nav">
-        {% csrf_token %}
         {% if user.is_authenticated %}
         <li class="nav-item">
             <a class="nav-link text-success">{{user.username}} </a>
@@ -24,6 +29,10 @@
         <li class="nav-item">
             <a class="nav-link text-warning " href="{% url 'password_change' %}">Change Password</a>
         </li>
+        <button type="button" class="btn" style="color: #fff;" id="help" data-toggle="tooltip" data-placement="top"
+            title="Detailed User Information" onclick="$('#userInfo').modal('show');">
+            <i class="fas fa-user fa-lg"></i>
+        </button>
         <li class="nav-item">
             <a class="nav-link text-danger " href="{% url 'signOut' %}">Log Out</a>
         </li>
@@ -77,10 +86,10 @@
                     title="Search Complaints" onclick="showInput()">
                     <i class="fas fa-search fa-lg"></i>
                 </button>
-                <button type="button" class="btn btn-secondary" id="help" data-toggle="tooltip" data-placement="top"
+                <!-- <button type="button" class="btn btn-secondary" id="help" data-toggle="tooltip" data-placement="top"
                     title="Detailed User Information" onclick="$('#userInfo').modal('show');">
                     <i class="fas fa-user fa-lg"></i>
-                </button>
+                </button> -->
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#helpmodal"
                     title="Help">
                     <i class="fas fa-info-circle fa-lg"></i>
