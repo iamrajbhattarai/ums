@@ -46,9 +46,14 @@
                     <label for="floatingPassword">Password</label>
                 </div>
                 {% if messages %}
-                    <div class="messages" style="color: red;">
+                    <div class="messages-success" style="color: green;">
                         {% for message in messages %}
-                            {{ message }}
+                        {% if message.tags == "success" %}{{ message }}{% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="messages-fail" style="color: red;">
+                        {% for message in messages %}
+                            {% if message.tags == "error" %}{{ message }}{% endif %}
                         {% endfor %}
                     </div>
                     <br>

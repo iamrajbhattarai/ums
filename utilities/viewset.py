@@ -152,7 +152,12 @@ class ComplaintViewset(viewsets.ModelViewSet):
         request.data._mutable = True
         request.data.pop('long', None)
         request.data.pop('lat', None)
-        request.data['geom'] = Point(float(lng), float(lat))
+        geom = Point(float(lng), float(lat))
+        ku_boundary = Boundary.objects.first().geom
+        if geom.within(ku_boundary):
+            request.data['geom'] = geom
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'You cannot set the geometry outside KU premises.'})
         # request.data['is_solved'] = False
         request.data['registered_by'] = request.user.id
         print(request.data)
@@ -164,7 +169,7 @@ class ComplaintViewset(viewsets.ModelViewSet):
             for er in serializer._errors:
                 errors.append(
                     {"errorName": er, "details": serializer._errors[er][0]})
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'Error Occured', 'Error': errors})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': errors})
 
     def partial_update(self, request, pk=None):
         # print('pk is :', pk)
@@ -193,7 +198,12 @@ class ComplaintViewset(viewsets.ModelViewSet):
         request.data._mutable = True
         request.data.pop('long', None)
         request.data.pop('lat', None)
-        request.data['geom'] = Point(float(lng), float(lat))
+        geom = Point(float(lng), float(lat))
+        ku_boundary = Boundary.objects.first().geom
+        if geom.within(ku_boundary):
+            request.data['geom'] = geom
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'You cannot set the geometry outside KU premises.'})
         # request.data['is_solved'] = False
         request.data['registered_by'] = request.user.id
         serializer = ComplaintSerializer(
@@ -206,7 +216,7 @@ class ComplaintViewset(viewsets.ModelViewSet):
             for er in serializer._errors:
                 errors.append(
                     {"errorName": er, "details": serializer._errors[er][0]})
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'Error Occured', 'Error': errors})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': errors})
 
     def list(self, request, *args, **kwargs):
         queryset = Complaint.objects.filter(is_solved=False)

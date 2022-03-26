@@ -193,6 +193,7 @@ function clearDraw() {
   map.removeOverlay(measureTooltip);
   overlay.setPosition(undefined);
   removeElementsByClass('ol-tooltip ol-tooltip-static');
+  $('#noFeatureErrorModal').modal('hide');
   // editSource.clear();
 }
 
@@ -428,23 +429,38 @@ function addComplaint() {
       dataType: 'json',
       success: function (data) {
         clearDraw();
-        $("#requestMessage").text('Sucessful! Thank you for registering the complaint. We\'ll try to solve the problem asap.');
-        $('#requestMessageModal').modal('show');
+        $("#positiveRequestMessage").text('Sucessful! Thank you for registering the complaint. We\'ll try to solve the problem asap.');
+        $('#positiveRequestMessageModal').modal('show');
       },
-      error: function (xhr, status, error) {
-        var errorMessage;
-        if (xhr.status == 400) {
-          errorMessage = "All fields are required!"
-        }
-        else if (xhr.status == 401) {
-          errorMessage = "You must be logged in to add a complaint!"
+      error: function (xhr) {
+        var errors = xhr.responseJSON.message;
+        var errorMessage = '';
+        if (typeof errors === 'string') {
+          errorMessage = errors;
         }
         else {
-          errorMessage = "Please try again!"
+          for (error in errors) {
+            for (const [key, value] of Object.entries(errors[error])) {
+              errorMessage = errorMessage+key+': '+value+"\n";
+            }
+          }
         }
-        errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
-        $("#requestMessage").text(errorMessage);
-        $('#requestMessageModal').modal('show');
+        // if(xhr.status == 406) {
+        //   errorMessage = "You can register a complaint inside KU premises only."
+        // }
+        // else if (xhr.status == 400) {
+        //   errorMessage = "All fields are required!"
+        // }
+        // else if (xhr.status == 401) {
+        //   errorMessage = "You must be logged in to add a complaint!"
+        // }
+        // else {
+        //   errorMessage = "Please try again!"
+        // }
+        // errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage + xhr.data
+        console.log(errorMessage);
+        $("#negativeRequestMessage").text(errorMessage);
+        $('#negativeRequestMessageModal').modal('show');
       },
     });
     alert('This action is going to alter the data displayed on the map.');
@@ -471,8 +487,8 @@ function deleteComplaint() {
       Authorization: 'Token ' + token,   //If your header name has spaces or any other char not appropriate
     },
     success: function (data) {
-      $("#requestMessage").text('Complaint deleted successful! An email is sent to the user who registered it.');
-      $('#requestMessageModal').modal('show');
+      $("#positiveRequestMessage").text('Complaint deleted successful! An email is sent to the user who registered it.');
+      $('#positiveRequestMessageModal').modal('show');
     },
     error: function (xhr, status, error) {
       var errorMessage;
@@ -484,8 +500,8 @@ function deleteComplaint() {
       }
       errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
       // alert('Error - ' + errorMessage);
-      $("#requestMessage").text(errorMessage);
-      $('#requestMessageModal').modal('show');
+      $("#negativeRequestMessage").text(errorMessage);
+      $('#negativeRequestMessageModal').modal('show');
     },
   });
   alert('This action is going to alter the data displayed on the map.');
@@ -545,8 +561,8 @@ $("#keyWordsInput1").change(function () {
       }
       errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
       // alert('Error - ' + errorMessage);
-      $("#requestMessage").text(errorMessage);
-      $('#requestMessageModal').modal('show');
+      $("#negativeRequestMessage").text(errorMessage);
+      $('#negativeRequestMessageModal').modal('show');
     },
   });
 });
@@ -591,8 +607,8 @@ $("#keyWordsInput2").change(function () {
       }
       errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
       // alert('Error - ' + errorMessage);
-      $("#requestMessage").text(errorMessage);
-      $('#requestMessageModal').modal('show');
+      $("#negativeRequestMessage").text(errorMessage);
+      $('#negativeRequestMessageModal').modal('show');
     },
   });
 });
@@ -632,23 +648,36 @@ function editTable() {
     dataType: 'json',
     success: function (data) {
       clearDraw();
-      $("#requestMessage").text('Successful! Thank you for updating the complaint. We\'ll try to solve the problem asap.');
-      $('#requestMessageModal').modal('show');
+      $("#positiveRequestMessage").text('Successful! Thank you for updating the complaint. We\'ll try to solve the problem asap.');
+      $('#positiveRequestMessageModal').modal('show');
     },
-    error: function (xhr, status, error) {
-      var errorMessage;
-      if (xhr.status == 400) {
-        errorMessage = "All fields are required!"
-      }
-      else if (xhr.status == 401) {
-        errorMessage = "You must be logged in to update the complaint!"
+    error: function (xhr) {
+      var errors = xhr.responseJSON.message;
+      var errorMessage = '';
+      if (typeof errors === 'string') {
+        errorMessage = errors;
       }
       else {
-        errorMessage = "Please try again!"
+        for (error in errors) {
+          for (const [key, value] of Object.entries(errors[error])) {
+            errorMessage = errorMessage+key+': '+value+"\n";
+          }
+        }
       }
-      errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
-      $("#requestMessage").text(errorMessage);
-      $('#requestMessageModal').modal('show');
+
+      // var errorMessage;
+      // if (xhr.status == 400) {
+      //   errorMessage = "All fields are required!"
+      // }
+      // else if (xhr.status == 401) {
+      //   errorMessage = "You must be logged in to update the complaint!"
+      // }
+      // else {
+      //   errorMessage = "Please try again!"
+      // }
+      // errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
+      $("#negativeRequestMessage").text(errorMessage);
+      $('#negativeRequestMessageModal').modal('show');
     },
   });
   // map.removeInteraction(snap);

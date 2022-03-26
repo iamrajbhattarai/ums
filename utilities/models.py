@@ -82,6 +82,7 @@ class Complaint(models.Model):
         ("Street Lamp", "Street Lamp"),
         ("Transmission Line", "Transmission Line"),
         ("Sewerline", "Sewerline"),
+        ("Drainage", "Drainage"),
         ("Water Body", "Water Body"),
         ("Septic Tank", "Septic Tank"),
         ("Fountain", "Fountain"),

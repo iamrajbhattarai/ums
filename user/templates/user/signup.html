@@ -176,12 +176,12 @@
                         <label for="floatingPassword">Contact</label>
                     </div>
                 </div>
-                <div class="modal fade" id="userrequestMessageModal" tabindex="-1"
-                    aria-labelledby="userrequestMessageModal" aria-hidden="true">
+                <div class="modal fade" id="positiveuserrequestMessageModal" tabindex="-1"
+                    aria-labelledby="positiveuserrequestMessageModal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                            <div class="modal-header" style="background: #A4CDAE;color: red;">
-                                <p id="userrequestMessage"></p>
+                            <div class="modal-header" style="background: #A4CDAE;color: rgb(0, 63, 8);">
+                                <p id="positiveuserrequestMessage"></p>
                                 <button type="button" class="btn btn-success" data-bs-dismiss="modal">
                                     <i class="fas fa-times"></i>
                                 </button>
@@ -189,6 +189,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="negativeuserrequestMessageModal" tabindex="-1"
+                aria-labelledby="negativeuserrequestMessageModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #A4CDAE;color: red;">
+                            <p id="negativeuserrequestMessage"></p>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 <button type="button" class="btn btn-warning" style="margin-left: 43%;" onclick="createUser()">Create
                     Account</button>
                 <!-- <a href="{% url 'forgot_password' %}" style="color:red; margin-left: 17%;"><u>Forgot password?</u></a> -->
