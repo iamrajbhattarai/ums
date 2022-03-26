@@ -4,11 +4,22 @@
 <style>
     td, th {
     padding: 8px!important;
-}
+    }
+
+    h1 {
+    margin: 0 0 20px!important;
+    font-weight: 300!important;
+    font-size: 20px!important;
+    color: var(--body-quiet-color)!important;
+    }
 </style>
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script> -->
+
 <script>
     var randomColorGenerator = function () {
         return '#' + (Math.random().toString(16) + '0000000').slice(2, 8);
@@ -17,7 +28,7 @@
         responsive: true,
         maintainAspectRatio: true,
         legend: {
-            position: 'left'
+            position: 'down'
         },
         title: {
             display: true
@@ -28,7 +39,7 @@
         }
     };
     window.onload = function () {
-        var ctx = document.getElementById("gender-chart");
+        var ctx = document.getElementById("problem-chart");
         {% regroup cl.queryset|dictsort:"problem_related_utility" by get_problem_related_utility_display as problem_related_utility_list %}
         var lineChart = new Chart(ctx, {
             type: 'doughnut',
@@ -37,26 +48,41 @@
                 datasets: [{
                             data: [{% for problem in problem_related_utility_list %}'{{ problem.list|length }}', {% endfor %}],
                             backgroundColor: [{% for problem in problem_related_utility_list %}randomColorGenerator(), {% endfor %}]
-                        }]
-                },
+                }]
+            },
             options: options
-                    });
-        }
+        });
+
+        ctx = document.getElementById("service-chart");
+        {% regroup cl.queryset|dictsort:"service_required_type" by get_service_required_type_display as service_required_type_list %}
+        var lineChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [{% for service in service_required_type_list %}'{{ service.grouper }}',{% endfor %}],
+                datasets: [{
+                            data: [{% for service in service_required_type_list %}'{{ service.list|length }}', {% endfor %}],
+                            backgroundColor: [{% for service in service_required_type_list %}randomColorGenerator(), {% endfor %}]
+                }]
+            },
+            options: options
+        });
+}
 </script>
 {% endblock %}
 {% block content %}
-<h1> Graphs </h1>
 <hr>
 <div class="row">
     <div class="col-sm-4">
-        <canvas id="gender-chart" style="width: 100px !important;"></canvas>
+        <canvas id="problem-chart" style="width: 100px !important;"></canvas>
     </div>
     <div class="col-sm-4">
-        <canvas id="language-chart" style="width: 100px !important;"></canvas>
+        <canvas id="service-chart" style="width: 100px !important;"></canvas>
     </div>
     <div class="col-sm-4">
-        <canvas id="grades-chart" style="width: 100px !important;"></canvas>
+        <canvas id="solved-chart" style="width: 100px !important;"></canvas>
     </div>
 </div>
+<hr>
+<br><br>
 {{ block.super }}
 {% endblock %}

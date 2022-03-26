@@ -118,7 +118,7 @@ admin.site.register(StreetLamp, StreetLampAdmin)
 class ElectricPoleAdmin(LeafletGeoAdmin):
     list_display = ('id', 'name')
     search_fields = ('name',)
-    ordering = ('id', )
+    ordering = ('id',)
 
 
 admin.site.register(ElectricPole, ElectricPoleAdmin)
@@ -129,8 +129,8 @@ class ComplaintAdmin(LeafletGeoAdmin):
                     'is_solved', 'registration_date', 'registered_by')
     search_fields = ('id', 'problem_related_utility')
     list_filter = ('problem_related_utility',
-                   'service_required_type', 'is_solved')
-    ordering = ('id', )
+                   'service_required_type', 'is_solved', 'registered_by', 'registration_date')
+    ordering = ('id',)
     change_list_template = 'utilities/change_list_graph.html'
 
 
