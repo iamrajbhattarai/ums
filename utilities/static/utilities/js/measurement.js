@@ -193,6 +193,7 @@ function clearDraw() {
   map.removeOverlay(measureTooltip);
   overlay.setPosition(undefined);
   removeElementsByClass('ol-tooltip ol-tooltip-static');
+  $('#noFeatureErrorModal').modal('hide');
   // editSource.clear();
 }
 
@@ -319,11 +320,11 @@ function clickQuery() {
 }
 
 
-function displayPopup() {
+function displayPopup(){
   propertiesDict = currentFeature.getProperties()
   var geom = currentFeature.getGeometry();
   console.log(geom.getCoordinates());
-  console.log('after');
+  var user;
   var geomType = geom.getType();
   // console.log(geomType);
   var contentHTML = "<h5 style='color:#33727e;'><center><b>Popup</b></center></h5>";
@@ -336,29 +337,43 @@ function displayPopup() {
       if (key == "area") {
         contentHTML += "<td>" + value + " m<sup>2</sup></td></tr>";
       }
+      else if (key == "length") {
+        contentHTML += "<td>" + value + " m</td></tr>";
+      }
       else {
         contentHTML += "<td>" + value + "</td></tr>";
       }
     }
     else if (key != "geometry") {
       contentHTML += "<tr>";
-      contentHTML += "<td class='menu'>" + key + "</td>";
-      if (key == "area") {
-        contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '" m<sup>2</sup></td></tr>';
+      if (key == "registered_by") {
+        contentHTML += "<td class='menu'>complaint_registered_user_id</td>";
+        user = value;
+      }
+      else {
+        contentHTML += "<td class='menu'>" + key + "</td>";
+      }
+      if (key == "registered_by" || key == "registration_date") {
+        contentHTML += "<td>" + value + "</td></tr>";
       }
       else if (key == "description") {
-        contentHTML += '<td><textarea class="form-control" id="'+key+'Input" rows="3">'+value+'</textarea></td></tr>';
+        contentHTML += '<td><textarea class="form-control" id="' + key + 'Input" rows="3">' + value + '</textarea></td></tr>';
         // contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '"</td></tr>';
       }
       else {
         contentHTML += '<td><input type="text" class="form-control" id="' + key + 'Input" value="' + value + '"</td></tr>';
       }
+
     }
   });
   contentHTML += "</table>";
   if (currentLayer == complaintLayer && user_role == 'superadmin') {
     contentHTML += '<button class="btn btn-danger" style="width:30%" id="delete" onclick="deleteComplaint()">Delete</button>';
-    contentHTML += '&nbsp;&nbsp;<button class="btn btn-secondary" style="width:30%" id="edit" onclick="editGeometry()">Edit</button>';
+    contentHTML += '&nbsp;&nbsp;<button class="btn btn-secondary" style="width:30%" id="edit" onclick="editGeometry()">Edit Geom</button>';
+    contentHTML += '&nbsp;&nbsp;<button class="btn btn-warning" style="width:30%" id="submit" onclick="editTable()">Update</button>';
+  }
+  if (currentLayer == complaintLayer && user_role == 'client' && user_id == user) {
+    contentHTML += '&nbsp;&nbsp;<button class="btn btn-secondary" style="width:30%" id="edit" onclick="editGeometry()">Edit Geom</button>';
     contentHTML += '&nbsp;&nbsp;<button class="btn btn-warning" style="width:30%" id="submit" onclick="editTable()">Update</button>';
   }
   content.innerHTML = contentHTML;
@@ -375,7 +390,6 @@ function displayPopup() {
   // console.log(currentFeature.getGeometry().getCoordinates());
   map.addOverlay(overlay);
 }
-
 function addComplaint() {
   draw = new ol.interaction.Draw({
     source: popupSource,
@@ -398,7 +412,7 @@ function addComplaint() {
     // console.log(csrftoken);
     console.log(token);
     var complaintDict = {
-      'problem': $("#problem").val(),
+      'problem_related_utility': $("#problem_related_utility").val(),
       'description': $("#description").val(),
       'service_required_type': $("#service_required_type").val(),
       'long': pointCoordinates[0],
@@ -415,26 +429,41 @@ function addComplaint() {
       dataType: 'json',
       success: function (data) {
         clearDraw();
-        $("#requestMessage").text('Sucessful! Thank you for registering the complaint. We\'ll try to solve the problem asap.');
-        $('#requestMessageModal').modal('show');
+        $("#positiveRequestMessage").text('Sucessful! Thank you for registering the complaint. We\'ll try to solve the problem asap.');
+        $('#positiveRequestMessageModal').modal('show');
       },
-      error: function (xhr, status, error) {
-        var errorMessage;
-        if (xhr.status == 400) {
-          errorMessage = "All fields are required!"
-        }
-        else if (xhr.status == 401) {
-          errorMessage = "You must be logged in to add a complaint!"
+      error: function (xhr) {
+        var errors = xhr.responseJSON.message;
+        var errorMessage = '';
+        if (typeof errors === 'string') {
+          errorMessage = errors;
         }
         else {
-          errorMessage = "Please try again!"
+          for (error in errors) {
+            for (const [key, value] of Object.entries(errors[error])) {
+              errorMessage = errorMessage+key+': '+value+"\n";
+            }
+          }
         }
-        errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
-        $("#requestMessage").text(errorMessage);
-        $('#requestMessageModal').modal('show');
+        // if(xhr.status == 406) {
+        //   errorMessage = "You can register a complaint inside KU premises only."
+        // }
+        // else if (xhr.status == 400) {
+        //   errorMessage = "All fields are required!"
+        // }
+        // else if (xhr.status == 401) {
+        //   errorMessage = "You must be logged in to add a complaint!"
+        // }
+        // else {
+        //   errorMessage = "Please try again!"
+        // }
+        // errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage + xhr.data
+        console.log(errorMessage);
+        $("#negativeRequestMessage").text(errorMessage);
+        $('#negativeRequestMessageModal').modal('show');
       },
     });
-    // alert('This action is going to alter the data displayed on the map.');
+    alert('This action is going to alter the data displayed on the map.');
     source.clear();
     map.removeInteraction(draw);
     clearDraw();
@@ -458,8 +487,8 @@ function deleteComplaint() {
       Authorization: 'Token ' + token,   //If your header name has spaces or any other char not appropriate
     },
     success: function (data) {
-      $("#requestMessage").text('You have successfully deleted a complaint.!');
-      $('#requestMessageModal').modal('show');
+      $("#positiveRequestMessage").text('Complaint deleted successful! An email is sent to the user who registered it.');
+      $('#positiveRequestMessageModal').modal('show');
     },
     error: function (xhr, status, error) {
       var errorMessage;
@@ -471,11 +500,11 @@ function deleteComplaint() {
       }
       errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
       // alert('Error - ' + errorMessage);
-      $("#requestMessage").text(errorMessage);
-      $('#requestMessageModal').modal('show');
+      $("#negativeRequestMessage").text(errorMessage);
+      $('#negativeRequestMessageModal').modal('show');
     },
   });
-  // alert('This action is going to alter the data displayed on the map.');
+  alert('This action is going to alter the data displayed on the map.');
   source.clear();
   map.removeInteraction(draw);
   clearDraw();
@@ -492,15 +521,16 @@ function showInput() {
 }
 
 //filter feature based on Service Type like emergency or normal. It lists complaitns features with specified service type.
-$("#keyWordsInput").change(function () {
+$("#keyWordsInput1").change(function () {
   clearDraw();
-  var inputValue = $("#keyWordsInput").val();
+  var inputValue = $("#keyWordsInput1").val();
+  var inputValue2 = $("#keyWordsInput2").val();
   // console.log(inputValue);
-  let url = "http://localhost:8000/complaint/" + "?service_required_type=" + inputValue;
+  let url = "http://localhost:8000/complaint/" + "?service_required_type=" + inputValue + "&problem_related_utility=" + inputValue2;
   complaintLayer.getSource().setUrl(url);
   // alert('This action is going to alter the data displayed on the screem.');
   complaintLayer.getSource().refresh();
-  // console.log(url);
+  console.log(url);
   $.ajax({
     url: url,
     type: 'GET',
@@ -513,8 +543,8 @@ $("#keyWordsInput").change(function () {
       var id, problem, optionHTML = "";
       for (var i = 0; i < features.length; i++) {
         id = features[i].id;
-        problem = features[i].properties['problem'];
-        optionHTML += "<option value='" + id + "'>" + problem + "</option>";
+        description = features[i].properties['description'];
+        optionHTML += "<option value='" + id + "'>" + description + "</option>";
       }
       // console.log(optionHTML);
       $("#keyWordsOptions").show();
@@ -531,8 +561,54 @@ $("#keyWordsInput").change(function () {
       }
       errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
       // alert('Error - ' + errorMessage);
-      $("#requestMessage").text(errorMessage);
-      $('#requestMessageModal').modal('show');
+      $("#negativeRequestMessage").text(errorMessage);
+      $('#negativeRequestMessageModal').modal('show');
+    },
+  });
+});
+
+$("#keyWordsInput2").change(function () {
+  clearDraw();
+  var inputValue = $("#keyWordsInput1").val();
+  var inputValue2 = $("#keyWordsInput2").val();
+  // console.log(inputValue);
+  let url = "http://localhost:8000/complaint/" + "?service_required_type=" + inputValue + "&problem_related_utility=" + inputValue2;
+  complaintLayer.getSource().setUrl(url);
+  // alert('This action is going to alter the data displayed on the screem.');
+  complaintLayer.getSource().refresh();
+  // console.log(url);
+  $.ajax({
+    url: url,
+    type: 'GET',
+    headers: {
+      Authorization: 'Token ' + token,   //If your header name has spaces or any other char not appropriate
+    },
+    success: function (data) {
+      // console.log(data.features[0].properties['problem']);
+      var features = data.features
+      var id, problem, optionHTML = "";
+      for (var i = 0; i < features.length; i++) {
+        id = features[i].id;
+        description = features[i].properties['description'];
+        optionHTML += "<option value='" + id + "'>" + description + "</option>";
+      }
+      // console.log(optionHTML);
+      $("#keyWordsOptions").show();
+      $("#keyWordsTable").empty();
+      $("#keyWordsTable").append(optionHTML);
+    },
+    error: function (xhr, status, error) {
+      var errorMessage;
+      if (xhr.status == 400) {
+        errorMessage = "Couln't fetch the data from the database!"
+      }
+      else {
+        errorMessage = "Please try again!"
+      }
+      errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
+      // alert('Error - ' + errorMessage);
+      $("#negativeRequestMessage").text(errorMessage);
+      $('#negativeRequestMessageModal').modal('show');
     },
   });
 });
@@ -554,7 +630,7 @@ function editTable() {
   var newPointCoordinates = currentFeature.getGeometry().getCoordinates();
   // console.log(currentFeature.getGeometry().getCoordinates());
   var complaintDict = {
-    'problem': $("#problemInput").val(),
+    'problem_related_utility': $("#problem_related_utilityInput").val(),
     'description': $("#descriptionInput").val(),
     'service_required_type': $("#service_required_typeInput").val(),
     'long': newPointCoordinates[0],
@@ -572,23 +648,36 @@ function editTable() {
     dataType: 'json',
     success: function (data) {
       clearDraw();
-      $("#requestMessage").text('Successful! Thank you for updating the complaint. We\'ll try to solve the problem asap.');
-      $('#requestMessageModal').modal('show');
+      $("#positiveRequestMessage").text('Successful! Thank you for updating the complaint. We\'ll try to solve the problem asap.');
+      $('#positiveRequestMessageModal').modal('show');
     },
-    error: function (xhr, status, error) {
-      var errorMessage;
-      if (xhr.status == 400) {
-        errorMessage = "All fields are required!"
-      }
-      else if (xhr.status == 401) {
-        errorMessage = "You must be logged in to update the complaint!"
+    error: function (xhr) {
+      var errors = xhr.responseJSON.message;
+      var errorMessage = '';
+      if (typeof errors === 'string') {
+        errorMessage = errors;
       }
       else {
-        errorMessage = "Please try again!"
+        for (error in errors) {
+          for (const [key, value] of Object.entries(errors[error])) {
+            errorMessage = errorMessage+key+': '+value+"\n";
+          }
+        }
       }
-      errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
-      $("#requestMessage").text(errorMessage);
-      $('#requestMessageModal').modal('show');
+
+      // var errorMessage;
+      // if (xhr.status == 400) {
+      //   errorMessage = "All fields are required!"
+      // }
+      // else if (xhr.status == 401) {
+      //   errorMessage = "You must be logged in to update the complaint!"
+      // }
+      // else {
+      //   errorMessage = "Please try again!"
+      // }
+      // errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' + errorMessage
+      $("#negativeRequestMessage").text(errorMessage);
+      $('#negativeRequestMessageModal').modal('show');
     },
   });
   // map.removeInteraction(snap);

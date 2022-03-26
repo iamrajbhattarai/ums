@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import auth, messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -16,6 +17,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
+from user.models import User
+
 from .models import *
 from .serializers import *
 
@@ -29,14 +32,17 @@ def webmap(request):
     user_role = ''
     if request.user.is_authenticated:
         user = request.user
+        user_id = user.id
         if user.is_superuser:
             user_role = 'superadmin'
         else:
-            'client'
+            user_role = 'client'
         token = Token.objects.get(user=user)
     else:
         token = ''
-    return render(request, 'utilities/map.html', {'user_role': user_role, 'token': token})
+        user_role = ''
+        user_id = ''
+    return render(request, 'utilities/map.html', {'user_id': user_id, 'user_role': user_role, 'token': token})
 
 
 class BuildingViewSet(viewsets.ModelViewSet):
@@ -122,13 +128,6 @@ class ElectricPoleViewset(viewsets.ModelViewSet):
     serializer_class = ElectricPoleSerializer
     http_method_names = ['get']
 
-# @ensure_csrf_cookie
-# def set_csrf_token(request):
-#     """
-#     This will be `/set-csrf-cookie/` on `urls.py`
-#     """
-#     return JsonResponse({"details": "CSRF cookie set"})
-
 
 class ComplaintViewset(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated]
@@ -147,15 +146,22 @@ class ComplaintViewset(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         errors = []
+        print(request.data)
         lng = request.data.get('long')
         lat = request.data.get('lat')
         request.data._mutable = True
         request.data.pop('long', None)
         request.data.pop('lat', None)
-        request.data['geom'] = Point(float(lng), float(lat))
+        geom = Point(float(lng), float(lat))
+        ku_boundary = Boundary.objects.first().geom
+        if geom.within(ku_boundary):
+            request.data['geom'] = geom
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'You cannot set the geometry outside KU premises.'})
         # request.data['is_solved'] = False
+        request.data['registered_by'] = request.user.id
+        print(request.data)
         serializer = ComplaintSerializer(data=request.data)
-        print(serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(data={'message': 'Complaint Registered Succesfully!'}, status=status.HTTP_201_CREATED)
@@ -163,14 +169,23 @@ class ComplaintViewset(viewsets.ModelViewSet):
             for er in serializer._errors:
                 errors.append(
                     {"errorName": er, "details": serializer._errors[er][0]})
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'Error Occured', 'Error': errors})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': errors})
 
     def partial_update(self, request, pk=None):
         # print('pk is :', pk)
         if Complaint.objects.get(pk=pk):
             complaint_instance = Complaint.objects.get(pk=pk)
+            message_text = 'Your complaint of ' + complaint_instance.problem_related_utility + ' utillity type with description ' + \
+                complaint_instance.description + \
+                ' has been resolved. Thank you for helping us maintain the utilities.\n-Kathmandu Univaersity Utility Management Team.'
             complaint_instance.is_solved = True
+            user_email = complaint_instance.registered_by.email
             complaint_instance.save()
+            subject = "Utility Concern Resolved"
+            message = message_text
+            email_from = settings.EMAIL_HOST_USER
+            email_to = [user_email]
+            send_mail(subject, message, email_from, email_to)
             return Response(data={'message': 'Data deleted succesfully!'}, status=status.HTTP_201_CREATED)
         return Response(data={'message': 'Could not retrieve object from database!'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -183,8 +198,14 @@ class ComplaintViewset(viewsets.ModelViewSet):
         request.data._mutable = True
         request.data.pop('long', None)
         request.data.pop('lat', None)
-        request.data['geom'] = Point(float(lng), float(lat))
+        geom = Point(float(lng), float(lat))
+        ku_boundary = Boundary.objects.first().geom
+        if geom.within(ku_boundary):
+            request.data['geom'] = geom
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'You cannot set the geometry outside KU premises.'})
         # request.data['is_solved'] = False
+        request.data['registered_by'] = request.user.id
         serializer = ComplaintSerializer(
             complaint_instance, data=request.data, partial=True)
         if serializer.is_valid():
@@ -195,47 +216,20 @@ class ComplaintViewset(viewsets.ModelViewSet):
             for er in serializer._errors:
                 errors.append(
                     {"errorName": er, "details": serializer._errors[er][0]})
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'Error Occured', 'Error': errors})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': errors})
 
     def list(self, request, *args, **kwargs):
         queryset = Complaint.objects.filter(is_solved=False)
         service_required_type = self.request.query_params.get(
             'service_required_type', None)
+        problem_related_utility = self.request.query_params.get(
+            'problem_related_utility', None)
         # print(service_required_type)
         if service_required_type == 'Normal' or service_required_type == 'Emergency':
             queryset = queryset.filter(
                 service_required_type=service_required_type)
+        if problem_related_utility is not None and problem_related_utility != 'All' and problem_related_utility != 'Select the Utility Type':
+            queryset = queryset.filter(
+                problem_related_utility=problem_related_utility)
         serializer = ComplaintSerializer(queryset, many=True)
         return Response(serializer.data)
-
-# @ensure_csrf_cookie
-# def set_csrf_token(request):
-#     """
-#     This will be `/set-csrf-cookie/` on `urls.py`
-#     """
-#     return JsonResponse({"details": "CSRF cookie set"})
-
-
-# def signIn(request):
-#     if request.method == "POST":
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-
-#             # print(token)
-#             # return render(request, 'utilities/map.html', {'token': token})
-#             return redirect('/map')
-
-#         else:
-#             messages.error(request, "Invalid username or password!")
-#             # return render(request, 'utilities/login.html', {})
-#             return redirect('/login')
-#     else:
-#         return render(request, 'utilities/login.html', {})
-
-
-# def signOut(request):
-#     logout(request)
-#     return render(request, 'utilities/login.html', {})

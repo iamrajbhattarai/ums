@@ -105,5 +105,5 @@ class ComplaintSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = Complaint
         geo_field = 'geom'
-        fields = ('id', 'problem', 'description',
-                  'service_required_type', 'geom')
+        fields = ('id', 'problem_related_utility', 'description',
+                  'service_required_type', 'geom', 'registered_by', 'registration_date')

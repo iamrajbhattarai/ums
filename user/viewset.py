@@ -6,20 +6,11 @@ from django.conf import settings
 from django.contrib import auth, messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import Group
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail import send_mail
 from django.db.models import Q
-from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status, viewsets
-from rest_framework.authentication import (BasicAuthentication,
-                                           TokenAuthentication)
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.decorators import api_view
-from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
