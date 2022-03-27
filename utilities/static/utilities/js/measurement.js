@@ -306,6 +306,7 @@ function clickQuery() {
       }
     }
     if (!currentFeature) {
+      map.removeInteraction(draw);
       $('#noFeatureErrorModal').modal('show');
     }
     displayPopup();
