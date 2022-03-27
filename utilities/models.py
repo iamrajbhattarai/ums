@@ -21,6 +21,7 @@ class Building(models.Model):
 class Road(models.Model):
     name = models.CharField(max_length=50)
     geom = models.PolygonField(srid=4326)
+    area = models.FloatField(blank=True, null=True)
 
 
 class Ground(models.Model):
@@ -49,15 +50,19 @@ class WaterBody(models.Model):
 class Drainage(models.Model):
     name = models.CharField(max_length=50)
     geom = models.MultiLineStringField(srid=4326)
+    length = models.FloatField(blank=True, null=True)
 
 
 class Sewerline(models.Model):
     name = models.CharField(max_length=50)
+    length = models.FloatField(blank=True, null=True)
     geom = models.MultiLineStringField(srid=4326)
 
 
 class TransmissionLine(models.Model):
     name = models.CharField(max_length=50)
+    transmission_type = models.CharField(max_length=50, blank=True, null=True)
+    length = models.FloatField(blank=True, null=True)
     geom = models.MultiLineStringField(srid=4326)
 
 

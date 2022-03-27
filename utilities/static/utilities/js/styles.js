@@ -69,7 +69,7 @@ var styles = {
           width: 1,
         }),
         fill: new ol.style.Fill({
-          color: 'rgb(230,190,235)',
+          color: 'rgb(233,233,233)',
         }),
       }),
 

@@ -79,7 +79,7 @@ fountain_mapping = {
 }
 
 fountain_shp = Path(__file__).resolve().parent / \
-    'Shapefiles' / 'Fountain.shp'
+    'Shapefiles' / 'ReFountain.shp'
 
 
 def run5(verbose=True):
@@ -144,11 +144,12 @@ def run8(verbose=True):
 #####################################################
 sewerline_mapping = {
     'name': 'Name',
+    'length': 'Length',
     'geom': 'MULTILINESTRING',
 }
 
 sewerline_shp = Path(__file__).resolve().parent / \
-    'Shapefiles' / 'Sewer_line.shp'
+    'Shapefiles' / 'Sewer_Line.shp'
 
 
 def run9(verbose=True):
@@ -161,11 +162,13 @@ def run9(verbose=True):
 
 transmissionline_mapping = {
     'name': 'Name',
+    'transmission_type': 'Type',
+    'length': 'Length',
     'geom': 'MULTILINESTRING',
 }
 
 transmissionline_shp = Path(__file__).resolve().parent / \
-    'Shapefiles' / 'Transmission_line.shp'
+    'Shapefiles' / 'Transmission_Line.shp'
 
 
 def run10(verbose=True):
