@@ -18,8 +18,8 @@ function createUser() {
         data: registrationDict,
         dataType: 'json',
         success: function () {
-          $("#userrequestMessage").text('User Successfully Registered. To activate your account, click in the link sent to your email.');
-          $('#userrequestMessageModal').modal('show');
+          $("#positiveuserrequestMessage").text('User Successfully Registered. To activate your account, click in the link sent to your email.');
+          $('#positiveuserrequestMessageModal').modal('show');
         },
         error: function (xhr, status, error) {
           var errorMessage;
@@ -30,8 +30,8 @@ function createUser() {
             errorMessage = "Error! Please try again!"
           }
           errorMessage = 'Error - ' + xhr.status + ': ' + xhr.statusText + '\nDetails: ' +errorMessage;
-          $("#userrequestMessage").text(errorMessage);
-          $('#userrequestMessageModal').modal('show');
+          $("#negativeuserrequestMessage").text(errorMessage);
+          $('#negativeuserrequestMessageModal').modal('show');
         },
       });
  }

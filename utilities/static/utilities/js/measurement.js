@@ -434,7 +434,12 @@ function addComplaint() {
         $('#positiveRequestMessageModal').modal('show');
       },
       error: function (xhr) {
-        var errors = xhr.responseJSON.message;
+        if (xhr.responseJSON['message'] != null) {
+          var errors = xhr.responseJSON.message;
+        }
+        else {
+          var errors = xhr.responseJSON.detail;
+        }
         var errorMessage = '';
         if (typeof errors === 'string') {
           errorMessage = errors;
